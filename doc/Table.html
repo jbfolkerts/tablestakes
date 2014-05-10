@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Table - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>table.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Object
+  
+</nav>
+
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li ><a href="#method-c-new">::new</a>
+    
+    <li ><a href="#method-i-column">#column</a>
+    
+    <li ><a href="#method-i-count">#count</a>
+    
+    <li ><a href="#method-i-headers">#headers</a>
+    
+    <li ><a href="#method-i-select">#select</a>
+    
+    <li ><a href="#method-i-sort">#sort</a>
+    
+    <li ><a href="#method-i-table">#table</a>
+    
+    <li ><a href="#method-i-tally">#tally</a>
+    
+    <li ><a href="#method-i-to_date">#to_date</a>
+    
+    <li ><a href="#method-i-to_i">#to_i</a>
+    
+    <li ><a href="#method-i-to_s">#to_s</a>
+    
+    <li ><a href="#method-i-write_file">#write_file</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Table.html">Table</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Table</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(filename=nil)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Instantiate a <a href="Table.html">Table</a> object using a tab-delimited
+file Params:</p>
+<dl class="rdoc-list note-list"><dt><code>filename</code>
+<dd>
+<p><code>String</code> to identify the name of the tab-delimited file to read</p>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File table.rb, line 15</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">filename</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@headers</span> = []
+  <span class="ruby-ivar">@table</span> = {}
+  <span class="ruby-ivar">@indices</span> = {}
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span>
+    <span class="ruby-identifier">read_file</span>(<span class="ruby-identifier">filename</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-column" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">column</span><span
+            class="method-args">(colname)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return a copy of a column from the table, identified by column name Params:</p>
+<dl class="rdoc-list note-list"><dt><code>colname</code>
+<dd>
+<p><code>String</code> to identify the name of the column</p>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="column-source">
+            <pre><span class="ruby-comment"># File table.rb, line 34</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">column</span>(<span class="ruby-identifier">colname</span>)
+  <span class="ruby-constant">Array</span>(<span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- column-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- column-method -->
+
+    
+      <div id="method-i-count" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">count</span><span
+            class="method-args">(colname, value)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Counts the number of instances of a particular string, given a column name,
+and returns an integer &gt;= 0. Returns nil if the column is not found.
+Params:</p>
+<dl class="rdoc-list note-list"><dt><code>colname</code>
+<dd>
+<p><code>String</code> to identify the column to count</p>
+</dd><dt><code>value</code>
+<dd>
+<p><code>String</code> value to count</p>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="count-source">
+            <pre><span class="ruby-comment"># File table.rb, line 126</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">count</span>(<span class="ruby-identifier">colname</span>, <span class="ruby-identifier">value</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>]
+    <span class="ruby-identifier">result</span> = <span class="ruby-value">0</span>
+    <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">val</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">val</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span> 
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">result</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">nil</span> 
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- count-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- count-method -->
+
+    
+      <div id="method-i-headers" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">headers</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return an array of the <a href="Table.html">Table</a> headers Params: none</p>
+          
+          
+
+          
+          <div class="method-source-code" id="headers-source">
+            <pre><span class="ruby-comment"># File table.rb, line 27</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">headers</span>
+  <span class="ruby-ivar">@headers</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- headers-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- headers-method -->
+
+    
+      <div id="method-i-select" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">select</span><span
+            class="method-args">(colname, condition="==true")</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Select rows from the table that match a condition for a given column.
+Returns an instance of <a href="Table.html">Table</a> with the results.
+Returns nil if the column is not found. Params:</p>
+<dl class="rdoc-list note-list"><dt><code>colname</code>
+<dd>
+<p><code>String</code> to identify the column to sort by</p>
+</dd><dt><code>condition</code>
+<dd>
+<p><code>String</code> representing a condition expressed in Ruby (e.g. “&gt;
+42”)</p>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="select-source">
+            <pre><span class="ruby-comment"># File table.rb, line 91</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">select</span>(<span class="ruby-identifier">colname</span>, <span class="ruby-identifier">condition</span>=<span class="ruby-string">&quot;==true&quot;</span>)
+  <span class="ruby-identifier">result</span> = <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-comment"># use eval to construct condition</span>
+  <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">eval</span> <span class="ruby-identifier">colname</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">condition</span> 
+      <span class="ruby-identifier">result</span>.<span class="ruby-identifier">append</span>(<span class="ruby-identifier">row</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- select-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- select-method -->
+
+    
+      <div id="method-i-sort" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sort</span><span
+            class="method-args">(colname)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Sort a <a href="Table.html">Table</a>, given a column name.  Uses default
+sorting precedence.  Recognizes Date and Integer values. Returns nil if the
+column is not found. Params:</p>
+<dl class="rdoc-list note-list"><dt><code>colname</code>
+<dd>
+<p><code>String</code> to identify the column to sort by</p>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="sort-source">
+            <pre><span class="ruby-comment"># File table.rb, line 77</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">sort</span>(<span class="ruby-identifier">colname</span>)
+<span class="ruby-comment">#convert to int (if possible)</span>
+<span class="ruby-comment">#convert to date (if possible)</span>
+
+<span class="ruby-comment">#sort entire table based on values in colname</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- sort-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- sort-method -->
+
+    
+      <div id="method-i-table" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">table</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return an internal representation of the <a href="Table.html">Table</a>
+object Params: none</p>
+          
+          
+
+          
+          <div class="method-source-code" id="table-source">
+            <pre><span class="ruby-comment"># File table.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">table</span>
+  <span class="ruby-ivar">@table</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- table-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- table-method -->
+
+    
+      <div id="method-i-tally" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">tally</span><span
+            class="method-args">(colname)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Count instances in a particular field/column and return hash of the
+results. Returns nil if the column is not found. Params:</p>
+<dl class="rdoc-list note-list"><dt><code>colname</code>
+<dd>
+<p><code>String</code> to identify the column to tally</p>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="tally-source">
+            <pre><span class="ruby-comment"># File table.rb, line 142</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">tally</span>(<span class="ruby-identifier">colname</span>)
+  <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">result</span> = {}
+  <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">val</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">val</span>)
+      <span class="ruby-identifier">result</span>[<span class="ruby-identifier">val</span>] = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">count</span>(<span class="ruby-identifier">colname</span>, <span class="ruby-identifier">val</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- tally-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- tally-method -->
+
+    
+      <div id="method-i-to_date" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_date</span><span
+            class="method-args">(colname)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Converts a Column in the table to a <code>Date</code> type. Returns nil if
+the column is not found. Params:</p>
+<dl class="rdoc-list note-list"><dt><code>colname</code>
+<dd>
+<p><code>String</code> to identify the column to convert</p>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="to_date-source">
+            <pre><span class="ruby-comment"># File table.rb, line 48</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_date</span>(<span class="ruby-identifier">colname</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>) <span class="ruby-operator">==</span> <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>].<span class="ruby-identifier">length</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>][<span class="ruby-identifier">row</span>] = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>][<span class="ruby-identifier">row</span>])
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>    
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_date-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_date-method -->
+
+    
+      <div id="method-i-to_i" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_i</span><span
+            class="method-args">(colname)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Converts a Column in the table to an <code>Integer</code> type. Returns nil
+if the column is not found. Params:</p>
+<dl class="rdoc-list note-list"><dt><code>colname</code>
+<dd>
+<p><code>String</code> to identify the column to convert</p>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="to_i-source">
+            <pre><span class="ruby-comment"># File table.rb, line 62</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_i</span>(<span class="ruby-identifier">colname</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>) <span class="ruby-operator">==</span> <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>].<span class="ruby-identifier">length</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+      <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>][<span class="ruby-identifier">row</span>] = <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>][<span class="ruby-identifier">row</span>].<span class="ruby-identifier">to_i</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>    
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_i-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_i-method -->
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Converts a <a href="Table.html">Table</a> object to a tab-delimited string.
+Params: none</p>
+          
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File table.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">result</span> = <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\t&quot;</span>) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;\n&quot;</span>
+  
+  <span class="ruby-ivar">@table</span>[<span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">first</span>].<span class="ruby-identifier">length</span>.<span class="ruby-identifier">times</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">col</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">col</span>][<span class="ruby-identifier">row</span>].<span class="ruby-identifier">to_s</span>
+      <span class="ruby-keyword">unless</span> <span class="ruby-identifier">col</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">last</span>
+        <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;\t&quot;</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;\n&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_s-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_s-method -->
+
+    
+      <div id="method-i-write_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">write_file</span><span
+            class="method-args">(filename)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Write a representation of the <a href="Table.html">Table</a> object to a
+file (tab delimited). Params:</p>
+<dl class="rdoc-list note-list"><dt><code>filename</code>
+<dd>
+<p><code>String</code> to identify the name of the file to write</p>
+</dd></dl>
+          
+          
+
+          
+          <div class="method-source-code" id="write_file-source">
+            <pre><span class="ruby-comment"># File table.rb, line 158</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">write_file</span>(<span class="ruby-identifier">filename</span>)
+  <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-string">&quot;w&quot;</span>)
+  <span class="ruby-identifier">file</span>.<span class="ruby-identifier">print</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_s</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- write_file-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- write_file-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.0.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
