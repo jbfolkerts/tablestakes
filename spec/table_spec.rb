@@ -30,6 +30,10 @@ describe "Table" do
       expect(t.count("Address", "123 Main")).to eq(2)
     end
     
+    it "counts total number of rows when no parameters are given" do
+      expect(t.count).to eq(3)
+    end
+
     it "returns nil if given column is not found" do
       expect(t.count("Silly", "")).to be_nil
     end
@@ -69,6 +73,9 @@ describe "Table" do
     it "does not select rows that do not meet the given condition" do
       expect(t.where("Records", "==3").count("Records", 1)).to eq(0)
     end
+    it "returns all rows when no condition is specified" do
+      expect(t.where("Records").count).to eq(3)
+    end
     it "returns nil when the given condition is not met" do
       expect(t.where("Records", "<0")).to be_nil
     end
@@ -78,12 +85,16 @@ describe "Table" do
     let(:t) { FactoryGirl.build(:table) }
     
     it "returns an instance of Table" do
+      expect(t.select("Name","Address","Records")).to be_a(Table)
     end
     it "selects columns given as arguments" do
+      expect((t.select("Name","Address","Records")).headers).to eq(["Name","Address","Records"])
     end
     it "does not select columns that are not given as arguments" do
+      expect((t.select("Name","Address","Records")).headers.include?("Phone")).to be_false
     end
     it "returns nil when the given arguments don't match a column" do
+      expect(t.select("Silly")).to be_nil
     end
   end
   

@@ -13,7 +13,8 @@ class Table
 
   # Instantiate a Table object using a tab-delimited file
   # Params:
-  # +filename+:: +String+ to identify the name of the tab-delimited file to read
+  # +input+:: +Array+ of rows or +String+ to identify the
+  #     name of the tab-delimited file to read
   def initialize(input=nil)
     @headers = []
     @table = {}
@@ -91,23 +92,6 @@ class Table
 
   end
   
-  # Select rows from the table that match a condition for a given column.
-  # Returns an instance of Table with the results.
-  # Returns nil if the column is not found.
-  # Params:
-  # +colname+:: +String+ to identify the column to sort by
-  # +condition+:: +String+ representing a condition expressed in Ruby (e.g. "> 42")
-  def select(colname, condition="==true")
-    result = Table.new
-    # use eval to construct condition
-    @table[colname].each do |row|
-      if eval colname + condition 
-        result.append(row)
-      end
-    end
-    result
-  end
-  
   # Converts a Table object to a tab-delimited string.
   # Params:
   # none
@@ -132,7 +116,15 @@ class Table
   # Params:
   # +colname+:: +String+ to identify the column to count
   # +value+:: +String+ value to count
-  def count(colname, value)
+  def count(colname=nil, value=nil)
+    if colname.nil? || value.nil?
+      if @table.size > 0
+        @table.each_key {|e| return @table.fetch(e).length }
+      else
+        return nil
+      end
+    end
+    
     if @table[colname]
       result = 0
       @table[colname].each do |val|
@@ -161,18 +153,46 @@ class Table
     result
   end
 
+  # Select columns from the table, given one or more column names. Returns an instance
+  # of Table with the results.  Returns nil if no columns are found.
+  # Params:
+  # +columns+:: Variable +String+ arguments to identify the columns to select
+  def select(*columns)
+    result = []
+    result_headers = []
+    columns.each { |col| @headers.include?(col) ? result_headers << col : nil }
+    result << result_headers
+    @table[@headers.first].length.times do |row|
+      this_row = []
+      result_headers.each do |col|
+        this_row << @table[col][row]
+      end
+      result << this_row
+    end
+    unless result_headers.empty?
+      return Table.new(result)
+    else
+      return nil
+    end
+  end
+  
   # Given a particular condition for a given column field/column, return a subtable
-  # that matches the condition.
+  # that matches the condition. If no condition is given, a new table is returned with
+  # all records.
   # Returns nil if the condition is not met or the column is not found.
   # Params:
   # +colname+:: +String+ to identify the column to tally
   # +condition+:: +String+ containing a ruby condition to evaluate
-  def where(colname, condition)
+  def where(colname, condition=nil)
     if @table.has_key?(colname)
       result = []
       result << @headers
       @table[colname].each_index do |index|
-        eval("#{@table[colname][index]} #{condition}") ? result << get_row(index) : nil
+        if condition
+          eval("#{@table[colname][index]} #{condition}") ? result << get_row(index) : nil
+        else
+          result << get_row(index)
+        end
       end
       result.length > 1 ? Table.new(result) : nil
     else
