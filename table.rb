@@ -3,23 +3,32 @@
 
 
 class Table
-  attr_accessor
-  # Structure of @table hash 
-  # { :col1 => [1, 2, 3], :col2 => [1, 2, 3] }
+  attr_accessor :headers, :table
   @headers =[]
   @table = {}
+  @indices = {}
+  # Structure of @table hash 
+  # { :col1 => [1, 2, 3], :col2 => [1, 2, 3] }
   
+
   # Instantiate a Table object using a tab-delimited file
   # Params:
   # +filename+:: +String+ to identify the name of the tab-delimited file to read
-  def initialize(filename=nil)
+  def initialize(input=nil)
     @headers = []
     @table = {}
     @indices = {}
     
-    if filename
-      read_file(filename)
+    if input.respond_to?(:fetch)
+      if input[0].respond_to?(:fetch)
+        #create table from rows
+        add_rows(input)
+      end
+    elsif input.respond_to?(:upcase)
+      # a string, then read_file
+      read_file(input)
     end
+    # else create empty table
   end
   
   # Return an array of the Table headers
@@ -152,6 +161,26 @@ class Table
     result
   end
 
+  # Given a particular condition for a given column field/column, return a subtable
+  # that matches the condition.
+  # Returns nil if the condition is not met or the column is not found.
+  # Params:
+  # +colname+:: +String+ to identify the column to tally
+  # +condition+:: +String+ containing a ruby condition to evaluate
+  def where(colname, condition)
+    if @table.has_key?(colname)
+      result = []
+      result << @headers
+      @table[colname].each_index do |index|
+        eval("#{@table[colname][index]} #{condition}") ? result << get_row(index) : nil
+      end
+      result.length > 1 ? Table.new(result) : nil
+    else
+      return nil
+    end
+  end
+
+
   # Write a representation of the Table object to a file (tab delimited).
   # Params:
   # +filename+:: +String+ to identify the name of the file to write
@@ -175,5 +204,29 @@ class Table
     end
   end
   
+  def add_rows(array_of_rows)
+    array_of_rows.each do |r|
+      row = r.clone
+      if @headers.empty?
+        @headers = row
+      else
+        unless row.length == @headers.length
+          raise ArgumentError, "Wrong number of fields in Table input"
+        end
+        @headers.each do |col|
+          @table[col] = [] unless @table[col]
+          @table[col] << row.shift
+        end
+      end
+    end
+  end
+  
+  def get_row(index)
+    result = []
+    @headers.each do |col|
+      result << @table[col][index].to_s
+    end
+    return result
+  end
   
 end

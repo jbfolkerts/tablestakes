@@ -1,7 +1,9 @@
 # file: table_spec.rb
 #
 #
-gitrequire_relative '../table'
+require 'spec_helper'
+require_relative '../table'
+
 
 describe "Table" do
   
@@ -22,7 +24,7 @@ describe "Table" do
   end
   
   describe ".count" do
-    let(:t) { Table.new('test.tab') }
+    let(:t) { FactoryGirl.build(:table) }
     
     it "counts the number of instances in a column" do
       expect(t.count("Address", "123 Main")).to eq(2)
@@ -42,7 +44,7 @@ describe "Table" do
   end
   
   describe ".tally" do
-    let(:t) { Table.new('test.tab') }
+    let(:t) { FactoryGirl.build(:table) }
     
     it "returns a hash" do
       expect(t.tally("Address")).to be_a(Hash)
@@ -55,5 +57,48 @@ describe "Table" do
     end
   end
   
+  describe ".where" do
+    let(:t) { FactoryGirl.build(:table) }
+    
+    it "returns an instance of Table" do
+      expect(t.where("Records", "<3")).to be_a(Table)
+    end
+    it "selects rows that meet the given condition" do
+      expect(t.where("Records", "==3").count("Records", "3")).to eq(2)
+    end
+    it "does not select rows that do not meet the given condition" do
+      expect(t.where("Records", "==3").count("Records", 1)).to eq(0)
+    end
+    it "returns nil when the given condition is not met" do
+      expect(t.where("Records", "<0")).to be_nil
+    end
+  end
   
+  describe ".select" do
+    let(:t) { FactoryGirl.build(:table) }
+    
+    it "returns an instance of Table" do
+    end
+    it "selects columns given as arguments" do
+    end
+    it "does not select columns that are not given as arguments" do
+    end
+    it "returns nil when the given arguments don't match a column" do
+    end
+  end
+  
+  describe ".sort" do
+    let(:t) { FactoryGirl.build(:table) }
+    
+    it "returns an instance of Table" do
+    end
+    it "returns nil if the given column does not exist" do
+    end
+    it "returns a Table sorted by string if the column is a string" do
+    end
+    it "returns a Table sorted by integer if the column is an integer" do
+    end
+    it "returns a Table sorted by date if the column is a date" do
+    end
+  end
 end
