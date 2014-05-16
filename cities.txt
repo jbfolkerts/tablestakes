@@ -1,0 +1,290 @@
+2012 rank	City	State	2012 estimate	2010 Census	Change	2012 land area	2012 population density	ANSI	Location
+119	Amarillo	Texas	"195,250"	"190,695"	2.39%	99.476 sq mi	"1,917 per sq mi"	2409694	35.1978°N 101.8287°W
+128	Knoxville	Tennessee	"182,200"	"178,874"	1.86%	98.521 sq mi	"1,816 per sq mi"	2404842	35.9709°N 83.9465°W
+35	Sacramento	California	"475,516"	"466,488"	1.94%	97.915 sq mi	"4,764 per sq mi"	2411751	38.5666°N 121.4686°W
+179	Clarksville	Tennessee	"142,519"	"132,929"	7.21%	97.603 sq mi	"1,362 per sq mi"	2404061	36.5664°N 87.3452°W
+30	Milwaukee	Wisconsin	"598,916"	"594,833"	0.69%	96.122 sq mi	"6,188 per sq mi"	1583724	43.0633°N 87.9667°W
+50	Arlington	Texas	"375,600"	"365,438"	2.78%	95.882 sq mi	"3,811 per sq mi"	2409731	32.7007°N 97.1247°W
+151	Lancaster	California	"159,055"	"156,633"	1.55%	94.276 sq mi	"1,661 per sq mi"	2411620	34.6936°N 118.1753°W
+264	Norwalk	California	"106,278"	"105,549"	0.69%	9.707 sq mi	"10,873 per sq mi"	2411281	33.9069°N 118.0834°W
+233	El Monte	California	"115,111"	"113,475"	1.44%	9.562 sq mi	"11,867 per sq mi"	2410413	34.0746°N 118.0291°W
+239	Inglewood	California	"111,182"	"109,673"	1.38%	9.068 sq mi	"12,095 per sq mi"	2410106	33.9561°N 118.3443°W
+72	Lincoln	Nebraska	"265,404"	"258,379"	2.72%	89.114 sq mi	"2,899 per sq mi"	2395713	40.8090°N 96.6804°W
+200	Waco	Texas	"127,018"	"124,805"	1.77%	88.964 sq mi	"1,403 per sq mi"	2412162	31.5601°N 97.1860°W
+81	Laredo	Texas	"244,731"	"236,091"	3.66%	88.908 sq mi	"2,655 per sq mi"	2411626	27.5477°N 99.4869°W
+216	Denton	Texas	"121,123"	"113,383"	6.83%	87.952 sq mi	"1,289 per sq mi"	2410323	33.2151°N 97.1417°W
+22	Seattle	Washington	"634,535"	"608,660"	4.25%	83.943 sq mi	"7,251 per sq mi"	2411856	47.6205°N 122.3509°W
+224	Beaumont	Texas	"118,228"	"118,296"	?0.06%	82.801 sq mi	"1,429 per sq mi"	2409806	30.0843°N 94.1458°W
+146	Springfield	Missouri	"162,191"	"159,498"	1.69%	81.720 sq mi	"1,952 per sq mi"	2395942	37.1942°N 93.2913°W
+59	Riverside	California	"313,673"	"303,871"	3.23%	81.140 sq mi	"3,745 per sq mi"	2410965	33.9381°N 117.3932°W
+26	Baltimore	Maryland	"621,342"	"620,961"	0.06%	80.944 sq mi	"7,672 per sq mi"	1702381	39.3002°N 76.6105°W
+104	Des Moines	Iowa	"206,688"	"203,433"	1.60%	80.869 sq mi	"2,516 per sq mi"	2394522	41.5739°N 93.6167°W
+67	Toledo	Ohio	"284,012"	"287,208"	?1.11%	80.692 sq mi	"3,559 per sq mi"	1086537	41.6641°N 83.5819°W
+174	Paterson	New Jersey	"145,219"	"146,199"	?0.67%	8.428 sq mi	"17,346 per sq mi"	885343	40.9147°N 74.1628°W
+99	Boise[22]	Idaho	"212,303"	"205,671"	3.22%	79.364 sq mi	"2,592 per sq mi"	2409876	43.5985°N 116.2311°W
+65	Cincinnati	Ohio	"296,550"	"296,943"	?0.13%	77.942 sq mi	"3,810 per sq mi"	1086201	39.1399°N 84.5064°W
+48	Cleveland	Ohio	"390,928"	"396,815"	?1.48%	77.697 sq mi	"5,107 per sq mi"	1085963	41.4781°N 81.6795°W
+226	Independence	Missouri	"117,270"	"116,830"	0.38%	77.567 sq mi	"1,506 per sq mi"	2395422	39.0853°N 94.3513°W
+96	Fremont	California	"221,986"	"214,089"	3.69%	77.459 sq mi	"2,764 per sq mi"	2410545	37.4944°N 121.9411°W
+90	Baton Rouge[20]	Louisiana	"230,058"	"229,493"	0.25%	76.947 sq mi	"2,982 per sq mi"	2403821	30.4485°N 91.1259°W
+82	Madison	Wisconsin	"240,323"	"233,209"	3.05%	76.789 sq mi	"3,037 per sq mi"	1583625	43.0878°N 89.4301°W
+285-(T)	Las Cruces	New Mexico	"101,047"	"97,618"	3.51%	76.29 sq mi	"1,279 per sq mi"		32.3197°N 106.7653°W
+12	Jacksonville	Florida	"836,507"	"821,784"	1.79%	747.003 sq mi	"1,120 per sq mi"	2404783	30.3370°N 81.6613°W
+133	Overland Park	Kansas	"178,919"	"173,372"	3.20%	74.841 sq mi	"2,317 per sq mi"	485639	38.8890°N 94.6906°W
+217	Victorville	California	"120,336"	"115,903"	3.82%	73.178 sq mi	"1,584 per sq mi"	2412156	34.5277°N 117.3536°W
+149	Sioux Falls	South Dakota	"159,908"	"153,888"	3.91%	72.964 sq mi	"2,109 per sq mi"	1267566	43.5383°N 96.7320°W
+270	Wichita Falls	Texas	"104,552"	"104,553"	0.00%	72.140 sq mi	"1,449 per sq mi"	2412261	33.9067°N 98.5259°W
+129	Grand Prairie	Texas	"181,824"	"175,396"	3.66%	72.105 sq mi	"2,433 per sq mi"	2410632	32.6842°N 97.0210°W
+219	Midland	Texas	"119,385"	"111,147"	7.41%	72.071 sq mi	"1,542 per sq mi"	2411096	32.0299°N 102.1097°W
+70	Plano	Texas	"272,068"	"259,841"	4.71%	71.581 sq mi	"3,630 per sq mi"	2411437	33.0508°N 96.7479°W
+197	Cedar Rapids	Iowa	"128,119"	"126,326"	1.42%	70.799 sq mi	"1,784 per sq mi"	467567	41.9670°N 91.6778°W
+274	Daly City	California	"103,690"	"101,123"	2.54%	7.664 sq mi	"13,195 per sq mi"	2410291	37.7009°N 122.4650°W
+130	Newport News[15]	Virginia	"180,726"	"180,719"	0.00%	68.714 sq mi	"2,630 per sq mi"	1498555	37.0760°N 76.5217°W
+97	Gilbert[21]	Arizona	"221,140"	"208,453"	6.09%	67.963 sq mi	"3,067 per sq mi"	2412682	33.3102°N 111.7422°W
+93	Irving	Texas	"225,427"	"216,290"	4.22%	67.017 sq mi	"3,227 per sq mi"	2410117	32.8577°N 96.9700°W
+91	Irvine	California	"229,985"	"212,375"	8.29%	66.106 sq mi	"3,213 per sq mi"	2410116	33.6784°N 117.7713°W
+272	Palm Bay	Florida	"104,124"	"103,190"	0.91%	65.702 sq mi	"1,571 per sq mi"	2404463	27.9856°N 80.6626°W
+80	Chandler	Arizona	"245,628"	"236,123"	4.03%	64.413 sq mi	"3,666 per sq mi"	2409433	33.2829°N 111.8549°W
+236	Columbia	Missouri	"113,225"	"108,500"	4.35%	63.077 sq mi	"1,720 per sq mi"	2393605	38.9479°N 92.3261°W
+284	Davenport	Iowa	"101,363"	"99,685"	1.68%	62.948 sq mi	"1,584 per sq mi"	2394467	41.5541°N 90.6040°W
+177	McKinney	Texas	"143,223"	"131,117"	9.23%	62.209 sq mi	"2,108 per sq mi"	2411064	33.2012°N 96.6680°W
+164	Joliet	Illinois	"148,268"	"147,433"	0.57%	62.114 sq mi	"2,374 per sq mi"	2395477	41.5181°N 88.1584°W
+114	Akron	Ohio	"198,549"	"199,110"	?0.28%	62.033 sq mi	"3,210 per sq mi"	1086993	41.0805°N 81.5214°W
+58	St. Louis	Missouri	"318,172"	"319,294"	?0.35%	61.909 sq mi	"5,157 per sq mi"	767557	38.6357°N 90.2446°W
+196	Frisco	Texas	"128,176"	"116,989"	9.56%	61.804 sq mi	"1,893 per sq mi"	2410549	33.1510°N 96.8193°W
+78	St. Petersburg	Florida	"246,541"	"244,769"	0.72%	61.742 sq mi	"3,964 per sq mi"	2405401	27.7620°N 82.6441°W
+64	Stockton	California	"297,984"	"291,707"	2.15%	61.670 sq mi	"4,730 per sq mi"	2411987	37.9763°N 121.3133°W
+277	Broken Arrow	Oklahoma	"102,019"	"98,850"	3.21%	61.571 sq mi	"1,605 per sq mi"	2409914	36.0365°N 95.7810°W
+203	Gainesville	Florida	"126,047"	"124,354"	1.36%	61.305 sq mi	"2,028 per sq mi"	2403676	29.6788°N 82.3459°W
+160	Rockford	Illinois	"150,843"	"152,871"	?1.33%	61.081 sq mi	"2,503 per sq mi"	2396405	42.2634°N 89.0628°W
+24	Washington	District of Columbia	"632,323"	"601,723"	5.09%	61.048 sq mi	"9,856 per sq mi"	2390665	38.9041°N 77.0171°W
+29	Oklahoma City	Oklahoma	"599,199"	"579,999"	3.31%	606.410 sq mi	956 per sq mi	2411311	35.4671°N 97.5137°W
+54	Honolulu	Hawaii	"345,610"	"337,256"	2.48%	60.521 sq mi	"5,573 per sq mi"	2630783	21.3259°N 157.8453°W
+198	Topeka	Kansas	"127,939"	"127,473"	0.37%	60.168 sq mi	"2,119 per sq mi"	485655	39.0362°N 95.6948°W
+263	Cambridge	Massachusetts	"106,471"	"105,162"	1.24%	6.385 sq mi	"16,469 per sq mi"	619396	42.3760°N 71.1183°W
+4	Houston	Texas	"2,160,821"	"2,100,263"	2.88%	599.589 sq mi	"3,501 per sq mi"	2410796	29.7805°N 95.3863°W
+87	Glendale	Arizona	"232,143"	"226,721"	2.39%	59.976 sq mi	"3,780 per sq mi"	2410596	33.5331°N 112.1899°W
+102	Richmond[15]	Virginia	"210,309"	"204,214"	2.98%	59.805 sq mi	"3,415 per sq mi"	1789073	37.5314°N 77.4760°W
+193	Olathe	Kansas	"130,045"	"125,872"	3.32%	59.661 sq mi	"2,110 per sq mi"	485633	38.8843°N 94.8188°W
+227	Springfield	Illinois	"117,126"	"116,250"	0.75%	59.480 sq mi	"1,954 per sq mi"	2395940	39.7639°N 89.6708°W
+103	Spokane	Washington	"209,525"	"208,916"	0.29%	59.247 sq mi	"3,526 per sq mi"	2411956	47.6736°N 117.4166°W
+98	San Bernardino	California	"213,295"	"209,924"	1.61%	59.201 sq mi	"3,546 per sq mi"	2411777	34.1393°N 117.2953°W
+86	Garland	Texas	"233,564"	"226,876"	2.95%	57.085 sq mi	"3,974 per sq mi"	2410572	32.9098°N 96.6304°W
+45	Oakland	California	"400,740"	"390,724"	2.56%	55.786 sq mi	"7,004 per sq mi"	2411292	37.7699°N 122.2256°W
+181	Dayton	Ohio	"141,359"	"141,527"	?0.12%	55.652 sq mi	"2,543 per sq mi"	1086666	39.7774°N 84.1996°W
+61	Pittsburgh	Pennsylvania	"306,211"	"305,704"	0.17%	55.367 sq mi	"5,521 per sq mi"	1214818	40.4398°N 79.9766°W
+234	Murfreesboro	Tennessee	"114,038"	"108,755"	4.86%	55.346 sq mi	"1,965 per sq mi"	2404342	35.8522°N 86.4161°W
+279	West Palm Beach	Florida	"101,903"	"99,919"	1.99%	55.293 sq mi	"1,807 per sq mi"	2405713	26.7483°N 80.1266°W
+195	Thousand Oaks	California	"128,412"	"126,683"	1.36%	55.031 sq mi	"2,302 per sq mi"	2412065	34.1933°N 118.8742°W
+249	Rochester	Minnesota	"108,992"	"106,769"	2.08%	54.586 sq mi	"1,956 per sq mi"	2396395	44.0154°N 92.4772°W
+171	Cary[26]	North Carolina	"145,693"	"135,234"	7.73%	54.345 sq mi	"2,488 per sq mi"	2406229	35.7821°N 78.8141°W
+163	Fort Collins	Colorado	"148,612"	"143,986"	3.21%	54.277 sq mi	"2,653 per sq mi"	2410526	40.5482°N 105.0648°W
+79	Norfolk	Virginia	"245,782"	"242,803"	1.23%	54.120 sq mi	"4,486 per sq mi"	1498557	36.9230°N 76.2446°W
+47	Minneapolis	Minnesota	"392,880"	"382,578"	2.69%	53.973 sq mi	"7,088 per sq mi"	2395345	44.9633°N 93.2683°W
+260	High Point	North Carolina	"106,586"	"104,371"	2.12%	53.803 sq mi	"1,940 per sq mi"	2404696	35.9855°N 79.9902°W
+254	Pueblo	Colorado	"107,772"	"106,595"	1.10%	53.641 sq mi	"1,987 per sq mi"	2411501	38.2731°N 104.6124°W
+187	Killeen	Texas	"134,654"	"127,921"	5.26%	53.580 sq mi	"2,387 per sq mi"	2411542	31.0777°N 97.7320°W
+132	Santa Clarita	California	"179,013"	"176,320"	1.53%	52.716 sq mi	"3,345 per sq mi"	2411819	34.4049°N 118.5047°W
+6	Phoenix	Arizona	"1,488,750"	"1,445,632"	2.98%	516.704 sq mi	"2,798 per sq mi"	2411414	33.5722°N 112.0880°W
+66	Saint Paul	Minnesota	"290,770"	"285,068"	2.00%	51.979 sq mi	"5,484 per sq mi"	2396511	44.9489°N 93.1039°W
+243	Wilmington	North Carolina	"109,922"	"106,476"	3.24%	51.493 sq mi	"2,068 per sq mi"	2405754	34.2092°N 77.8858°W
+185	Hampton[15]	Virginia	"136,836"	"137,436"	?0.44%	51.413 sq mi	"2,673 per sq mi"	1498554	37.0480°N 76.2971°W
+113	Moreno Valley	California	"199,552"	"193,365"	3.20%	51.275 sq mi	"3,771 per sq mi"	2411159	33.9233°N 117.2057°W
+36	Long Beach	California	"467,892"	"462,257"	1.22%	50.293 sq mi	"9,191 per sq mi"	2410866	33.8091°N 118.1553°W
+143	Ontario	California	"167,211"	"163,924"	2.01%	49.941 sq mi	"3,282 per sq mi"	2411323	34.0395°N 117.6088°W
+55	Anaheim	California	"343,248"	"336,265"	2.08%	49.835 sq mi	"6,748 per sq mi"	2409704	33.8555°N 117.7601°W
+108	Tacoma	Washington	"202,010"	"198,397"	1.82%	49.721 sq mi	"3,990 per sq mi"	2412025	47.2522°N 122.4598°W
+76	Chula Vista	California	"252,422"	"243,916"	3.49%	49.631 sq mi	"4,915 per sq mi"	2409461	32.6277°N 117.0152°W
+214	Lafayette[27]	Louisiana	"122,761"	"120,623"	1.77%	49.231 sq mi	"2,450 per sq mi"	2404854	30.2116°N 92.0314°W
+245	Fargo	North Dakota	"109,779"	"105,549"	4.01%	48.821 sq mi	"2,162 per sq mi"	1036030	46.8652°N 96.8290°W
+186	McAllen	Texas	"134,719"	"129,877"	3.73%	48.344 sq mi	"2,687 per sq mi"	2411057	26.2185°N 98.2461°W
+21	Boston	Massachusetts	"636,479"	"617,594"	3.06%	48.277 sq mi	"12,793 per sq mi"	619463	42.3320°N 71.0202°W
+230	Peoria	Illinois	"115,687"	"115,007"	0.59%	48.007 sq mi	"2,396 per sq mi"	2396178	40.7523°N 89.6171°W
+25	Nashville	Tennessee	"624,496"	"601,222"	3.87%	475.126 sq mi	"1,265 per sq mi"	2405092	36.1718°N 86.7850°W
+155	Salem	Oregon	"157,429"	"154,637"	1.81%	47.896 sq mi	"3,229 per sq mi"	2411764	44.9237°N 123.0231°W
+2	Los Angeles	California	"3,857,799"	"3,792,621"	1.72%	468.670 sq mi	"8,092 per sq mi"	2410877	34.0194°N 118.4108°W
+7	San Antonio	Texas	"1,382,951"	"1,327,407"	4.18%	460.933 sq mi	"2,880 per sq mi"	2411774	29.4724°N 98.5251°W
+14	San Francisco	California	"825,863"	"805,235"	2.56%	46.873 sq mi	"17,179 per sq mi"	2411786	37.7751°N 122.4193°W
+145	Vancouver	Washington	"165,489"	"161,791"	2.29%	46.456 sq mi	"3,483 per sq mi"	2412146	45.6372°N 122.5965°W
+178	Mesquite	Texas	"143,195"	"139,824"	2.41%	46.021 sq mi	"3,038 per sq mi"	2411090	32.7639°N 96.5924°W
+268	Green Bay	Wisconsin	"104,868"	"104,057"	0.78%	45.467 sq mi	"2,289 per sq mi"	1583309	44.5207°N 87.9842°W
+162	Hayward	California	"149,392"	"144,186"	3.61%	45.323 sq mi	"3,181 per sq mi"	2410724	37.6281°N 122.1063°W
+112	Aurora	Illinois	"199,932"	"197,899"	1.03%	44.936 sq mi	"4,404 per sq mi"	2394031	41.7635°N 88.2901°W
+123	Grand Rapids	Michigan	"190,411"	"188,040"	1.26%	44.395 sq mi	"4,236 per sq mi"	1626373	42.9612°N 85.6556°W
+218	Evansville	Indiana	"120,235"	"117,429"	2.39%	44.153 sq mi	"2,660 per sq mi"	2394710	37.9877°N 87.5347°W
+154	Eugene	Oregon	"157,986"	"156,185"	1.15%	43.723 sq mi	"3,572 per sq mi"	2410460	44.0567°N 123.1162°W
+258	Billings	Montana	"106,954"	"104,170"	2.67%	43.413 sq mi	"2,399 per sq mi"	2409849	45.7895°N 108.5499°W
+172	Lakewood	Colorado	"145,516"	"142,980"	1.77%	42.880 sq mi	"3,334 per sq mi"	2411614	39.6989°N 105.1176°W
+159	Pasadena	Texas	"152,272"	"149,043"	2.17%	42.762 sq mi	"3,485 per sq mi"	2411380	29.6583°N 95.1505°W
+110	Fontana	California	"201,812"	"196,069"	2.93%	42.432 sq mi	"4,621 per sq mi"	2410517	34.1088°N 117.4627°W
+152	Elk Grove	California	"159,038"	"153,015"	3.94%	42.190 sq mi	"3,627 per sq mi"	2410425	38.4144°N 121.3849°W
+265	Odessa	Texas	"106,102"	"99,940"	6.17%	41.955 sq mi	"2,382 per sq mi"	2411303	31.8804°N 102.3434°W
+229	Provo	Utah	"115,919"	"112,488"	3.05%	41.673 sq mi	"2,699 per sq mi"	2411499	40.2453°N 111.6448°W
+204	Simi Valley	California	"125,793"	"124,237"	1.25%	41.480 sq mi	"2,995 per sq mi"	2411904	34.2669°N 118.7485°W
+287	South Bend	Indiana	"100,800"	"101,168"	?0.36%	41.458 sq mi	"2,440 per sq mi"	2395913	41.6769°N 86.2690°W
+141	Santa Rosa	California	"170,685"	"167,815"	1.71%	41.294 sq mi	"4,064 per sq mi"	2411827	38.4468°N 122.7061°W
+137	Oceanside	California	"171,293"	"167,086"	2.52%	41.235 sq mi	"4,052 per sq mi"	2411301	33.2246°N 117.3062°W
+73	Buffalo	New York	"259,384"	"261,310"	?0.74%	40.384 sq mi	"6,471 per sq mi"	978764	42.8925°N 78.8597°W
+144	Tempe	Arizona	"166,842"	"161,719"	3.17%	39.929 sq mi	"4,050 per sq mi"	2412045	33.3884°N 111.9318°W
+140	Rancho Cucamonga	California	"170,746"	"165,269"	3.31%	39.851 sq mi	"4,147 per sq mi"	2411514	34.1233°N 117.5642°W
+153	Corona	California	"158,391"	"152,374"	3.95%	38.825 sq mi	"3,925 per sq mi"	2410232	33.8624°N 117.5639°W
+176	Naperville	Illinois	"143,684"	"141,853"	1.29%	38.769 sq mi	"3,659 per sq mi"	2395147	41.7492°N 88.1620°W
+247	Carlsbad	California	"109,318"	"105,328"	3.79%	37.722 sq mi	"2,792 per sq mi"	2409984	33.1239°N 117.2828°W
+208	Stamford	Connecticut	"125,109"	"122,643"	2.01%	37.639 sq mi	"3,258 per sq mi"	2378291	41.0799°N 73.5460°W
+256	Fairfield	California	"107,684"	"105,321"	2.24%	37.390 sq mi	"2,817 per sq mi"	2410474	38.2568°N 122.0397°W
+127	Worcester	Massachusetts	"182,669"	"181,045"	0.90%	37.371 sq mi	"4,845 per sq mi"	619493	42.2695°N 71.8078°W
+242	Elgin	Illinois	"109,927"	"108,188"	1.61%	37.163 sq mi	"2,911 per sq mi"	2394641	42.0396°N 88.3217°W
+13	Indianapolis	Indiana	"834,852"	"820,445"	1.76%	361.433 sq mi	"2,270 per sq mi"	2395424	39.7767°N 86.1459°W
+106	Modesto	California	"203,547"	"201,165"	1.18%	36.867 sq mi	"5,456 per sq mi"	2411130	37.6609°N 120.9891°W
+165	Escondido	California	"147,575"	"143,911"	2.55%	36.813 sq mi	"3,909 per sq mi"	2410455	33.1336°N 117.0732°W
+192	Sterling Heights	Michigan	"130,410"	"129,699"	0.55%	36.505 sq mi	"3,553 per sq mi"	1627126	42.5812°N 83.0303°W
+206	Carrollton	Texas	"125,409"	"119,097"	5.30%	36.296 sq mi	"3,281 per sq mi"	2409992	32.9884°N 96.8998°W
+199	Visalia	California	"127,081"	"124,442"	2.12%	36.246 sq mi	"3,433 per sq mi"	2412160	36.3272°N 119.3234°W
+211	Roseville	California	"124,519"	"118,788"	4.82%	36.222 sq mi	"3,279 per sq mi"	2411000	38.7657°N 121.3032°W
+235	Lansing	Michigan	"113,996"	"114,297"	?0.26%	36.049 sq mi	"3,171 per sq mi"	1626588	42.7098°N 84.5562°W
+44	Miami	Florida	"413,892"	"399,457"	3.61%	35.871 sq mi	"11,539 per sq mi"	2404247	25.7752°N 80.2086°W
+101	Rochester	New York	"210,532"	"210,565"	?0.02%	35.781 sq mi	"5,885 per sq mi"	979426	43.1699°N 77.6169°W
+189	West Valley City	Utah	"132,434"	"129,480"	2.28%	35.556 sq mi	"3,642 per sq mi"	2412231	40.6885°N 112.0118°W
+246	Arvada	Colorado	"109,745"	"106,433"	3.11%	35.142 sq mi	"3,029 per sq mi"	2409737	39.8097°N 105.1066°W
+92	Chesapeake[15]	Virginia	"228,417"	"222,209"	2.79%	340.800 sq mi	652 per sq mi	1498558	36.6794°N 76.3018°W
+9	Dallas	Texas	"1,241,162"	"1,197,816"	3.62%	340.519 sq mi	"3,518 per sq mi"	2410288	32.7757°N 96.7967°W
+212	Thornton	Colorado	"124,140"	"118,772"	4.52%	34.843 sq mi	"3,409 per sq mi"	2412064	39.9180°N 104.9454°W
+139	Fort Lauderdale	Florida	"170,747"	"165,521"	3.16%	34.765 sq mi	"4,761 per sq mi"	2403640	26.1413°N 80.1439°W
+188	Warren	Michigan	"134,141"	"134,056"	0.06%	34.381 sq mi	"3,899 per sq mi"	1627213	42.4929°N 83.0250°W
+261	Round Rock	Texas	"106,573"	"99,887"	6.69%	34.113 sq mi	"2,928 per sq mi"	2411005	30.5237°N 97.6674°W
+16	Fort Worth	Texas	"777,992"	"741,206"	4.96%	339.819 sq mi	"2,181 per sq mi"	2410531	32.7795°N 97.3463°W
+259	Murrieta	California	"106,810"	"103,466"	3.23%	33.577 sq mi	"3,081 per sq mi"	2411199	33.5719°N 117.1907°W
+269	Everett	Washington	"104,655"	"103,019"	1.59%	33.447 sq mi	"3,080 per sq mi"	2410469	48.0033°N 122.1742°W
+288	Flint	Michigan	"100,515"	"102,434"	?1.87%	33.416 sq mi	"3,065 per sq mi"	1626285	43.0244°N 83.6920°W
+148	Pembroke Pines	Florida	"160,306"	"154,019"	4.08%	33.124 sq mi	"4,672 per sq mi"	2404502	26.0212°N 80.3404°W
+241	Manchester	New Hampshire	"110,209"	"109,565"	0.59%	33.101 sq mi	"3,310 per sq mi"	873658	42.9847°N 71.4439°W
+27	Louisville	Kentucky	"605,110"	"597,337"	1.30%	325.248 sq mi	"1,837 per sq mi"	1967434	38.1781°N 85.6667°W
+8	San Diego	California	"1,338,348"	"1,307,402"	2.37%	325.188 sq mi	"4,020 per sq mi"	2411782	32.8153°N 117.1350°W
+253	West Jordan	Utah	"108,383"	"103,712"	4.50%	32.457 sq mi	"3,195 per sq mi"	2412222	40.6023°N 112.0010°W
+20	Memphis	Tennessee	"655,155"	"646,889"	1.28%	315.055 sq mi	"2,053 per sq mi"	2405068	35.1035°N 89.9785°W
+37	Kansas City	Missouri	"464,310"	"459,787"	0.98%	314.950 sq mi	"1,460 per sq mi"	2395492	39.1252°N 94.5511°W
+202	Bellevue	Washington	"126,439"	"122,363"	3.33%	31.968 sq mi	"3,828 per sq mi"	2409821	47.5978°N 122.1565°W
+158	Springfield	Massachusetts	"153,552"	"153,060"	0.32%	31.865 sq mi	"4,803 per sq mi"	619388	42.1155°N 72.5400°W
+248	Westminster	Colorado	"109,169"	"106,114"	2.88%	31.550 sq mi	"3,363 per sq mi"	2412237	39.8822°N 105.0644°W
+1	New York	New York	"8,336,697"	"8,175,133"	1.98%	302.643 sq mi	"27,012 per sq mi"	2395220	40.6643°N 73.9385°W
+117	Augusta[24]	Georgia	"197,872"	"195,844"	1.04%	302.474 sq mi	647 per sq mi	2405078	33.3655°N 82.0734°W
+225	Vallejo	California	"117,796"	"115,942"	1.60%	30.671 sq mi	"3,780 per sq mi"	2412142	38.1079°N 122.2639°W
+210	Concord	California	"124,711"	"122,067"	2.17%	30.546 sq mi	"3,996 per sq mi"	2410214	37.9722°N 122.0016°W
+122	Glendale	California	"194,478"	"191,719"	1.44%	30.453 sq mi	"6,295 per sq mi"	2410597	34.1814°N 118.2458°W
+267	Temecula	California	"105,208"	"100,097"	5.11%	30.151 sq mi	"3,320 per sq mi"	2412044	33.5019°N 117.1246°W
+262	Richmond	California	"106,516"	"103,701"	2.71%	30.068 sq mi	"3,449 per sq mi"	2410939	37.9530°N 122.3594°W
+11	Austin	Texas	"842,592"	"790,390"	6.60%	297.896 sq mi	"2,653 per sq mi"	2409761	30.3072°N 97.7560°W
+17	Charlotte	North Carolina	"775,202"	"731,424"	5.99%	297.678 sq mi	"2,457 per sq mi"	2404032	35.2087°N 80.8307°W
+194	Miramar	Florida	"128,729"	"122,041"	5.48%	29.521 sq mi	"4,134 per sq mi"	2404275	25.9770°N 80.3358°W
+62	Lexington	Kentucky	"305,489"	"295,803"	3.27%	283.649 sq mi	"1,043 per sq mi"	2405089	38.0402°N 84.4584°W
+273	Centennial	Colorado	"103,743"	"100,377"	3.35%	28.722 sq mi	"3,495 per sq mi"	2409422	39.5906°N 104.8691°W
+213	Kent	Washington	"122,999"	"92,411"	33.10%	28.625 sq mi	"3,228 per sq mi"	2410185	47.3853°N 122.2169°W
+275	Richardson	Texas	"103,297"	"99,223"	4.11%	28.564 sq mi	"3,474 per sq mi"	2410933	32.9723°N 96.7081°W
+244	Waterbury	Connecticut	"109,915"	"110,366"	?0.41%	28.519 sq mi	"3,870 per sq mi"	2378294	41.5585°N 73.0367°W
+266	Antioch	California	"105,508"	"102,372"	3.06%	28.349 sq mi	"3,611 per sq mi"	2409715	37.9775°N 121.7976°W
+228	Ann Arbor	Michigan	"116,121"	"113,934"	1.92%	27.830 sq mi	"4,094 per sq mi"	1625837	42.2756°N 83.7313°W
+173	Hollywood	Florida	"145,236"	"140,768"	3.17%	27.366 sq mi	"5,144 per sq mi"	2404719	26.0311°N 80.1646°W
+57	Santa Ana	California	"330,920"	"324,528"	1.97%	27.270 sq mi	"11,901 per sq mi"	2411814	33.7365°N 117.8826°W
+111	Oxnard	California	"201,555"	"197,899"	1.85%	26.894 sq mi	"7,358 per sq mi"	2411347	34.2023°N 119.2046°W
+121	Huntington Beach	California	"194,708"	"189,992"	2.48%	26.748 sq mi	"7,103 per sq mi"	2410811	33.6906°N 118.0093°W
+19	El Paso	Texas	"672,538"	"649,121"	3.61%	255.235 sq mi	"2,543 per sq mi"	2410414	31.8484°N 106.4270°W
+251	Clearwater	Florida	"108,732"	"107,685"	0.97%	25.562 sq mi	"4,213 per sq mi"	2404067	27.9795°N 82.7663°W
+175	Syracuse	New York	"144,170"	"145,170"	?0.69%	25.043 sq mi	"5,797 per sq mi"	979539	43.0410°N 76.1436°W
+39	Virginia Beach	Virginia	"447,021"	"437,994"	2.06%	249.016 sq mi	"1,759 per sq mi"	1498559	36.7793°N 76.0240°W
+182	Orange	California	"139,419"	"136,416"	2.20%	24.797 sq mi	"5,501 per sq mi"	2411325	33.8048°N 117.8249°W
+68	Newark	New Jersey	"277,727"	"277,140"	0.21%	24.187 sq mi	"11,458 per sq mi"	885317	40.7242°N 74.1726°W
+276	Pompano Beach	Florida	"102,984"	"99,845"	3.14%	24.002 sq mi	"4,160 per sq mi"	2404547	26.2426°N 80.1290°W
+207	Coral Springs	Florida	"125,287"	"121,096"	3.46%	23.792 sq mi	"5,090 per sq mi"	2404127	26.2708°N 80.2593°W
+250	Gresham	Oregon	"108,956"	"105,594"	3.18%	23.201 sq mi	"4,551 per sq mi"	2410663	45.5023°N 122.4416°W
+157	Salinas	California	"154,484"	"150,441"	2.69%	23.179 sq mi	"6,490 per sq mi"	2411768	36.6902°N 121.6337°W
+3	Chicago	Illinois	"2,714,856"	"2,695,598"	0.71%	227.635 sq mi	"11,842 per sq mi"	428803	41.8376°N 87.6818°W
+33	Tucson	Arizona	"524,295"	"520,116"	0.80%	226.709 sq mi	"2,294 per sq mi"	2412104	32.1543°N 110.8711°W
+184	Pasadena	California	"138,547"	"137,122"	1.04%	22.970 sq mi	"5,970 per sq mi"	2411379	34.1606°N 118.1396°W
+161	Pomona	California	"150,812"	"149,058"	1.18%	22.952 sq mi	"6,494 per sq mi"	2411454	34.0586°N 117.7613°W
+282	Santa Maria	California	"101,459"	"99,553"	1.91%	22.756 sq mi	"4,375 per sq mi"	2411824	34.9332°N 120.4438°W
+183	Fullerton	California	"138,574"	"135,161"	2.53%	22.353 sq mi	"6,047 per sq mi"	2410556	33.8857°N 117.9280°W
+281	Rialto	California	"101,740"	"99,171"	2.59%	22.351 sq mi	"4,437 per sq mi"	2410931	34.1118°N 117.3883°W
+15	Columbus	Ohio	"809,798"	"787,033"	2.89%	217.169 sq mi	"3,624 per sq mi"	1086101	39.9848°N 82.9850°W
+116	Columbus[23]	Georgia	"198,413"	"189,885"	4.49%	216.385 sq mi	878 per sq mi	2404111	32.5102°N 84.8749°W
+170	Sunnyvale	California	"146,197"	"140,081"	4.37%	21.987 sq mi	"6,371 per sq mi"	2412009	37.3858°N 122.0263°W
+255	Ventura[29]	California	"107,734"	"106,433"	1.22%	21.655 sq mi	"4,915 per sq mi"	2411779	34.2681°N 119.2550°W
+88	Hialeah	Florida	"231,941"	"224,669"	3.24%	21.450 sq mi	"10,474 per sq mi"	2404689	25.8699°N 80.3029°W
+126	Huntsville	Alabama	"183,739"	"180,105"	2.02%	209.054 sq mi	862 per sq mi	2404746	34.7843°N 86.5390°W
+167	Torrance	California	"147,027"	"145,438"	1.09%	20.478 sq mi	"7,102 per sq mi"	2412087	33.8350°N 118.3414°W
+46	Tulsa	Oklahoma	"393,987"	"391,906"	0.53%	196.754 sq mi	"1,992 per sq mi"	2412110	36.1279°N 95.9023°W
+41	Colorado Springs	Colorado	"431,834"	"416,427"	3.70%	194.540 sq mi	"2,141 per sq mi"	2410198	38.8673°N 104.7607°W
+285-(T)	Erie	Pennsylvania	"101,047"	"101,786"	?0.73%	19.081 sq mi	"5,334 per sq mi"	1215209	42.1166°N 80.0735°W
+32	Albuquerque	New Mexico	"555,417"	"545,852"	1.75%	187.730 sq mi	"2,908 per sq mi"	2409678	35.1056°N 106.6474°W
+94	Scottsdale	Arizona	"223,514"	"217,385"	2.82%	183.920 sq mi	"1,182 per sq mi"	2411845	33.6687°N 111.8237°W
+191	New Haven	Connecticut	"130,741"	"129,779"	0.74%	18.679 sq mi	"6,948 per sq mi"	2378285	41.3108°N 72.9250°W
+220	Santa Clara	California	"119,311"	"116,468"	2.44%	18.407 sq mi	"6,327 per sq mi"	2411816	37.3646°N 121.9679°W
+134	Providence	Rhode Island	"178,432"	"178,042"	0.22%	18.400 sq mi	"9,676 per sq mi"	1220076	41.8231°N 71.4188°W
+240	Miami Gardens	Florida	"110,754"	"107,167"	3.35%	18.231 sq mi	"5,878 per sq mi"	2404249	25.9489°N 80.2436°W
+115	Yonkers	New York	"198,449"	"195,976"	1.26%	18.012 sq mi	"10,880 per sq mi"	979660	40.9459°N 73.8674°W
+231	Norman	Oklahoma	"115,562"	"110,925"	4.18%	178.763 sq mi	621 per sq mi	2411267	35.2406°N 97.3453°W
+10	San Jose	California	"982,765"	"945,942"	3.89%	176.526 sq mi	"5,359 per sq mi"	2411790	37.2969°N 121.8193°W
+150	Peoria	Arizona	"159,789"	"154,065"	3.72%	174.404 sq mi	883 per sq mi	2411401	33.7877°N 112.3111°W
+136	Garden Grove	California	"174,389"	"170,883"	2.05%	17.941 sq mi	"9,525 per sq mi"	2410568	33.7788°N 117.9605°W
+222	Allentown	Pennsylvania	"118,974"	"118,032"	0.80%	17.546 sq mi	"6,727 per sq mi"	1215372	40.5940°N 75.4782°W
+209	Hartford	Connecticut	"124,893"	"124,775"	0.09%	17.381 sq mi	"7,179 per sq mi"	2378277	41.7660°N 72.6833°W
+271	Burbank	California	"104,391"	"103,340"	1.02%	17.341 sq mi	"5,959 per sq mi"	2409939	34.1890°N 118.3249°W
+51	New Orleans	Louisiana	"369,250"	"343,829"	7.39%	169.423 sq mi	"2,029 per sq mi"	545142	30.0686°N 89.9390°W
+60	Corpus Christi	Texas	"312,195"	"305,215"	2.29%	160.612 sq mi	"1,900 per sq mi"	2410234	27.7543°N 97.1734°W
+257	West Covina	California	"107,440"	"106,098"	1.26%	16.041 sq mi	"6,614 per sq mi"	2412219	34.0559°N 117.9099°W
+105	Montgomery	Alabama	"205,293"	"205,764"	?0.23%	159.565 sq mi	"1,290 per sq mi"	2404289	32.3463°N 86.2686°W
+49	Wichita	Kansas	"385,577"	"382,368"	0.84%	159.295 sq mi	"2,400 per sq mi"	485662	37.6907°N 97.3427°W
+56	Aurora	Colorado	"339,030"	"325,078"	4.29%	154.100 sq mi	"2,110 per sq mi"	2409731	39.7082°N 104.8235°W
+23	Denver	Colorado	"634,265"	"600,158"	5.68%	153.000 sq mi	"3,923 per sq mi"	2410324	39.7618°N 104.8806°W
+168	Bridgeport	Connecticut	"146,425"	"144,229"	1.52%	15.974 sq mi	"9,029 per sq mi"	2378269	41.1874°N 73.1957°W
+238	Costa Mesa	California	"111,918"	"109,960"	1.78%	15.654 sq mi	"7,025 per sq mi"	2410239	33.6659°N 117.9123°W
+169	Alexandria[15]	Virginia	"146,294"	"139,966"	4.52%	15.027 sq mi	"9,314 per sq mi"	1498415	38.8183°N 77.0820°W
+100	Birmingham	Alabama	"212,038"	"212,237"	?0.09%	146.067 sq mi	"1,453 per sq mi"	2403868	33.5274°N 86.7990°W
+107	Fayetteville	North Carolina	"202,103"	"200,564"	0.77%	145.845 sq mi	"1,375 per sq mi"	2403604	35.0851°N 78.9803°W
+42	Raleigh	North Carolina	"423,179"	"403,892"	4.78%	142.903 sq mi	"2,826 per sq mi"	2404590	35.8302°N 78.6414°W
+52	Bakersfield	California	"358,597"	"347,483"	3.20%	142.164 sq mi	"2,444 per sq mi"	2409774	35.3212°N 119.0183°W
+75	Jersey City	New Jersey	"254,441"	"247,597"	2.76%	14.794 sq mi	"16,737 per sq mi"	885264	40.7114°N 74.0648°W
+283	El Cajon	California	"101,435"	"99,478"	1.97%	14.433 sq mi	"6,892 per sq mi"	2410406	32.8017°N 116.9605°W
+120	Mobile	Alabama	"194,822"	"195,111"	?0.15%	139.109 sq mi	"1,403 per sq mi"	2404278	30.6684°N 88.1002°W
+18	Detroit	Michigan	"701,475"	"713,777"	?1.72%	138.750 sq mi	"5,144 per sq mi"	1626181	42.3830°N 83.1022°W
+138	Chattanooga	Tennessee	"171,279"	"167,674"	2.15%	137.152 sq mi	"1,223 per sq mi"	2404035	35.0665°N 85.2471°W
+38	Mesa	Arizona	"452,084"	"439,041"	2.97%	136.452 sq mi	"3,218 per sq mi"	2411087	33.4019°N 111.7174°W
+31	Las Vegas	Nevada	"596,424"	"583,756"	2.17%	135.815 sq mi	"4,298 per sq mi"	2411630	36.2277°N 115.2640°W
+5	Philadelphia	Pennsylvania	"1,547,607"	"1,526,006"	1.42%	134.101 sq mi	"11,379 per sq mi"	1215531	40.0094°N 75.1333°W
+28	Portland	Oregon	"603,106"	"583,776"	3.31%	133.427 sq mi	"4,375 per sq mi"	2411471	45.5370°N 122.6500°W
+40	Atlanta	Georgia	"443,775"	"420,003"	5.66%	133.152 sq mi	"3,154 per sq mi"	2403126	33.7629°N 84.4227°W
+85	Winston–Salem	North Carolina	"234,349"	"229,617"	2.06%	132.449 sq mi	"1,734 per sq mi"	2405771	36.1033°N 80.2606°W
+131	Brownsville	Texas	"180,097"	"175,023"	2.90%	132.330 sq mi	"1,323 per sq mi"	2409924	26.0183°N 97.4538°W
+190	Columbia	South Carolina	"131,686"	"129,272"	1.87%	132.213 sq mi	978 per sq mi	2404107	34.0298°N 80.8966°W
+252	Lowell	Massachusetts	"108,522"	"106,519"	1.88%	13.583 sq mi	"7,842 per sq mi"	618227	42.6389°N 71.3221°W
+43	Omaha	Nebraska	"421,570"	"408,958"	3.08%	127.088 sq mi	"3,218 per sq mi"	2396064	41.2647°N 96.0419°W
+69	Greensboro	North Carolina	"277,080"	"269,666"	2.75%	126.515 sq mi	"2,131 per sq mi"	2403745	36.0965°N 79.8271°W
+166	Kansas City[25]	Kansas	"147,268"	"145,786"	1.02%	124.810 sq mi	"1,168 per sq mi"	485601	39.1225°N 94.7418°W
+84	Lubbock	Texas	"236,065"	"229,573"	2.83%	122.410 sq mi	"1,875 per sq mi"	2410892	33.5665°N 101.8867°W
+237	Downey	California	"112,873"	"111,772"	0.99%	12.408 sq mi	"9,008 per sq mi"	2410352	33.9382°N 118.1309°W
+201	Elizabeth	New Jersey	"126,458"	"124,969"	1.19%	12.319 sq mi	"10,144 per sq mi"	885205	40.6663°N 74.1935°W
+118	Little Rock	Arkansas	"196,537"	"193,524"	1.56%	119.200 sq mi	"1,624 per sq mi"	2404939	34.7254°N 92.3586°W
+221	Athens[28]	Georgia	"118,999"	"115,452"	3.07%	116.355 sq mi	992 per sq mi	2407405	33.9496°N 83.3701°W
+142	Port St. Lucie	Florida	"168,716"	"164,603"	2.50%	113.953 sq mi	"1,444 per sq mi"	2404558	27.2810°N 80.3838°W
+53	Tampa	Florida	"347,645"	"335,709"	3.56%	113.409 sq mi	"3,077 per sq mi"	2405568	27.9701°N 82.4797°W
+34	Fresno	California	"505,882"	"494,665"	2.27%	111.957 sq mi	"4,418 per sq mi"	2410546	36.7827°N 119.7945°W
+124	Salt Lake City	Utah	"189,314"	"186,440"	1.54%	111.110 sq mi	"1,678 per sq mi"	2411771	40.7785°N 111.9314°W
+135	Jackson	Mississippi	"175,437"	"173,514"	1.11%	111.046 sq mi	"1,563 per sq mi"	2404779	32.3158°N 90.2128°W
+74	Fort Wayne	Indiana	"254,555"	"253,691"	0.34%	110.618 sq mi	"2,293 per sq mi"	2394798	41.0882°N 85.1439°W
+205	Charleston	South Carolina	"125,583"	"120,083"	4.58%	108.979 sq mi	"1,102 per sq mi"	2404030	32.8179°N 79.9589°W
+71	Henderson	Nevada	"265,679"	"257,729"	3.08%	107.732 sq mi	"2,392 per sq mi"	2410741	36.0122°N 115.0375°W
+83	Durham	North Carolina	"239,358"	"228,330"	4.83%	107.370 sq mi	"2,127 per sq mi"	2403521	35.9810°N 78.9056°W
+223	Abilene	Texas	"118,887"	"117,063"	1.56%	106.793 sq mi	"1,096 per sq mi"	2409657	32.4545°N 99.7381°W
+156	Palmdale	California	"155,650"	"152,750"	1.90%	105.961 sq mi	"1,442 per sq mi"	2411359	34.5913°N 118.1090°W
+215	Surprise	Arizona	"121,287"	"117,517"	3.21%	105.747 sq mi	"1,111 per sq mi"	2412016	33.6706°N 112.4527°W
+147	Cape Coral	Florida	"161,248"	"154,305"	4.50%	105.673 sq mi	"1,460 per sq mi"	2403990	26.6431°N 81.9973°W
+109	Shreveport	Louisiana	"201,867"	"199,311"	1.28%	105.375 sq mi	"1,891 per sq mi"	2405463	32.4670°N 93.7927°W
+180	Savannah	Georgia	"142,022"	"136,286"	4.21%	103.151 sq mi	"1,321 per sq mi"	2405429	32.0025°N 81.1536°W
+89	Reno	Nevada	"231,027"	"225,221"	2.58%	103.009 sq mi	"2,186 per sq mi"	2410923	39.4745°N 119.7765°W
+77	Orlando	Florida	"249,562"	"238,300"	4.73%	102.395 sq mi	"2,327 per sq mi"	2404443	28.4159°N 81.2988°W
+95	North Las Vegas	Nevada	"223,491"	"216,961"	3.01%	101.345 sq mi	"2,141 per sq mi"	2411273	36.2830°N 115.0893°W
+125	Tallahassee	Florida	"186,971"	"181,376"	3.08%	100.247 sq mi	"1,809 per sq mi"	2405563	30.4551°N 84.2534°W
+232	Berkeley	California	"115,403"	"112,580"	2.51%	10.470 sq mi	"10,752 per sq mi"	2409837	37.8667°N 122.2991°W
+63	Anchorage	Alaska	"298,610"	"291,826"	2.32%	"1,704.683 sq mi"	171 per sq mi	2419025	61.2176°N 149.8953°W
+278	North Charleston	South Carolina	"101,989"	"97,471"	4.64%				32.8853°N 80.0169°W
+280	Boulder	Colorado	"101,808"	"97,385"	4.54%				40.0175°N 105.2797°W
+289	Kenosha	Wisconsin	"100,150"	"99,218"	0.94%				42.5822°N 87.8456°W

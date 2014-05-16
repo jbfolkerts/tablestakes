@@ -63,21 +63,25 @@ describe "Table" do
   
   describe ".where" do
     let(:t) { FactoryGirl.build(:table) }
+    let(:cities) { Table.new('cities.txt') }
     
     it "returns an instance of Table" do
-      expect(t.where("Records", "<3")).to be_a(Table)
+      expect(t.where("Records", "< '3'")).to be_a(Table)
     end
-    it "selects rows that meet the given condition" do
-      expect(t.where("Records", "==3").count("Records", "3")).to eq(2)
+    #it "selects rows that equal an integer" do
+    #  expect(t.where("Records", "==3").count).to eq(2)
+    #end
+    it "selects rows that equal a string" do
+      expect(cities.where("State", "=='Texas'").count).to eq(32)
     end
     it "does not select rows that do not meet the given condition" do
-      expect(t.where("Records", "==3").count("Records", 1)).to eq(0)
+      expect(t.where("Records", "=='3'").count("Records", 1)).to eq(0)
     end
     it "returns all rows when no condition is specified" do
       expect(t.where("Records").count).to eq(3)
     end
     it "returns nil when the given condition is not met" do
-      expect(t.where("Records", "<0")).to be_nil
+      expect(t.where("Records", "< '0'")).to be_nil
     end
   end
   
@@ -98,6 +102,52 @@ describe "Table" do
     end
   end
   
+  describe ".join" do
+    let(:cities) { Table.new('cities.txt') }
+    let(:capitals)  { Table.new('capitals.txt') }
+    
+    it "returns an instance of Table" do
+      expect(capitals.join(cities, "State")).to be_a(Table)
+    end
+    it "returns only the rows that match" do
+      expect(capitals.join(cities, "State").count).to eq(46)
+    end
+    it "does not return rows that do not match" do
+      expect(capitals.join(cities, "State").count("State","West Virginia")).to be_nil
+    end
+    it "returns nil when the given arguments don't match a column" do
+      expect(capitals.join(cities, "Silly")).to be_nil
+    end
+  end
+  
+  describe ".sub" do
+    let (:cities) { Table.new('cities.txt') }
+    
+    it "returns an instance of Table" do
+      expect(cities.sub("State", /Jersey/, "York")).to be_a(Table)
+    end
+    it "substitutes the values in a given field" do
+      expect((cities.sub("State", /Jersey/, "York")).count("State", "New York")).to eq(9)
+    end
+    it "returns nil when the given arguments don't match a column" do
+      expect(cities.sub("Silly", /NJ/, "NY")).to be_nil
+    end
+  end
+  
+  describe ".sub!" do
+    let (:cities) { Table.new('cities.txt') }
+    
+    it "returns the same instance of Table" do
+      expect(cities.sub!("State", /Carolina/, "Dakota")).to be_equal(cities)
+    end
+    it "substitutes the values in a given field" do
+      expect((cities.sub!("State", /Jersey/, "York")).count("State", "New York")).to eq(cities.count("State", "New York"))
+    end
+    it "returns nil when the given arguments don't match a column" do
+      expect(cities.sub!("Silly", /NJ/, "NY")).to be_nil
+    end
+  end
+
   describe ".sort" do
     let(:t) { FactoryGirl.build(:table) }
     

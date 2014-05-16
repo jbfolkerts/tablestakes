@@ -12,4 +12,5 @@ FactoryGirl.define do
     
     initialize_with { Table.new(rows) }
   end
+
 end

@@ -28,6 +28,8 @@ class Table
     elsif input.respond_to?(:upcase)
       # a string, then read_file
       read_file(input)
+    elsif input.respond_to?(:headers)
+      init(input)
     end
     # else create empty table
   end
@@ -141,9 +143,9 @@ class Table
   # Params:
   # +colname+:: +String+ to identify the column to tally
   def tally(colname)
-    unless @table.has_key?(colname)
-      return nil
-    end
+    # check arguments
+    return nil unless @table.has_key?(colname)
+
     result = {}
     @table[colname].each do |val|
       unless result.has_key?(val)
@@ -184,23 +186,81 @@ class Table
   # +colname+:: +String+ to identify the column to tally
   # +condition+:: +String+ containing a ruby condition to evaluate
   def where(colname, condition=nil)
-    if @table.has_key?(colname)
-      result = []
-      result << @headers
-      @table[colname].each_index do |index|
-        if condition
-          eval("#{@table[colname][index]} #{condition}") ? result << get_row(index) : nil
-        else
-          result << get_row(index)
-        end
+    # check arguments
+    return nil unless @table.has_key?(colname)
+
+    result = []
+    result << @headers
+    @table[colname].each_index do |index|
+      if condition
+        eval("'#{@table[colname][index]}' #{condition}") ? result << get_row(index) : nil
+      else
+        result << get_row(index)
       end
-      result.length > 1 ? Table.new(result) : nil
-    else
-      return nil
     end
+    result.length > 1 ? Table.new(result) : nil
   end
 
+  # Given a second table to join against, and a field/column, return a +Table+
+  # contains the inner join of the two tables. 
+  # Returns nil if the column is not found.
+  # Params:
+  # +table2+:: +Table+ to identify the secondary table in the join
+  # +colname+:: +String+ to identify the column to join on
+  # +col2name+:: OPTIONAL +String+ to identify the column in the second table to join on
+  def join(table2, colname, col2name=nil)
+    # check arguments
+    raise ArgumentError, "Invalid table!" unless table2.is_a(Table)
+    return nil unless @table.has_key?(colname)
+    return nil unless table2.table.has_key?(col2name)
 
+  end
+  
+  # Given a field/column, and a regular expression to match against, and a replacement string,
+  # return a new table that globally substitutes the column data with the replacement string.
+  # Returns nil if the column is not found.
+  # Params:
+  # +colname+:: +String+ to identify the column to join on
+  # +re+:: +Regexp+ to match the value in the selected column
+  # +replace+:: +String+ to specify the replacement text for the given +Regexp+
+  def sub(colname, re, replace)
+    # check arguments
+    raise ArgumentError, "No regular expression to match against" unless re
+    raise ArgumentError, "No replacement string specified" unless replace
+    return nil unless @table.has_key?(colname)
+    
+    result = Table.new(self)
+    col = result.table[colname]
+    col.each do |item|
+      item.sub!(re, replace)
+    end
+    result.table[colname] = col
+    return result
+  end
+
+  # Given a field/column, and a regular expression to match against, and a replacement string,
+  # update the table such that it substitutes the column data with the replacement string.
+  # Returns nil if the column is not found.
+  # Params:
+  # +colname+:: +String+ to identify the column to join on
+  # +re+:: +Regexp+ to match the value in the selected column
+  # +replace+:: +String+ to specify the replacement text for the given +Regexp+
+  def sub!(colname, re, replace)
+    # check arguments
+    raise ArgumentError, "No regular expression to match against" unless re
+    raise ArgumentError, "No replacement string specified" unless replace
+    return nil unless @table.has_key?(colname)
+    
+    #result = @table[colname]
+    #result.each do |item|
+    @table[colname].each do |item|
+      item.sub!(re, replace)
+    end
+    #@table[colname] = result
+    return self
+  end
+  
+  
   # Write a representation of the Table object to a file (tab delimited).
   # Params:
   # +filename+:: +String+ to identify the name of the file to write
@@ -240,7 +300,7 @@ class Table
       end
     end
   end
-  
+    
   def get_row(index)
     result = []
     @headers.each do |col|
@@ -249,4 +309,25 @@ class Table
     return result
   end
   
+  def get_col(colname)
+    result = []
+    @table[colname].each {|e| result << e }
+  end
+  
+  def copy
+    result = []
+    result << @headers
+    @table[@headers.first].each_index do |index|
+      result << get_row(index)
+    end
+    result.length > 1 ? Table.new(result) : Table.new()
+  end
+  
+  def init(table)
+    @headers = table.headers.map {|x| x }
+    @headers.each do |key|
+      @table[key] = table.table[key].map {|x| x }
+    end
+    @indices = {}
+  end
 end
