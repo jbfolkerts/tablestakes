@@ -51,13 +51,13 @@ describe "Table" do
     let(:t) { FactoryGirl.build(:table) }
     
     it "returns a hash" do
-      expect(t.tally("Address")).to be_a(Hash)
+      expect(t.tally("Address")).to be_a(Table)
     end
     it "returns nil if the column is not found" do
       expect(t.tally("Silly")).to be_nil
     end
     its "returns a set of keys matched to headers" do
-      expect(t.tally("Address").each_value.reduce(:+)).to eq(t.table["Address"].length)
+      expect(t.tally("Address").column("Count").each.reduce(:+)).to eq(t.column("Address").length)
     end
   end
   
@@ -110,10 +110,16 @@ describe "Table" do
       expect(capitals.join(cities, "State")).to be_a(Table)
     end
     it "returns only the rows that match" do
-      expect(capitals.join(cities, "State").count).to eq(46)
+      expect(capitals.join(cities, "State").count).to eq(45)
+    end
+    it "returns the correct rows when tables have matching column names" do
+      expect((capitals.join(cities, "State").headers.select { |v| v =="State" }).size).to eq(1)
+    end
+    it "returns the correct headers when tables do not have matching column names" do
+      expect(cities.join(capitals, "City", "Capital").headers).to eq(cities.headers + capitals.headers - ["Capital"] )
     end
     it "does not return rows that do not match" do
-      expect(capitals.join(cities, "State").count("State","West Virginia")).to be_nil
+      expect(capitals.join(cities, "State").count("State","West Virginia")).to eq(0)
     end
     it "returns nil when the given arguments don't match a column" do
       expect(capitals.join(cities, "Silly")).to be_nil
@@ -134,20 +140,6 @@ describe "Table" do
     end
   end
   
-  describe ".sub!" do
-    let (:cities) { Table.new('cities.txt') }
-    
-    it "returns the same instance of Table" do
-      expect(cities.sub!("State", /Carolina/, "Dakota")).to be_equal(cities)
-    end
-    it "substitutes the values in a given field" do
-      expect((cities.sub!("State", /Jersey/, "York")).count("State", "New York")).to eq(cities.count("State", "New York"))
-    end
-    it "returns nil when the given arguments don't match a column" do
-      expect(cities.sub!("Silly", /NJ/, "NY")).to be_nil
-    end
-  end
-
   describe ".sort" do
     let(:t) { FactoryGirl.build(:table) }
     
