@@ -2,7 +2,7 @@
 #
 #
 require 'spec_helper'
-require_relative '../table'
+require_relative '../lib/tablestakes'
 
 
 describe "Table" do
@@ -116,7 +116,7 @@ describe "Table" do
       expect((capitals.join(cities, "State").headers.select { |v| v =="State" }).size).to eq(1)
     end
     it "returns the correct headers when tables do not have matching column names" do
-      expect(cities.join(capitals, "City", "Capital").headers).to eq(cities.headers + capitals.headers - ["Capital"] )
+      expect(cities.join(capitals, "City", "Capital").headers).to eq(cities.headers + capitals.headers )
     end
     it "does not return rows that do not match" do
       expect(capitals.join(cities, "State").count("State","West Virginia")).to eq(0)
@@ -137,6 +137,42 @@ describe "Table" do
     end
     it "returns nil when the given arguments don't match a column" do
       expect(cities.sub("Silly", /NJ/, "NY")).to be_nil
+    end
+  end
+  
+  describe ".union" do
+    let (:cities) { Table.new('cities.txt') }
+    let(:capitals)  { Table.new('capitals.txt') }
+    
+    it "returns an instance of Array" do
+      expect(capitals.union(cities, "Capital", "City")).to be_a(Array)
+    end
+    it "returns instances in table 1, but not in table 2" do
+      expect(capitals.union(cities,"Capital", "City")).to include("Montpelier")
+    end
+    it "returns instances in table 2, but not in table 1" do
+      expect(capitals.union(cities,"Capital", "City")).to include("El Monte")
+    end
+    it "returns nil for invalid values" do
+      expect(capitals.union(cities,"Silly")).to be_nil
+    end
+  end
+  
+  describe ".intersect" do
+    let (:cities) { Table.new('cities.txt') }
+    let(:capitals)  { Table.new('capitals.txt') }
+    
+    it "returns an instance of Array" do
+      expect(capitals.intersect(cities, "Capital", "City")).to be_a(Array)
+    end
+    it "does not return instances in table 1, but not in table 2" do
+      expect(capitals.intersect(cities,"Capital", "City")).not_to include("Montpelier")
+    end
+    it "does not return instances in table 2, but not in table 1" do
+      expect(capitals.intersect(cities,"Capital", "City")).not_to include("El Monte")
+    end
+    it "returns nil for invalid values" do
+      expect(capitals.intersect(cities,"Silly")).to be_nil
     end
   end
   

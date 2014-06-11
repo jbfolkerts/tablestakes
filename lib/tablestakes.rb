@@ -235,21 +235,29 @@ class Table
     end
     t2_col_index = table2.headers.index(col2name)
     return nil unless t2_col_index # is not nil
+
     
-    result = [ self.headers + table2.headers[0..(t2_col_index-1)] \
-              + table2.headers[(t2_col_index+1)..-1]  ]
-    
+    # ensure no duplication of header values
+    table2.headers.each do |h|
+      if @headers.include?(h)
+        update_header(h, '_' << h )
+        if h == colname
+          colname = '_' << colname
+        end
+      end
+    end
+
+    result = [ Array(@headers) + Array(table2.headers) ]
     @table[colname].each_index do |index|
       t2_index = table2.column(col2name).find_index(@table[colname][index])
       unless t2_index.nil?
-        result <<  get_row(index) + table2.row(t2_index)[0..(t2_col_index-1)] \
-              + table2.row(t2_index)[(t2_col_index+1)..-1]
+        result << self.row(index) + table2.row(t2_index)
       end
     end
     if result.length == 1 #no rows selected
       return nil
     else
-      return Table.new(result)
+      return Table.new(result) 
     end
   end
   
@@ -271,6 +279,42 @@ class Table
       item.sub!(re, replace)
     end
     return self
+  end
+
+  # Return the union of columns from different tables, eliminating duplicates.
+  # Return nil if a column is not found.
+  #
+  # +table2+:: +Table+ to identify the secondary table in the union
+  # +colname+:: +String+ to identify the column to union
+  # +col2name+:: OPTIONAL +String+ to identify the column in the second table to union
+  def union(table2, colname, col2name=nil)
+    # check arguments
+    raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
+    return nil unless @table.has_key?(colname)
+    if col2name.nil?   # Assume colname applies for both tables
+      col2name = colname
+    end
+    return nil unless table2.headers.include?(col2name)
+
+    return self.column(colname) | table2.column(col2name)
+  end
+
+  # Return the intersection of columns from different tables, eliminating duplicates.
+  # Return nil if a column is not found.
+  #
+  # +table2+:: +Table+ to identify the secondary table in the intersection
+  # +colname+:: +String+ to identify the column to intersection
+  # +col2name+:: OPTIONAL +String+ to identify the column in the second table to intersection
+  def intersect(table2, colname, col2name=nil)
+    # check arguments
+    raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
+    return nil unless @table.has_key?(colname)
+    if col2name.nil?   # Assume colname applies for both tables
+      col2name = colname
+    end
+    return nil unless table2.headers.include?(col2name)
+
+    return self.column(colname) & table2.column(col2name)
   end
 
   alias :sub! :sub  
@@ -335,6 +379,12 @@ class Table
       result << get_row(index)
     end
     result.length > 1 ? Table.new(result) : Table.new()
+  end
+  
+  def update_header(item, new_item)
+    i = @headers.index(item)    
+    @headers[i] = new_item unless i.nil?
+    @table.fetch(item,nil).nil? ? nil : @table[new_item] = @table[item] 
   end
   
   def init(table)
