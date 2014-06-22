@@ -5,7 +5,7 @@
 # generic table data structure that can be manipulated with
 # methods similar to the way a database table may be manipulated.
 #
-# Author:: J.B. Folkerts  (mailto:jbf@folkerts.us)
+# Author:: J.B. Folkerts  (mailto:jbf@pentambic.com)
 # Copyright:: Copyright (c) 2014 J.B. Folkerts
 # License:: Distributes under the same terms as Ruby
 
@@ -16,6 +16,8 @@
 # serving as the header names. 
 
 class Table
+  # The headers attribute contains the table headers used to reference
+  # columns in the +Table+.  All headers are represented as +String+ types.
   attr_reader :headers
   @headers =[]
   @table = {}
@@ -46,18 +48,22 @@ class Table
     # else create empty +Table+
   end
     
-  # Return a copy of a column from the table, identified by column name
+  # Return a copy of a column from the table, identified by column name.
+  # Returns +nil+ if column name not found.
   # 
   # +colname+:: +String+ to identify the name of the column
   def column(colname)
+    # check arguments
+    return nil unless @table.has_key?(colname)
+
     Array(@table[colname])
   end
   
   # Return a copy of a row from the table as an +Array+, given an index
-  # (i.e. row number).
+  # (i.e. row number). Returns empty Array if the index is out of bounds.
   # 
   # +index+:: +FixNum+ indicating index of the row.
-  def row(index)
+  def row(index)    
     Array(get_row(index))
   end
   
@@ -121,6 +127,22 @@ class Table
     end
     result
   end
+  
+  # Converts a +Table+ object to an array of arrays (each row)
+  # 
+  # none
+  def to_a
+    result = [ Array(@headers) ]
+    
+    @table[@headers.first].length.times do |row|
+      items = []
+      @headers.each do |col|
+        items << @table[col][row]
+      end
+      result << items
+    end
+    result
+  end
 
   # Counts the number of instances of a particular string, given a column name,
   # and returns an integer >= 0. Returns +nil+ if the column is not found. If
@@ -151,6 +173,31 @@ class Table
   alias :size :count
   alias :length :count
   
+  # Counts the number of instances of a particular string, given a column name,
+  # and returns an integer >= 0. Returns +nil+ if the column is not found. If
+  # no parameters are given, returns the number of rows in the table.
+  # 
+  # +colname+:: +String+ to identify the column to count
+  # +num+:: OPTIONAL +String+ number of values to return
+  def top(colname, num=1)
+    freq = tally(colname).to_a[1..-1].sort_by {|k,v| v }.reverse
+    return Table.new(freq[0..num-1].unshift(["State","Count"]))
+  end
+
+
+  # Counts the number of instances of a particular string, given a column name,
+  # and returns an integer >= 0. Returns +nil+ if the column is not found. If
+  # no parameters are given, returns the number of rows in the table.
+  # 
+  # +colname+:: +String+ to identify the column to count
+  # +num+:: OPTIONAL +String+ number of values to return
+  def bottom(colname, num=1)
+    freq = tally(colname).to_a[1..-1].sort_by {|k,v| v }
+    return Table.new(freq[0..num-1].unshift(["State","Count"]))
+  end
+
+
+
   # Count instances in a particular field/column and return a +Table+ of the results.
   # Returns +nil+ if the column is not found.
   # 
@@ -161,18 +208,21 @@ class Table
 
     result = {}
     @table[colname].each do |val|
-      unless result.has_key?(val)
-        result[val] = self.count(colname, val)
-      end
+      result.has_key?(val) ? result[val] += 1 : result[val] = 1
     end
     return Table.new([[colname,"Count"]] + result.to_a)
   end
 
   # Select columns from the table, given one or more column names. Returns an instance
-  # of +Table+ with the results.  Returns +nil+ if no columns are found.
+  # of +Table+ with the results.  Returns nil if any column is not valid.
   # 
   # +columns+:: Variable +String+ arguments to identify the columns to select
   def select(*columns)
+    # check arguments
+    columns.each do |c|
+      return nil unless @table.has_key?(c)
+    end
+
     result = []
     result_headers = []
     columns.each { |col| @headers.include?(col) ? result_headers << col : nil }
@@ -335,8 +385,10 @@ class Table
     @headers.each {|col| @table.store(col, []) }
     file.each_line do |line|    
       fields = line.chomp.split("\t")
-      @headers.each do |col|
-        @table[col] << fields.shift
+      if fields.length != @headers.length
+        $stderr.write "INVALID NUMBER OF FIELDS: #{fields.join(';')}\n"
+      else    
+        @headers.each { |col|  @table[col] << fields.shift }
       end
     nil
     end
