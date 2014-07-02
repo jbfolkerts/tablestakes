@@ -131,24 +131,58 @@ cities.count   # same as cities.size
 cities.count('State', 'New York') # returns the number of entries that have State=='New York'
 ```
 
+If you want to know the frequency of certain values in your data
+set, there are a couple of methods for selecting the most and 
+least frequent items.
+
+```ruby
+cities.top("State")         # returns the state with the most cities listed
+cities.top("State", 5)      # returns the 5 most frequent states
+cities.bottom("State", 5)   # returns the 5 least frequent states
+```
+
 Additionally, you can create a separate Table object that tallies on a given column
 
 ```ruby
 cities.tally('State')  # returns a Table of States and the number of times they appear
+puts cities.tally('State').to_s # print a table of the frequency that states appear
 ```
 
 
 Updating Data
 -------------
 
-_To be added_
+Sometimes data in a table needs to be cleaned up and modified.  
+the `Table#sub` method provides a way to eliminate common garbage from 
+your data such as stray characters.
 
+```ruby
+cities.sub("2012 land area", /.*sq mi/, '')     # deletes 'sq mi' from the 2012 land area field
+``` 
+
+`Table#sub` takes a regular expression and a substitute string, which 
+gives some flexibility in how data is updated.  Note that this is 
+a method which modifies the table object.
 
 Join, Union, and Intersect
 --------------------------
 
-_To be added_
+Once your tables are read into memory, it is useful to join them
+with other tables or find the common elements.  Tablestakes 
+provides a simple join function as follows
 
+```ruby
+capitals.join(cities, "Capital", "City") # create a table which only contains highly populated Capital cities
+```
+
+You may also need to quickly compare the elements of one column 
+in a table with the elements in another table.  `Table#union` and `Table#intersect` 
+are for that situation.
+
+```ruby
+capitals.union(cities, "Capitals", "Cities")    # returns an array of all cities in both tables
+capitals.intersect(cities, "Capitals", "Cities") # returns an array of only the cities in both tables
+```
 
 Interacting with your Data
 --------------------------
@@ -156,30 +190,23 @@ Interacting with your Data
 Typically, you can accomplish your goals with chained queries of the datatable.  Here
 are some examples:
 
-1.  Create a new table by reading it from a file
-
-    ```ruby
-    cities = Table.new('cities.txt')
-    capitals = Table.new('capitals.txt')
-    ```
-    
-2.  Find all of the cities in New York
+1.  Find all of the cities in New York
 
     ```ruby
     ny_cities = cities.where("State", "== 'New York'")
     ```
     
-3.  Find all of the capitals which are not in the set of most populated cities
+2.  Find all of the capitals which are not in the set of most populated cities
 
     ```ruby
     small_caps = capitals.column("Capital") - capitals.join(cities, 'Capital', 'City').column('Capital')
     ```
     
-4.  Read a file, select the columns and rows you want, and write the subtable as a tab-delimited
+3.  Read a file, select the columns and rows you want, and write the subtable as a tab-delimited
 file.
     
     ```ruby
-    Table.new('cities.txt').select('City','State','2012 Population').where('2012 Population',".to_i > 1000000").write_file('big_cities.txt')
+    Table.new('cities.txt').select('City','State','2012 estimate').where('2012 estimate', ".to_i > 1000000").write_file('big_cities.txt')
     ```
     
 Some methods, such as `Table#row` and `Table#column` return Arrays, and of course these are
