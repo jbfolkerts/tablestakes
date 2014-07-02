@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
     s.name      = 'tablestakes'
-    s.version   = '0.8.1'
-    s.date      = '2014-06-10'
+    s.version   = '0.8.2'
+    s.date      = '2014-07-02'
     s.summary   = 'Implementation of in-memory Tables'
     s.description = 'A simple implementation of Tables, for use in summing, joining, slicing and dicing data tables'
     s.authors   = ['J.B. Folkerts']
