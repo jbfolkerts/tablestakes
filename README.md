@@ -212,4 +212,3 @@ file.
 Some methods, such as `Table#row` and `Table#column` return Arrays, and of course these are
 readily modified using their own native methods.
 
-
