@@ -204,7 +204,7 @@ are some examples:
     
 3.  Read a file, select the columns and rows you want, and write the subtable as a tab-delimited
 file.
-    
+     
     ```ruby
     Table.new('cities.txt').select('City','State','2012 estimate').where('2012 estimate', ".to_i > 1000000").write_file('big_cities.txt')
     ```
