@@ -176,18 +176,4 @@ describe "Table" do
     end
   end
   
-  describe ".sort" do
-    let(:t) { FactoryGirl.build(:table) }
-    
-    it "returns an instance of Table" do
-    end
-    it "returns nil if the given column does not exist" do
-    end
-    it "returns a Table sorted by string if the column is a string" do
-    end
-    it "returns a Table sorted by integer if the column is an integer" do
-    end
-    it "returns a Table sorted by date if the column is a date" do
-    end
-  end
 end

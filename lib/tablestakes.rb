@@ -67,48 +67,6 @@ class Table
     Array(get_row(index))
   end
   
-  # Converts a Column in the table to a +Date+ type.
-  # Returns +nil+ if the column is not found.
-  # 
-  # +colname+:: +String+ to identify the column to convert
-  def to_date(colname)
-    if @table.has_key?(colname) == false
-      return nil
-    else
-      @table[colname].length.times do |row|
-        @table[colname][row] = Time.parse(@table[colname][row])
-      end
-    end    
-  end
-
-  # Converts a Column in the table to an +Integer+ type.
-  # Returns +nil+ if the column is not found.
-  # 
-  # +colname+:: +String+ to identify the column to convert
-  def to_i(colname)
-    if @table.has_key?(colname) == false
-      return nil
-    else
-      @table[colname].length.times do |row|
-        @table[colname][row] = @table[colname][row].to_i
-      end
-    end    
-  end
-
-  # Sort a +Table+, given a column name.  Uses default sorting
-  # precedence.  Recognizes Date and Integer values.
-  # Returns +nil+ if the column is not found.
-  # 
-  # +colname+:: +String+ to identify the column to sort by
-  def sort(colname)
-  #convert to int (if possible)
-  #convert to date (if possible)
-  
-  #sort entire table based on values in colname
-
-  end
-  alias :sort_by :sort
-  
   # Converts a +Table+ object to a tab-delimited string.
   # 
   # none

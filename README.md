@@ -83,33 +83,33 @@ Selecting your data happens in two dimensions - rows and columns.  First, you
 can create an ordered Array of a row or column just by asking for it by header name.
 
 ```ruby
-cities.column('State') # returns ["Texas", "Tennessee", "California", ...]
+cities.column('State')     # returns ["Texas", "Tennessee", "California", ...]
 ```
 
 If you're uncertain of your header names, they are accessible as an Array via the
 `Table#headers` method.
 
 ```ruby
-cities.headers # returns ["2012 rank", "City", "State", ...]
+cities.headers    # returns ["2012 rank", "City", "State", ...]
 ```
 
 Rows can be returned when a numeric index is known.  To return the first data row:
 
 ```ruby
-cities.row(0) # returns ["119", "Amarillo", "Texas", "195250", "190695", ...]
+cities.row(0)     # returns ["119", "Amarillo", "Texas", "195250", "190695", ...]
 ```
 
 Table columns can be selected specifically with the `Table#select` method:
 
 ```ruby
-cities.select("City", "State", "2010 Census") # returns a table with only those columns
+cities.select("City", "State", "2010 Census")    # returns a table with only those columns
 ```
 
 In order to select rows, use `Table#where`, which allows you to select rows given a ruby
 statement to be evaluated against a given value in a column.  For instance:
 
 ```ruby
-cities.where("State", "=~ /^N.*/") # returns a sub-table of cities in states that begin with 'N'
+cities.where("State", "=~ /^N.*/")    # returns a sub-table of cities in states that begin with 'N'
 ```
 
 Use single quotes when comparing your column value to a string.  Also, note that all
@@ -172,7 +172,7 @@ with other tables or find the common elements.  Tablestakes
 provides a simple join function as follows
 
 ```ruby
-capitals.join(cities, "Capital", "City") # create a table which only contains highly populated Capital cities
+capitals.join(cities, "Capital", "City")    # create a table which only contains highly populated Capital cities
 ```
 
 You may also need to quickly compare the elements of one column 
@@ -180,8 +180,8 @@ in a table with the elements in another table.  `Table#union` and `Table#interse
 are for that situation.
 
 ```ruby
-capitals.union(cities, "Capitals", "Cities")    # returns an array of all cities in both tables
-capitals.intersect(cities, "Capitals", "Cities") # returns an array of only the cities in both tables
+capitals.union(cities, "Capitals", "Cities")       # returns an array of all cities in both tables
+capitals.intersect(cities, "Capitals", "Cities")   # returns an array of only the cities in both tables
 ```
 
 Interacting with your Data
@@ -211,5 +211,4 @@ file.
     
 Some methods, such as `Table#row` and `Table#column` return Arrays, and of course these are
 readily modified using their own native methods.
-
 
