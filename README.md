@@ -7,7 +7,7 @@ Tablestakes
 Tablestakes is a gem for processing tabular data.  It is for people who would rather not meddle with
 a spreadsheet, or load their data into a SQL database.  You get the instant gratification of being
 able to read a tab-delimited file, with header values, and then do field counts, field modifications, 
-selections, joins, and sorts to your heart's content. Tablestakes operates only in memory, so it
+selections, joins to your heart's content. Tablestakes operates only in memory, so it
 is fast.  Of course that also means that there are some size limitations -- very large tables
 should be processed with another library.
 
@@ -24,8 +24,6 @@ Contents
 
 How to Install
 --------------
-
-Tablestakes also does well in the IRB interactive shell, you can make use of:
 
 1.  Install the gem
 
@@ -45,14 +43,13 @@ Now you're ready to start slicing and dicing your data tables!
 Philosophy and Conventions
 --------------------------
 
-Tablestakes is meant to be fast and easy for manipulating your data. It maintains ruby
-conventions, like use of Enumerators, method chaining, and mostly non-destructive methods.
+Tablestakes is meant to be fast and easy for manipulating your data. It maintains Ruby
+conventions, like method chaining and mostly non-destructive methods.
 
 Tablestakes tables also maintain some conventions for simplicity:
 
 * Table column names are always the values in the first row of your data file.
-* Fields in the table are always strings (although you can treat them as numbers or dates
-when needed).
+* Fields in the table are always strings (conversion to numbers or dates is a potential enhancement).
 * Methods only modify one dimension at a time.  So, for instance, `Table#select` only selects
 columns and `Table#where` only selects rows. Chain them together for the desired effect.
 * Tables are ordered, both columns and rows, until modified.
@@ -216,3 +213,13 @@ file.
 Some methods, such as `Table#row` and `Table#column` return Arrays, and of course these are
 readily modified using their own native methods.
 
+Future Enhancements
+-------------------
+
+Some future enhancements that would make this gem better include:
+
+1.  Implement Ruby Enumerators
+
+2.  Include some concept of data type ... at least FixedNum and Date. 
+
+3.  `Table#sort` method -- probably requires enumerators and data types to be effective.

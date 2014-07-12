@@ -67,6 +67,54 @@ class Table
     Array(get_row(index))
   end
   
+  # Add a column to the Table. Returns nil if the column name is already taken 
+  # or there are not the correct number of values.
+  #
+  # +colname+:: +String+ to identify the name of the column
+  # +column_vals+:: +Array+ to hold the column values
+  def add_column(colname, column_vals)
+    # check arguments
+    return nil if @table.has_key?(colname)
+    return nil unless column_vals.length == @table[@headers.first].length
+
+    @headers << colname
+    @table[colname] = Array.new(column_vals)
+  end
+
+  # Add a row to the Table, appending it to the end. Returns nil if 
+  # there are not the correct number of values.
+  #
+  # +row_vals+:: +Array+ to hold the row values
+  def add_row(row_vals)
+    add_rows([row_vals])
+  end
+
+  # Delete a column from the Table. Returns nil if the column name does not exist. 
+  #
+  # +colname+:: +String+ to identify the name of the column
+  def del_column(colname)
+    # check arguments
+    return nil unless @table.has_key?(colname)
+    
+    @headers.delete(colname)
+    @table.delete(colname)
+  end
+
+  # Delete a row from the Table. Returns nil if 
+  # the row number is not found.
+  #
+  # +rownum+:: +FixNum+ to hold the row number
+  def del_row(rownum)
+    # check arguments
+    return nil unless rownum <= @table[@headers.first].length
+
+    @headers.each do |col|
+      @table[col].delete_at(rownum)
+    end
+
+  end
+
+
   # Converts a +Table+ object to a tab-delimited string.
   # 
   # none
@@ -139,7 +187,7 @@ class Table
   # +num+:: OPTIONAL +String+ number of values to return
   def top(colname, num=1)
     freq = tally(colname).to_a[1..-1].sort_by {|k,v| v }.reverse
-    return Table.new(freq[0..num-1].unshift(["State","Count"]))
+    return Table.new(freq[0..num-1].unshift([colname,"Count"]))
   end
 
 
@@ -151,7 +199,7 @@ class Table
   # +num+:: OPTIONAL +String+ number of values to return
   def bottom(colname, num=1)
     freq = tally(colname).to_a[1..-1].sort_by {|k,v| v }
-    return Table.new(freq[0..num-1].unshift(["State","Count"]))
+    return Table.new(freq[0..num-1].unshift([colname,"Count"]))
   end
 
 
@@ -216,7 +264,7 @@ class Table
     result << @headers
     @table[colname].each_index do |index|
       if condition
-        eval("'#{@table[colname][index]}' #{condition}") ? result << get_row(index) : nil
+        eval(%q["#{@table[colname][index]}"] << "#{condition}") ? result << get_row(index) : nil
       else
         result << get_row(index)
       end
@@ -343,7 +391,9 @@ class Table
     @headers.each {|col| @table.store(col, []) }
     file.each_line do |line|    
       fields = line.chomp.split("\t")
-      if fields.length != @headers.length
+      if fields.length < @headers.length
+        (@headers.length - fields.length).times { fields << "" } 
+      elsif fields.length > @headers.length
         $stderr.write "INVALID NUMBER OF FIELDS: #{fields.join(';')}\n"
       else    
         @headers.each { |col|  @table[col] << fields.shift }
