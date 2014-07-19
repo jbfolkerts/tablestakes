@@ -175,5 +175,48 @@ describe "Table" do
       expect(capitals.intersect(cities,"Silly")).to be_nil
     end
   end
+
+  describe ".top/.bottom" do
+    let (:cities) { Table.new('cities.txt') }
+
+    it "returns a Table" do
+      expect(cities.top("State")).to be_a(Table)
+    end
+    it "returns the top element" do
+      expect(cities.top("State").row(0)[0]).to eq("California")
+    end
+    it "returns the top 10 elements when requested" do
+      expect(cities.top("State", 10).count).to eq(10)
+    end
+    it "returns an ArgumentError when invalid number of elements" do
+      expect(cities.top).to raise_error(ArgumentError)
+    end
+    it "returns the bottom element" do
+      expect(cities.bottom("State").row(0)[1]).to eq("1")
+    end
+  end
+
+  describe ".sort" do
+    let(:test) { Table.new('test.tab') }
+    let(:empty) { Table.new() }
+
+
+    it "returns an instance of Table" do
+      expect(test.sort.row(0)).to eq(["Jerry", "212 Vine", "123-456-7890", "1"])
+    end
+    it "can sort by first element (default)" do
+      expect(test.sort.row(0)).to eq(["Jerry", "212 Vine", "123-456-7890", "1"])
+    end
+    it "can sort by given element" do
+      expect(test.sort("Records").row(0)).to eq(["Jerry", "212 Vine", "123-456-7890", "1"])
+    end
+    it "returns empty Table when given empty Table" do
+      expect(Table.new().sort).to eq(Table.new())
+    end
+    it "accepts a block as input" do
+      expect(test.sort { |a| a.reverse }.row(0)).to eq(["John", "123 Vine", "098-765-4321", "3"])
+    end
+
+  end
   
 end

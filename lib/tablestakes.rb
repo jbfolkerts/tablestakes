@@ -16,8 +16,11 @@
 # serving as the header names. 
 
 class Table
+  include Enumerable
+
   # The headers attribute contains the table headers used to reference
   # columns in the +Table+.  All headers are represented as +String+ types.
+  # 
   attr_reader :headers
   @headers =[]
   @table = {}
@@ -47,14 +50,27 @@ class Table
     end
     # else create empty +Table+
   end
+
+  # Defines an iterator for +Table+ which produces rows of data (headers omitted)
+  # for its calling block.
+  #
+  def each
+    @table[@headers.first].each_index do |row|
+      nextrow = []
+      @headers.each do |col|
+        nextrow << @table[col][row]
+      end
+      yield nextrow
+    end
+  end
     
   # Return a copy of a column from the table, identified by column name.
-  # Returns +nil+ if column name not found.
+  # Returns empty Array if column name not found.
   # 
   # +colname+:: +String+ to identify the name of the column
   def column(colname)
     # check arguments
-    return nil unless @table.has_key?(colname)
+    return Array.new() unless @table.has_key?(colname)
 
     Array(@table[colname])
   end
@@ -121,7 +137,7 @@ class Table
   def to_s
     result = @headers.join("\t") << "\n"
     
-    @table[@headers.first].length.times do |row|
+    @table[@headers.first].each_index do |row|
       @headers.each do |col|
         result << @table[col][row].to_s
         unless col == @headers.last
@@ -262,14 +278,14 @@ class Table
 
     result = []
     result << @headers
-    @table[colname].each_index do |index|
-      if condition
-        eval(%q["#{@table[colname][index]}"] << "#{condition}") ? result << get_row(index) : nil
+    self.each do |row|
+      unless condition.nil?
+        eval(%q["#{row}"] << "#{condition}") ? result << row : nil
       else
-        result << get_row(index)
+        result << row
       end
     end
-    result.length > 1 ? Table.new(result) : nil
+    Table.new(result)
   end
 
   alias :get_rows :where
@@ -421,10 +437,8 @@ class Table
     
   def get_row(index)
     result = []
-    @headers.each do |col|
-      result << @table[col][index].to_s
-    end
-    return result
+    if index >= @table[col].length then return result
+    @headers.each { |col| result << @table[col][index].to_s }
   end
   
   def get_col(colname)
@@ -435,9 +449,7 @@ class Table
   def copy
     result = []
     result << @headers
-    @table[@headers.first].each_index do |index|
-      result << get_row(index)
-    end
+    self.each { |row| result << row }
     result.length > 1 ? Table.new(result) : Table.new()
   end
   
@@ -453,5 +465,23 @@ class Table
       @table[key] = table.table[key].map {|x| x }
     end
     @indices = {}
+  end
+end
+
+
+class TableRow < Array
+  attr_accessor :headers
+  include Comparable
+
+    def <=>(other)
+      if (index >= self.length || index < 0)
+        return nil
+      end
+      if block_given?
+        nil
+      else
+        self.first <=> other.first 
+      end 
+    end
   end
 end
