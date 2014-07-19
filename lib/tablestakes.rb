@@ -82,52 +82,102 @@ class Table
   def row(index)    
     Array(get_row(index))
   end
+
+  # Return true if the Table is empty, false otherwise.
+  # 
+  def empty?
+    @headers.length == 0 && @table.length == 0
+  end
   
-  # Add a column to the Table. Returns nil if the column name is already taken 
+  # Add a column to the Table. Raises ArgumentError if the column name is already taken 
   # or there are not the correct number of values.
   #
   # +colname+:: +String+ to identify the name of the column
   # +column_vals+:: +Array+ to hold the column values
-  def add_column(colname, column_vals)
+  # Examples:
+  #     add_column("Header", [e1, e2, e3])
+  #     add_column(array_including_header)
+  #     add_column("Header", "e1", "e2", ...)
+  def add_column(*args)
+    if args.kind_of? Array
+      args = args.flatten
+      colname = args.shift
+      column_vals = args
+    else
+      raise ArgumentError, "Invalid Arguments to add_column"
+    end
     # check arguments
-    return nil if @table.has_key?(colname)
-    return nil unless column_vals.length == @table[@headers.first].length
-
-    @headers << colname
-    @table[colname] = Array.new(column_vals)
+    raise ArgumentError, "Duplicate Column Name!" if @table.has_key?(colname)
+    unless self.empty?
+      if column_vals.length != @table[@headers.first].length
+        raise ArgumentError, "Number of elements in column does not match existing table"
+      end
+    end
+    append_col(colname, column_vals)    
   end
 
-  # Add a row to the Table, appending it to the end. Returns nil if 
+  # Add one or more rows to the Table, appending it to the end. Raises ArgumentError if 
+  # there are not the correct number of values.  The first row becomes the table headers
+  # if currently undefined.
+  #
+  # +array_of_rows+:: +Array+ of +Arrays+ to hold the rows values
+  # Examples:
+  #     add_rows([ [e1, e2, e3], [e1, e2, e3] ])
+  def add_rows(array_of_rows)
+    array_of_rows.each do |r|
+      add_row(r.clone)
+    end
+    return self
+  end
+
+  # Add a row to the Table, appending it to the end. Raises ArgumentError if 
   # there are not the correct number of values.
   #
-  # +row_vals+:: +Array+ to hold the row values
-  def add_row(row_vals)
-    add_rows([row_vals])
+  # +row+:: +Array+ to hold the row values
+  # Examples:
+  #     add_row([e1, e2, e3])
+  #     add_row("e1", "e2", "e3", ...)
+  def add_row(*row)
+    if row.kind_of? Array
+      row = row.flatten
+    else
+      raise ArgumentError, "Invalid Arguments to add_row"
+    end
+    if @headers.empty?
+        @headers = row
+    else
+      unless row.length == @headers.length
+        raise ArgumentError, "Wrong number of fields in Table input"
+      end
+      append_row(row)
+    end
+    return self
   end
 
-  # Delete a column from the Table. Returns nil if the column name does not exist. 
+  # Delete a column from the Table. Raises ArgumentError if the column name does not exist. 
   #
   # +colname+:: +String+ to identify the name of the column
   def del_column(colname)
     # check arguments
-    return nil unless @table.has_key?(colname)
+    raise ArgumentError, "Column name does not exist!" unless @table.has_key?(colname)
     
     @headers.delete(colname)
     @table.delete(colname)
+    return self
   end
 
-  # Delete a row from the Table. Returns nil if 
+  # Delete a row from the Table. Raises ArgumentError if
   # the row number is not found.
   #
   # +rownum+:: +FixNum+ to hold the row number
   def del_row(rownum)
     # check arguments
-    return nil unless rownum <= @table[@headers.first].length
+    raise ArgumentError, "Row number does not exist!" unless rownum <= @table[@headers.first].length
 
     @headers.each do |col|
       @table[col].delete_at(rownum)
     end
-
+    return self
   end
 
 
@@ -418,34 +468,29 @@ class Table
     end
   end
   
-  def add_rows(array_of_rows)
-    array_of_rows.each do |r|
-      row = r.clone
-      if @headers.empty?
-        @headers = row
-      else
-        unless row.length == @headers.length
-          raise ArgumentError, "Wrong number of fields in Table input"
-        end
-        @headers.each do |col|
-          @table[col] = [] unless @table[col]
-          @table[col] << row.shift
-        end
-      end
-    end
-  end
-    
   def get_row(index)
     result = []
     if index >= @table[col].length then return result
     @headers.each { |col| result << @table[col][index].to_s }
   end
   
+  def append_row(row)
+    @headers.each do |col|
+      @table[col] = [] unless @table[col]
+      @table[col] << row.shift
+    end
+  end  
+
   def get_col(colname)
-    result = []
-    @table[colname].each {|e| result << e }
+    Array.new(@table[colname])
   end
   
+  def append_col(colname, column_vals)
+    @headers << colname
+    @table[colname] = Array.new(column_vals)
+    return self
+  end
+
   def copy
     result = []
     result << @headers

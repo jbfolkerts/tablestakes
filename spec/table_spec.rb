@@ -9,13 +9,13 @@ describe "Table" do
   
   describe ".new" do
     let(:t) { Table.new('test.tab') }
-    let(:s) { Table.new() }
+    let(:empty) { Table.new() }
     
     it "reads a file and create a table" do
       expect(t).to be_a(Table)
     end
     it "creates a table if no file was given" do
-      expect(s).to be_a(Table)
+      expect(empty).to be_a(Table)
     end
     it "errors when the file is not found" do
       expect{Table.new('sillyfile.txt')}.to raise_error(Errno::ENOENT)
@@ -23,6 +23,108 @@ describe "Table" do
 
   end
   
+  describe ".empty?" do
+    let(:test) { Table.new('test.tab') }
+    let(:empty) { Table.new() }
+    
+    it "recognizes an empty table" do
+      expect(empty).to be_empty()
+    end
+    it "recognizes a populated table" do
+      expect(test).not_to be_empty()
+    end
+  end
+
+  describe ".add_column" do
+    let(:test) { FactoryGirl.build(:table) }
+    let(:newcol) { ["A", "B", "C"] }
+    let(:headercol) { ["TestCol", "A", "B", "C"] }
+    let(:empty) { Table.new() }
+
+    it "returns a Table" do
+      expect(test.add_column("TestCol", newcol)).to be_a(Table)
+    end
+    it "adds a column to an empty table" do
+      expect(empty.add_column("TestCol", newcol).headers[0]).to eq("TestCol")
+    end
+    it "adds a column to a populated table" do
+      expect(test.add_column("TestCol", newcol).headers).to include("TestCol")
+    end
+    it "raises an ArgumentError when given a duplicate header" do
+      expect { test.add_column("Name", newcol) }.to raise_error(ArgumentError)
+    end
+    it "raises an ArgumentError when given a column with the wrong length" do
+      expect { test.add_column("Name", newcol << "D") }.to raise_error(ArgumentError)
+    end
+    it "adds a column when given an Array" do
+      expect(test.add_column(headercol).headers).to include("TestCol")      
+    end
+  end
+
+  describe ".del_column" do
+    let(:test) { FactoryGirl.build(:table) }
+    let(:empty) { Table.new() }
+    let(:remaining_headers) { ["Address", "Phone", "Records"] }
+
+    it "returns a Table" do
+      expect(test.del_column("Name")).to be_a(Table)
+    end
+    it "removes the correct column from the Table" do
+      expect(test.del_column("Name").headers).not_to include("Name")
+    end
+    it "retains the other columns from the Table" do
+      expect(test.del_column("Name").headers - remaining_headers).to be_empty
+    end
+    it "raises an ArgumentError when given an invalid header" do
+      expect { test.del_column("Silly") }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe ".add_row(s)" do
+    let(:test) { FactoryGirl.build(:table) }
+    let(:empty) { Table.new() }
+    let(:newheaders) { ["Name", "Address", "Phone", "Records"]}
+    let(:newrow) { ["Phil", "567 Vine", "567-432-1234", "3"] }
+    let(:newrow2) { ["Harry", "57 Maple", "567-555-4321", "2"] }
+
+    it "returns a Table" do
+      expect(test.add_row(newrow)).to be_a(Table)
+    end
+    it "adds a row to a populated table" do
+      expect(test.add_row(newrow).count).to eq(4)
+    end
+    it "adds headers to an empty table" do
+      expect(test.add_row(newheaders).headers.length).to eq(4)
+    end
+    it "raises an ArgumentError when given a row with the wrong length" do
+      expect { test.add_row(newrow << "extra") }.to raise_error(ArgumentError)
+    end
+    it "adds a header and row to an empty table" do
+      expect(empty.add_rows([newheaders] << newrow).headers.length).to eq(4)
+    end
+    it "adds row elements with specified headers to a populated table" do
+      expect(test.add_rows([newrow] << newrow2).count).to eq(5)
+    end
+  end
+
+  describe ".del_row" do
+    let(:test) { FactoryGirl.build(:table) }
+    let(:empty) { Table.new() }
+
+    it "returns a Table" do
+      expect(test.del_row(0)).to be_a(Table)
+    end
+    it "removes the correct row from the Table" do
+      expect(test.del_row(0).column("Name")).not_to include("John")
+    end
+    it "retains the other rows from the Table" do
+      expect(test.del_row(0).column("Name")).to include("Jerry")
+    end
+    it "raises an ArgumentError when given an index that is out of bounds" do
+      expect { test.del_row(10) }.to raise_error(ArgumentError)
+    end
+  end
+
   describe ".count" do
     let(:t) { FactoryGirl.build(:table) }
     
@@ -159,7 +261,7 @@ describe "Table" do
   end
   
   describe ".intersect" do
-    let (:cities) { Table.new('cities.txt') }
+    let(:cities) { Table.new('cities.txt') }
     let(:capitals)  { Table.new('capitals.txt') }
     
     it "returns an instance of Array" do
