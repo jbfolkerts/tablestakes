@@ -55,10 +55,10 @@ class Table
   # for its calling block.
   #
   def each
-    @table[@headers.first].each_index do |row|
+    @table[@headers.first].each_index do |index|
       nextrow = []
       @headers.each do |col|
-        nextrow << @table[col][row]
+        nextrow << @table[col][index].clone
       end
       yield nextrow
     end
@@ -69,10 +69,12 @@ class Table
   # 
   # +colname+:: +String+ to identify the name of the column
   def column(colname)
-    # check arguments
-    return Array.new() unless @table.has_key?(colname)
-
-    Array(@table[colname])
+    # return empty Array if column name not found
+    unless @table.has_key?(colname) 
+      Array.new()
+    else
+      Array(@table[colname])
+    end
   end
   
   # Return a copy of a row from the table as an +Array+, given an index
@@ -92,10 +94,12 @@ class Table
   # Add a column to the Table. Raises ArgumentError if the column name is already taken 
   # or there are not the correct number of values.
   #
+  # ==== Attributes
   # +colname+:: +String+ to identify the name of the column
   # +column_vals+:: +Array+ to hold the column values
-  # Examples:
-  #     add_column("Header", [e1, e2, e3])
+  #
+  # ==== Examples
+  #     cities.add_column("Header", [e1, e2, e3])
   #     add_column(array_including_header)
   #     add_column("Header", "e1", "e2", ...)
   def add_column(*args)
@@ -120,9 +124,11 @@ class Table
   # there are not the correct number of values.  The first row becomes the table headers
   # if currently undefined.
   #
+  # ==== Attributes
   # +array_of_rows+:: +Array+ of +Arrays+ to hold the rows values
-  # Examples:
-  #     add_rows([ [e1, e2, e3], [e1, e2, e3] ])
+  #
+  # ==== Examples
+  #     cities.add_rows([ ["New York", "NY"], ["Austin", "TX"] ])
   def add_rows(array_of_rows)
     array_of_rows.each do |r|
       add_row(r.clone)
@@ -133,10 +139,15 @@ class Table
   # Add a row to the Table, appending it to the end. Raises ArgumentError if 
   # there are not the correct number of values.
   #
+  # ==== Attributes
   # +row+:: +Array+ to hold the row values
-  # Examples:
-  #     add_row([e1, e2, e3])
-  #     add_row("e1", "e2", "e3", ...)
+  #
+  # ==== Examples
+  #     # create empty table with headers h1, h2, h3
+  #     my_table = Table.new.add_row("h1", "h2", "h3") 
+  #     # Add row with elements e1, e2, e3
+  #     my_table.add_row(["e1", "e2", "e3"])
+  #
   def add_row(*row)
     if row.kind_of? Array
       row = row.flatten
@@ -156,7 +167,11 @@ class Table
 
   # Delete a column from the Table. Raises ArgumentError if the column name does not exist. 
   #
+  # ==== Attributes
   # +colname+:: +String+ to identify the name of the column
+  #
+  # ==== Examples
+  #     my_table.del_column("Header")
   def del_column(colname)
     # check arguments
     raise ArgumentError, "Column name does not exist!" unless @table.has_key?(colname)
@@ -169,7 +184,11 @@ class Table
   # Delete a row from the Table. Raises ArgumentError if
   # the row number is not found.
   #
+  # ==== Attributes
   # +rownum+:: +FixNum+ to hold the row number
+  #
+  # ==== Examples
+  #     my_table.del_row(3)  # deletes the third row
   def del_row(rownum)
     # check arguments
     raise ArgumentError, "Row number does not exist!" unless rownum <= @table[@headers.first].length
@@ -183,13 +202,14 @@ class Table
 
   # Converts a +Table+ object to a tab-delimited string.
   # 
+  # ==== Attributes
   # none
   def to_s
     result = @headers.join("\t") << "\n"
     
-    @table[@headers.first].each_index do |row|
+    @table[@headers.first].each_index do |index|
       @headers.each do |col|
-        result << @table[col][row].to_s
+        result << @table[col][index].to_s
         unless col == @headers.last
           result << "\t"
         else
@@ -202,14 +222,15 @@ class Table
   
   # Converts a +Table+ object to an array of arrays (each row)
   # 
+  # ==== Attributes
   # none
   def to_a
     result = [ Array(@headers) ]
     
-    @table[@headers.first].length.times do |row|
+    @table[@headers.first].each_index do |index|
       items = []
       @headers.each do |col|
-        items << @table[col][row]
+        items << @table[col][index]
       end
       result << items
     end
@@ -220,6 +241,7 @@ class Table
   # and returns an integer >= 0. Returns +nil+ if the column is not found. If
   # no parameters are given, returns the number of rows in the table.
   # 
+  # ==== Attributes
   # +colname+:: OPTIONAL +String+ to identify the column to count
   # +value+:: OPTIONAL +String+ value to count
   def count(colname=nil, value=nil)
@@ -227,9 +249,10 @@ class Table
       if @table.size > 0
         @table.each_key {|e| return @table.fetch(e).length }
       else
-        return nil
+        return 0
       end
     end
+    raise ArgumentError, "Invalid column name" unless @headers.include?(colname)
     
     if @table[colname]
       result = 0
@@ -249,6 +272,7 @@ class Table
   # and returns an integer >= 0. Returns +nil+ if the column is not found. If
   # no parameters are given, returns the number of rows in the table.
   # 
+  # ==== Attributes
   # +colname+:: +String+ to identify the column to count
   # +num+:: OPTIONAL +String+ number of values to return
   def top(colname, num=1)
@@ -261,6 +285,7 @@ class Table
   # and returns an integer >= 0. Returns +nil+ if the column is not found. If
   # no parameters are given, returns the number of rows in the table.
   # 
+  # ==== Attributes
   # +colname+:: +String+ to identify the column to count
   # +num+:: OPTIONAL +String+ number of values to return
   def bottom(colname, num=1)
@@ -273,10 +298,11 @@ class Table
   # Count instances in a particular field/column and return a +Table+ of the results.
   # Returns +nil+ if the column is not found.
   # 
+  # ==== Attributes
   # +colname+:: +String+ to identify the column to tally
   def tally(colname)
     # check arguments
-    return nil unless @table.has_key?(colname)
+    raise ArgumentError, "Invalid column name"  unless @table.has_key?(colname)
 
     result = {}
     @table[colname].each do |val|
@@ -288,29 +314,26 @@ class Table
   # Select columns from the table, given one or more column names. Returns an instance
   # of +Table+ with the results.  Returns nil if any column is not valid.
   # 
+  # ==== Attributes
   # +columns+:: Variable +String+ arguments to identify the columns to select
   def select(*columns)
     # check arguments
     columns.each do |c|
-      return nil unless @table.has_key?(c)
+      raise ArgumentError, "Invalid column name" unless @table.has_key?(c)
     end
 
     result = []
     result_headers = []
     columns.each { |col| @headers.include?(col) ? result_headers << col : nil }
     result << result_headers
-    @table[@headers.first].length.times do |row|
+    @table[@headers.first].each_index do |index|
       this_row = []
       result_headers.each do |col|
-        this_row << @table[col][row]
+        this_row << @table[col][index]
       end
       result << this_row
     end
-    unless result_headers.empty?
-      return Table.new(result)
-    else
-      return nil
-    end
+    result_headers.empty? ? Table.new() : Table.new(result)
   end
   
   alias :get_columns :select
@@ -320,11 +343,12 @@ class Table
   # all records.
   # Returns +nil+ if the condition is not met or the column is not found.
   # 
+  # ==== Attributes
   # +colname+:: +String+ to identify the column to tally
   # +condition+:: OPTIONAL +String+ containing a ruby condition to evaluate
   def where(colname, condition=nil)
     # check arguments
-    return nil unless @table.has_key?(colname)
+    raise ArgumentError, "Invalid Column Name" unless @headers.include?(colname)
 
     result = []
     result << @headers
@@ -334,8 +358,9 @@ class Table
       else
         result << row
       end
+      puts row
     end
-    Table.new(result)
+    result.length > 1 ? Table.new(result) : Table.new()
   end
 
   alias :get_rows :where
@@ -345,6 +370,7 @@ class Table
   # the column name of the first table (if different from the name of thee second).
   # All columns from both tables are returned. Returns +nil+ if the column is not found.
   # 
+  # ==== Attributes
   # +table2+:: +Table+ to identify the secondary table in the join
   # +colname+:: +String+ to identify the column to join on
   # +col2name+:: OPTIONAL +String+ to identify the column in the second table to join on
@@ -388,6 +414,7 @@ class Table
   # update the table such that it substitutes the column data with the replacement string.
   # Returns +nil+ if the column is not found.
   # 
+  # ==== Attributes
   # +colname+:: +String+ to identify the column to join on
   # +re+:: +Regexp+ to match the value in the selected column
   # +replace+:: +String+ to specify the replacement text for the given +Regexp+
@@ -395,7 +422,7 @@ class Table
     # check arguments
     raise ArgumentError, "No regular expression to match against" unless re
     raise ArgumentError, "No replacement string specified" unless replace
-    return nil unless @table.has_key?(colname)
+    raise ArgumentError, "Invalid column name" unless @table.has_key?(colname)
     
     @table[colname].each do |item|
       item.sub!(re, replace)
@@ -404,19 +431,20 @@ class Table
   end
 
   # Return the union of columns from different tables, eliminating duplicates.
-  # Return nil if a column is not found.
+  # Raises an ArgumentError if a column is not found.
   #
+  # ==== Attributes
   # +table2+:: +Table+ to identify the secondary table in the union
   # +colname+:: +String+ to identify the column to union
   # +col2name+:: OPTIONAL +String+ to identify the column in the second table to union
   def union(table2, colname, col2name=nil)
     # check arguments
     raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
-    return nil unless @table.has_key?(colname)
+    raise ArgumentError, "Invalid column name" unless @table.has_key?(colname)
     if col2name.nil?   # Assume colname applies for both tables
       col2name = colname
     end
-    return nil unless table2.headers.include?(col2name)
+    raise ArgumentError, "Invalid column name" unless table2.headers.include?(col2name)
 
     return self.column(colname) | table2.column(col2name)
   end
@@ -424,17 +452,18 @@ class Table
   # Return the intersection of columns from different tables, eliminating duplicates.
   # Return nil if a column is not found.
   #
+  # ==== Attributes
   # +table2+:: +Table+ to identify the secondary table in the intersection
   # +colname+:: +String+ to identify the column to intersection
   # +col2name+:: OPTIONAL +String+ to identify the column in the second table to intersection
   def intersect(table2, colname, col2name=nil)
     # check arguments
     raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
-    return nil unless @table.has_key?(colname)
+    raise ArgumentError, "Invalid column name" unless @table.has_key?(colname)
     if col2name.nil?   # Assume colname applies for both tables
       col2name = colname
     end
-    return nil unless table2.headers.include?(col2name)
+    raise ArgumentError, "Invalid column name" unless table2.headers.include?(col2name)
 
     return self.column(colname) & table2.column(col2name)
   end
@@ -443,6 +472,7 @@ class Table
   
   # Write a representation of the +Table+ object to a file (tab delimited).
   # 
+  # ==== Attributes
   # +filename+:: +String+ to identify the name of the file to write
   def write_file(filename)
     file = File.open(filename, "w")
@@ -470,7 +500,9 @@ class Table
   
   def get_row(index)
     result = []
-    if index >= @table[col].length then return result
+    if index >= @table[col].length
+      return result
+    end 
     @headers.each { |col| result << @table[col][index].to_s }
   end
   
@@ -510,23 +542,5 @@ class Table
       @table[key] = table.table[key].map {|x| x }
     end
     @indices = {}
-  end
-end
-
-
-class TableRow < Array
-  attr_accessor :headers
-  include Comparable
-
-    def <=>(other)
-      if (index >= self.length || index < 0)
-        return nil
-      end
-      if block_given?
-        nil
-      else
-        self.first <=> other.first 
-      end 
-    end
   end
 end

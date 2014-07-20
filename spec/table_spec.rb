@@ -127,7 +127,8 @@ describe "Table" do
 
   describe ".count" do
     let(:t) { FactoryGirl.build(:table) }
-    
+    let(:empty) { Table.new() }
+
     it "counts the number of instances in a column" do
       expect(t.count("Address", "123 Main")).to eq(2)
     end
@@ -136,8 +137,8 @@ describe "Table" do
       expect(t.count).to eq(3)
     end
 
-    it "returns nil if given column is not found" do
-      expect(t.count("Silly", "")).to be_nil
+    it "raises ArgumentError if given column is not found" do
+      expect {t.count("Silly", "") }.to raise_error(ArgumentError)
     end
     
     it "returns zero when instance not found" do
@@ -155,8 +156,8 @@ describe "Table" do
     it "returns a hash" do
       expect(t.tally("Address")).to be_a(Table)
     end
-    it "returns nil if the column is not found" do
-      expect(t.tally("Silly")).to be_nil
+    it "raises ArgumentError if the column is not found" do
+      expect { t.tally("Silly") }.to raise_error(ArgumentError)
     end
     its "returns a set of keys matched to headers" do
       expect(t.tally("Address").column("Count").each.reduce(:+)).to eq(t.column("Address").length)
@@ -199,8 +200,8 @@ describe "Table" do
     it "does not select columns that are not given as arguments" do
       expect((t.select("Name","Address","Records")).headers.include?("Phone")).to be_false
     end
-    it "returns nil when the given arguments don't match a column" do
-      expect(t.select("Silly")).to be_nil
+    it "raise ArgumentError when the given arguments don't match a column" do
+      expect { t.select("Silly") }.to raise_error(ArgumentError)
     end
   end
   
@@ -223,8 +224,8 @@ describe "Table" do
     it "does not return rows that do not match" do
       expect(capitals.join(cities, "State").count("State","West Virginia")).to eq(0)
     end
-    it "returns nil when the given arguments don't match a column" do
-      expect(capitals.join(cities, "Silly")).to be_nil
+    it "raises ArgumentError when the given arguments don't match a column" do
+      expect {capitals.join(cities, "Silly") }.to raise_error(ArgumentError)
     end
   end
   
@@ -237,8 +238,8 @@ describe "Table" do
     it "substitutes the values in a given field" do
       expect((cities.sub("State", /Jersey/, "York")).count("State", "New York")).to eq(9)
     end
-    it "returns nil when the given arguments don't match a column" do
-      expect(cities.sub("Silly", /NJ/, "NY")).to be_nil
+    it "raises ArgumentError when the given arguments don't match a column" do
+      expect {cities.sub("Silly", /NJ/, "NY") }.to raise_error(ArgumentError)
     end
   end
   
@@ -255,8 +256,8 @@ describe "Table" do
     it "returns instances in table 2, but not in table 1" do
       expect(capitals.union(cities,"Capital", "City")).to include("El Monte")
     end
-    it "returns nil for invalid values" do
-      expect(capitals.union(cities,"Silly")).to be_nil
+    it "raises ArgumentError for invalid values" do
+      expect {capitals.union(cities,"Silly") }.to raise_error(ArgumentError)
     end
   end
   
@@ -273,8 +274,8 @@ describe "Table" do
     it "does not return instances in table 2, but not in table 1" do
       expect(capitals.intersect(cities,"Capital", "City")).not_to include("El Monte")
     end
-    it "returns nil for invalid values" do
-      expect(capitals.intersect(cities,"Silly")).to be_nil
+    it "raises ArgumentError for invalid values" do
+      expect {capitals.intersect(cities,"Silly") }.to raise_error(ArgumentError)
     end
   end
 
@@ -291,7 +292,7 @@ describe "Table" do
       expect(cities.top("State", 10).count).to eq(10)
     end
     it "returns an ArgumentError when invalid number of elements" do
-      expect(cities.top).to raise_error(ArgumentError)
+      expect {cities.top }.to raise_error(ArgumentError)
     end
     it "returns the bottom element" do
       expect(cities.bottom("State").row(0)[1]).to eq("1")
