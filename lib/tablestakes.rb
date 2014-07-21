@@ -182,7 +182,7 @@ class Table
   end
 
   # Delete a row from the Table. Raises ArgumentError if
-  # the row number is not found.
+  # the row number is not found
   #
   # ==== Attributes
   # +rownum+:: +FixNum+ to hold the row number
@@ -191,8 +191,9 @@ class Table
   #     my_table.del_row(3)  # deletes the third row
   def del_row(rownum)
     # check arguments
-    raise ArgumentError, "Row number does not exist!" unless rownum <= @table[@headers.first].length
-
+    if self.empty? || rownum >= @table[@headers.first].length
+      raise ArgumentError, "Row number does not exist!" 
+    end
     @headers.each do |col|
       @table[col].delete_at(rownum)
     end
@@ -352,13 +353,12 @@ class Table
 
     result = []
     result << @headers
-    self.each do |row|
-      unless condition.nil?
-        eval(%q["#{row}"] << "#{condition}") ? result << row : nil
+    @table[colname].each_index do |index|
+      if condition
+        eval(%q["#{@table[colname][index]}"] << "#{condition}") ? result << get_row(index) : nil
       else
-        result << row
+        result << get_row(index)
       end
-      puts row
     end
     result.length > 1 ? Table.new(result) : Table.new()
   end
@@ -377,9 +377,11 @@ class Table
   def join(table2, colname, col2name=nil)
     # check arguments
     raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
-    return nil unless @table.has_key?(colname)
+    raise ArgumentError, "Invalid column name" unless @table.has_key?(colname)
     if col2name.nil?   # Assume colname applies for both tables
       col2name = colname
+    else
+      raise ArgumentError, "Invalid column name" unless table2.headers.include?(col2name)
     end
     t2_col_index = table2.headers.index(col2name)
     return nil unless t2_col_index # is not nil
@@ -500,10 +502,11 @@ class Table
   
   def get_row(index)
     result = []
-    if index >= @table[col].length
+    if index >= @table[@headers.first].length
       return result
     end 
     @headers.each { |col| result << @table[col][index].to_s }
+    return result
   end
   
   def append_row(row)

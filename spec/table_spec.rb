@@ -123,6 +123,9 @@ describe "Table" do
     it "raises an ArgumentError when given an index that is out of bounds" do
       expect { test.del_row(10) }.to raise_error(ArgumentError)
     end
+    it "raises an ArgumentError when called on an empty table" do
+      expect { empty.del_row(0) }.to raise_error(ArgumentError)
+    end
   end
 
   describe ".count" do
@@ -143,6 +146,10 @@ describe "Table" do
     
     it "returns zero when instance not found" do
       expect(t.count("Address", "")).to eq(0)
+    end
+
+    it "returns zero on an empty table" do
+      expect(empty.count).to eq(0)
     end
     
     it "changes numeric input to a string" do
@@ -183,8 +190,8 @@ describe "Table" do
     it "returns all rows when no condition is specified" do
       expect(t.where("Records").count).to eq(3)
     end
-    it "returns nil when the given condition is not met" do
-      expect(t.where("Records", "< '0'")).to be_nil
+    it "returns an empty table when the given condition is not met" do
+      expect(t.where("Records", "< '0'")).to be_empty
     end
   end
   
@@ -314,7 +321,7 @@ describe "Table" do
       expect(test.sort("Records").row(0)).to eq(["Jerry", "212 Vine", "123-456-7890", "1"])
     end
     it "returns empty Table when given empty Table" do
-      expect(Table.new().sort).to eq(Table.new())
+      expect(Table.new().sort).to be_empty
     end
     it "accepts a block as input" do
       expect(test.sort { |a| a.reverse }.row(0)).to eq(["John", "123 Vine", "098-765-4321", "3"])
