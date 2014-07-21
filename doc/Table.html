@@ -228,17 +228,26 @@ in the <code>Table</code>.  All headers are represented as
         <div class="method-description">
           
           <p>Instantiate a <code>Table</code> object using a tab-delimited file</p>
+
+<h4 id="method-c-new-label-Attributes">Attributes<span><a href="#method-c-new-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>input</code>
 <dd>
 <p>OPTIONAL <code>Array</code> of rows or <code>String</code> to identify the
 name of the tab-delimited file to read</p>
 </dd></dl>
+
+<h4 id="method-c-new-label-Examples">Examples<span><a href="#method-c-new-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities = Table.new() # empty table
+cities = Table.new([&quot;City&quot;, &quot;State], [&quot;New York&quot;, &quot;NY&quot;], [&quot;Dallas&quot;, &quot;TX&quot;]) # create from Array of rows
+cities = Table.new(&quot;cities.txt&quot;) # read from file
+cities = Table.new(capitals)  # create from table</pre>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 35</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">input</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@headers</span> = []
   <span class="ruby-ivar">@table</span> = {}
@@ -291,28 +300,26 @@ the column name is already taken  or there are not the correct number of
 values.</p>
 
 <h4 id="method-i-add_column-label-Attributes">Attributes<span><a href="#method-i-add_column-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
-<dl class="rdoc-list note-list"><dt><code>colname</code>
+<dl class="rdoc-list note-list"><dt><code>args</code>
 <dd>
-<p><code>String</code> to identify the name of the column</p>
-</dd><dt><code>column_vals</code>
-<dd>
-<p><code>Array</code> to hold the column values</p>
+<p>Array of <code>String</code> to identify the name of the column (see
+examples)</p>
 </dd></dl>
 
 <h4 id="method-i-add_column-label-Examples">Examples<span><a href="#method-i-add_column-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
-<pre>add_column(&quot;Header&quot;, [e1, e2, e3])
-add_column(array_including_header)
-add_column(&quot;Header&quot;, &quot;e1&quot;, &quot;e2&quot;, ...)</pre>
+<pre>cities.add_column(&quot;City&quot;, [&quot;New York&quot;, &quot;Dallas&quot;, &quot;San Franscisco&quot;])
+cities.add_column([&quot;City&quot;,&quot;New York&quot;, &quot;Dallas&quot;, &quot;San Franscisco&quot;])
+cities.add_column(&quot;City&quot;, &quot;New York&quot;, &quot;Dallas&quot;, &quot;San Franscisco&quot;)</pre>
           
           
 
           
           <div class="method-source-code" id="add_column-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 105</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 114</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_column</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Array</span>
-    <span class="ruby-identifier">args</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">flatten</span>
+    <span class="ruby-identifier">args</span>.<span class="ruby-identifier">flatten!</span>
     <span class="ruby-identifier">colname</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>
     <span class="ruby-identifier">column_vals</span> = <span class="ruby-identifier">args</span>
   <span class="ruby-keyword">else</span>
@@ -352,21 +359,23 @@ add_column(&quot;Header&quot;, &quot;e1&quot;, &quot;e2&quot;, ...)</pre>
           
           <p>Add a row to the <a href="Table.html">Table</a>, appending it to the end.
 Raises ArgumentError if  there are not the correct number of values.</p>
+
+<h4 id="method-i-add_row-label-Attributes">Attributes<span><a href="#method-i-add_row-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>row</code>
 <dd>
 <p><code>Array</code> to hold the row values</p>
 </dd></dl>
 
-<p>Examples:</p>
+<h4 id="method-i-add_row-label-Examples">Examples<span><a href="#method-i-add_row-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
-<pre>add_row([e1, e2, e3])
-add_row(&quot;e1&quot;, &quot;e2&quot;, &quot;e3&quot;, ...)</pre>
+<pre>cities = Table.new.add_row( [&quot;City&quot;, &quot;State&quot;] ) # create new Table with headers
+cities.add_row(&quot;New York&quot;, &quot;NY&quot;) # add data row to Table</pre>
           
           
 
           
           <div class="method-source-code" id="add_row-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 146</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 158</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_row</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">row</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Array</span>
     <span class="ruby-identifier">row</span> = <span class="ruby-identifier">row</span>.<span class="ruby-identifier">flatten</span>
@@ -418,13 +427,13 @@ values.  The first row becomes the table headers if currently undefined.</p>
 
 <h4 id="method-i-add_rows-label-Examples">Examples<span><a href="#method-i-add_rows-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
-<pre>add_rows([ [e1, e2, e3], [e1, e2, e3] ])</pre>
+<pre>cities.add_rows([ [&quot;New York&quot;, &quot;NY&quot;], [&quot;Austin&quot;, &quot;TX&quot;] ])</pre>
           
           
 
           
           <div class="method-source-code" id="add_rows-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 132</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 141</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_rows</span>(<span class="ruby-identifier">array_of_rows</span>)
   <span class="ruby-identifier">array_of_rows</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">r</span>.<span class="ruby-identifier">clone</span>)
@@ -454,10 +463,12 @@ values.  The first row becomes the table headers if currently undefined.</p>
 
         <div class="method-description">
           
-          <p>Counts the number of instances of a particular string, given a column name,
-and returns an integer &gt;= 0. Returns <code>nil</code> if the column is
-not found. If no parameters are given, returns the number of rows in the
-table.</p>
+          <p>Returns counts of the least frequent values found in a given column in the
+form of a <a href="Table.html">Table</a>.  Raises ArgumentError if the
+column is not found.  If no limit is given to the number of values, only
+the least frequent value will be returned.</p>
+
+<h4 id="method-i-bottom-label-Attributes">Attributes<span><a href="#method-i-bottom-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>colname</code>
 <dd>
 <p><code>String</code> to identify the column to count</p>
@@ -465,12 +476,17 @@ table.</p>
 <dd>
 <p>OPTIONAL <code>String</code> number of values to return</p>
 </dd></dl>
+
+<h4 id="method-i-bottom-label-Examples">Examples<span><a href="#method-i-bottom-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.bottom(&quot;State&quot;)  # returns a Table with the least frequent state in the cities Table
+cities.bottom(&quot;State&quot;, 10)  # returns a Table with the 10 least frequent states in the cities Table</pre>
           
           
 
           
           <div class="method-source-code" id="bottom-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 273</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 318</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">bottom</span>(<span class="ruby-identifier">colname</span>, <span class="ruby-identifier">num</span>=<span class="ruby-value">1</span>)
   <span class="ruby-identifier">freq</span> = <span class="ruby-identifier">tally</span>(<span class="ruby-identifier">colname</span>).<span class="ruby-identifier">to_a</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>].<span class="ruby-identifier">sort_by</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span> }
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">freq</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">num</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>].<span class="ruby-identifier">unshift</span>([<span class="ruby-identifier">colname</span>,<span class="ruby-string">&quot;Count&quot;</span>]))
@@ -500,6 +516,8 @@ table.</p>
           
           <p>Return a copy of a column from the table, identified by column name.
 Returns empty Array if column name not found.</p>
+
+<h4 id="method-i-column-label-Attributes">Attributes<span><a href="#method-i-column-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>colname</code>
 <dd>
 <p><code>String</code> to identify the name of the column</p>
@@ -509,7 +527,7 @@ Returns empty Array if column name not found.</p>
 
           
           <div class="method-source-code" id="column-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 71</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 80</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">column</span>(<span class="ruby-identifier">colname</span>)
   <span class="ruby-comment"># return empty Array if column name not found</span>
   <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>) 
@@ -545,6 +563,8 @@ Returns empty Array if column name not found.</p>
 and returns an integer &gt;= 0. Returns <code>nil</code> if the column is
 not found. If no parameters are given, returns the number of rows in the
 table.</p>
+
+<h4 id="method-i-count-label-Attributes">Attributes<span><a href="#method-i-count-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>colname</code>
 <dd>
 <p>OPTIONAL <code>String</code> to identify the column to count</p>
@@ -552,18 +572,25 @@ table.</p>
 <dd>
 <p>OPTIONAL <code>String</code> value to count</p>
 </dd></dl>
+
+<h4 id="method-i-count-label-Examples">Examples<span><a href="#method-i-count-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.count  # returns number of rows in cities Table
+cities.size   # same as cities.count
+cities.length # same as cities.count
+cities.count(&quot;State&quot;, &quot;NY&quot;)  # returns the number of rows with State == &quot;NY&quot;</pre>
           
           
 
           
           <div class="method-source-code" id="count-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 231</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 264</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">count</span>(<span class="ruby-identifier">colname</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">value</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">colname</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-keyword">if</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
       <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">each_key</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-keyword">return</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">e</span>).<span class="ruby-identifier">length</span> }
     <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> 
+      <span class="ruby-keyword">return</span> <span class="ruby-value">0</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">colname</span>)
@@ -607,16 +634,22 @@ table.</p>
           
           <p>Delete a column from the <a href="Table.html">Table</a>. Raises
 ArgumentError if the column name does not exist.</p>
+
+<h4 id="method-i-del_column-label-Attributes">Attributes<span><a href="#method-i-del_column-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>colname</code>
 <dd>
 <p><code>String</code> to identify the name of the column</p>
 </dd></dl>
+
+<h4 id="method-i-del_column-label-Examples">Examples<span><a href="#method-i-del_column-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.del_column(&quot;State&quot;) # returns table without &quot;State&quot; column</pre>
           
           
 
           
           <div class="method-source-code" id="del_column-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 166</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 182</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">del_column</span>(<span class="ruby-identifier">colname</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Column name does not exist!&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>)
@@ -649,21 +682,29 @@ ArgumentError if the column name does not exist.</p>
         <div class="method-description">
           
           <p>Delete a row from the <a href="Table.html">Table</a>. Raises ArgumentError
-if the row number is not found.</p>
+if the row number is not found</p>
+
+<h4 id="method-i-del_row-label-Attributes">Attributes<span><a href="#method-i-del_row-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>rownum</code>
 <dd>
 <p><code>FixNum</code> to hold the row number</p>
 </dd></dl>
+
+<h4 id="method-i-del_row-label-Examples">Examples<span><a href="#method-i-del_row-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.del_row(3)  # deletes row with index 3 (4th row)
+cities.del_row(-1) # deletes last row (per Ruby convention)</pre>
           
           
 
           
           <div class="method-source-code" id="del_row-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 179</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 200</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">del_row</span>(<span class="ruby-identifier">rownum</span>)
   <span class="ruby-comment"># check arguments</span>
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Row number does not exist!&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">rownum</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-ivar">@table</span>[<span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">first</span>].<span class="ruby-identifier">length</span>
-
+  <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">rownum</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-ivar">@table</span>[<span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">first</span>].<span class="ruby-identifier">length</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Row number does not exist!&quot;</span> 
+  <span class="ruby-keyword">end</span>
   <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">col</span><span class="ruby-operator">|</span>
     <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">col</span>].<span class="ruby-identifier">delete_at</span>(<span class="ruby-identifier">rownum</span>)
   <span class="ruby-keyword">end</span>
@@ -699,7 +740,7 @@ if the row number is not found.</p>
 
           
           <div class="method-source-code" id="each-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 57</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">each</span>
   <span class="ruby-ivar">@table</span>[<span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">first</span>].<span class="ruby-identifier">each_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">nextrow</span> = []
@@ -739,7 +780,7 @@ otherwise.</p>
 
           
           <div class="method-source-code" id="empty-3F-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 90</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 100</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">empty?</span>
   <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
@@ -822,8 +863,10 @@ otherwise.</p>
 
         <div class="method-description">
           
-          <p>Return the intersection of columns from different tables, eliminating
-duplicates. Return nil if a column is not found.</p>
+          <p>Return an Array with the intersection of columns from different tables,
+eliminating duplicates. Return nil if a column is not found.</p>
+
+<h4 id="method-i-intersect-label-Attributes">Attributes<span><a href="#method-i-intersect-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>table2</code>
 <dd>
 <p><code>Table</code> to identify the secondary table in the intersection</p>
@@ -835,12 +878,16 @@ duplicates. Return nil if a column is not found.</p>
 <p>OPTIONAL <code>String</code> to identify the column in the second table to
 intersection</p>
 </dd></dl>
+
+<h4 id="method-i-intersect-label-Examples">Examples<span><a href="#method-i-intersect-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.intersect(capitals, &quot;City&quot;, &quot;Capital&quot;)  # returns Array with all capitals that are also in the cities table</pre>
           
           
 
           
           <div class="method-source-code" id="intersect-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 434</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 522</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">intersect</span>(<span class="ruby-identifier">table2</span>, <span class="ruby-identifier">colname</span>, <span class="ruby-identifier">col2name</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid table!&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Table</span>)
@@ -880,6 +927,8 @@ intersection</p>
 the common column once, under the column name of the first table (if
 different from the name of thee second). All columns from both tables are
 returned. Returns <code>nil</code> if the column is not found.</p>
+
+<h4 id="method-i-join-label-Attributes">Attributes<span><a href="#method-i-join-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>table2</code>
 <dd>
 <p><code>Table</code> to identify the secondary table in the join</p>
@@ -891,18 +940,25 @@ returned. Returns <code>nil</code> if the column is not found.</p>
 <p>OPTIONAL <code>String</code> to identify the column in the second table to
 join on</p>
 </dd></dl>
+
+<h4 id="method-i-join-label-Examples">Examples<span><a href="#method-i-join-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.join(capitals, &quot;City&quot;, &quot;Capital&quot;)  # returns a Table of cities that are also state capitals
+capitals.join(cities, &quot;State&quot;)  # returns a Table of capital cities with populations info from the cities table</pre>
           
           
 
           
           <div class="method-source-code" id="join-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 355</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 425</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">join</span>(<span class="ruby-identifier">table2</span>, <span class="ruby-identifier">colname</span>, <span class="ruby-identifier">col2name</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid table!&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Table</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">col2name</span>.<span class="ruby-identifier">nil?</span>   <span class="ruby-comment"># Assume colname applies for both tables</span>
     <span class="ruby-identifier">col2name</span> = <span class="ruby-identifier">colname</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">col2name</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">t2_col_index</span> = <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">headers</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">col2name</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">t2_col_index</span> <span class="ruby-comment"># is not nil</span>
@@ -984,6 +1040,8 @@ join on</p>
           
           <p>Return a copy of a row from the table as an <code>Array</code>, given an
 index (i.e. row number). Returns empty Array if the index is out of bounds.</p>
+
+<h4 id="method-i-row-label-Attributes">Attributes<span><a href="#method-i-row-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>index</code>
 <dd>
 <p><code>FixNum</code> indicating index of the row.</p>
@@ -993,7 +1051,7 @@ index (i.e. row number). Returns empty Array if the index is out of bounds.</p>
 
           
           <div class="method-source-code" id="row-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 84</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 94</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">row</span>(<span class="ruby-identifier">index</span>)    
   <span class="ruby-constant">Array</span>(<span class="ruby-identifier">get_row</span>(<span class="ruby-identifier">index</span>))
 <span class="ruby-keyword">end</span></pre>
@@ -1021,20 +1079,29 @@ index (i.e. row number). Returns empty Array if the index is out of bounds.</p>
         <div class="method-description">
           
           <p>Select columns from the table, given one or more column names. Returns an
-instance of <code>Table</code> with the results.  Returns nil if any column
-is not valid.</p>
+instance of <code>Table</code> with the results.  Raises ArgumentError if
+any column is not valid.</p>
+
+<h4 id="method-i-select-label-Attributes">Attributes<span><a href="#method-i-select-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>columns</code>
 <dd>
 <p>Variable <code>String</code> arguments to identify the columns to select</p>
 </dd></dl>
+
+<h4 id="method-i-select-label-Examples">Examples<span><a href="#method-i-select-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.select(&quot;City&quot;, &quot;State&quot;)  # returns a Table of &quot;City&quot; and &quot;State&quot; columns
+cities.select(cities.headers)  # returns a new Table that is a duplicate of cities</pre>
           
           
 
           
           <div class="method-source-code" id="select-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 299</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 355</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">select</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">columns</span>)
   <span class="ruby-comment"># check arguments</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name(s)&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">columns</span>
+  <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">flatten!</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">columns</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">c</span>)
   <span class="ruby-keyword">end</span>
@@ -1111,6 +1178,8 @@ is not valid.</p>
 replacement string, update the table such that it substitutes the column
 data with the replacement string. Returns <code>nil</code> if the column is
 not found.</p>
+
+<h4 id="method-i-sub-label-Attributes">Attributes<span><a href="#method-i-sub-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>colname</code>
 <dd>
 <p><code>String</code> to identify the column to join on</p>
@@ -1122,12 +1191,17 @@ not found.</p>
 <p><code>String</code> to specify the replacement text for the given
 <code>Regexp</code></p>
 </dd></dl>
+
+<h4 id="method-i-sub-label-Examples">Examples<span><a href="#method-i-sub-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.sub(&quot;Population&quot;, /(.*?),(.*?)/, &#39;\1\2&#39;)  # eliminate commas
+capitals.sub(&quot;State&quot;, /NY/, &quot;New York&quot;)  # replace acronym with full name</pre>
           
           
 
           
           <div class="method-source-code" id="sub-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 398</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 476</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">sub</span>(<span class="ruby-identifier">colname</span>, <span class="ruby-identifier">re</span>, <span class="ruby-identifier">replace</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;No regular expression to match against&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">re</span>
@@ -1195,18 +1269,24 @@ not found.</p>
         <div class="method-description">
           
           <p>Count instances in a particular field/column and return a
-<code>Table</code> of the results. Returns <code>nil</code> if the column
-is not found.</p>
+<code>Table</code> of the results. Raises ArgumentError if the column is
+not found.</p>
+
+<h4 id="method-i-tally-label-Attributes">Attributes<span><a href="#method-i-tally-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>colname</code>
 <dd>
 <p><code>String</code> to identify the column to tally</p>
 </dd></dl>
+
+<h4 id="method-i-tally-label-Examples">Examples<span><a href="#method-i-tally-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.tally(&quot;State&quot;)  # returns each State in the cities Table with number of occurences</pre>
           
           
 
           
           <div class="method-source-code" id="tally-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 284</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 334</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">tally</span>(<span class="ruby-identifier">colname</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span>  <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>)
@@ -1240,7 +1320,10 @@ is not found.</p>
 
         <div class="method-description">
           
-          <p>Converts a <code>Table</code> object to an array of arrays (each row)</p>
+          <p>Converts a <code>Table</code> object to an array of arrays (each row). The
+first entry are the table headers.</p>
+
+<h4 id="method-i-to_a-label-Attributes">Attributes<span><a href="#method-i-to_a-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
 <p>none</p>
           
@@ -1248,7 +1331,7 @@ is not found.</p>
 
           
           <div class="method-source-code" id="to_a-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 212</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 237</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_a</span>
   <span class="ruby-identifier">result</span> = [ <span class="ruby-constant">Array</span>(<span class="ruby-ivar">@headers</span>) ]
   
@@ -1286,13 +1369,15 @@ is not found.</p>
           
           <p>Converts a <code>Table</code> object to a tab-delimited string.</p>
 
+<h4 id="method-i-to_s-label-Attributes">Attributes<span><a href="#method-i-to_s-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
 <p>none</p>
           
           
 
           
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 193</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 216</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-identifier">result</span> = <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\t&quot;</span>) <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;\n&quot;</span>
   
@@ -1331,10 +1416,12 @@ is not found.</p>
 
         <div class="method-description">
           
-          <p>Counts the number of instances of a particular string, given a column name,
-and returns an integer &gt;= 0. Returns <code>nil</code> if the column is
-not found. If no parameters are given, returns the number of rows in the
-table.</p>
+          <p>Returns counts of the most frequent values found in a given column in the
+form of a <a href="Table.html">Table</a>.  Raises ArgumentError if the
+column is not found.  If no limit is given to the number of values, only
+the top value will be returned.</p>
+
+<h4 id="method-i-top-label-Attributes">Attributes<span><a href="#method-i-top-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>colname</code>
 <dd>
 <p><code>String</code> to identify the column to count</p>
@@ -1342,12 +1429,17 @@ table.</p>
 <dd>
 <p>OPTIONAL <code>String</code> number of values to return</p>
 </dd></dl>
+
+<h4 id="method-i-top-label-Examples">Examples<span><a href="#method-i-top-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.top(&quot;State&quot;)  # returns a Table with the most frequent state in the cities Table
+cities.top(&quot;State&quot;, 10)  # returns a Table with the 10 most frequent states in the cities Table</pre>
           
           
 
           
           <div class="method-source-code" id="top-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 261</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 300</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">top</span>(<span class="ruby-identifier">colname</span>, <span class="ruby-identifier">num</span>=<span class="ruby-value">1</span>)
   <span class="ruby-identifier">freq</span> = <span class="ruby-identifier">tally</span>(<span class="ruby-identifier">colname</span>).<span class="ruby-identifier">to_a</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>].<span class="ruby-identifier">sort_by</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span><span class="ruby-operator">|</span> <span class="ruby-identifier">v</span> }.<span class="ruby-identifier">reverse</span>
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">freq</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">num</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>].<span class="ruby-identifier">unshift</span>([<span class="ruby-identifier">colname</span>,<span class="ruby-string">&quot;Count&quot;</span>]))
@@ -1375,8 +1467,10 @@ table.</p>
 
         <div class="method-description">
           
-          <p>Return the union of columns from different tables, eliminating duplicates.
-Raises an ArgumentError if a column is not found.</p>
+          <p>Return Array with the union of elements columns in the given tables,
+eliminating duplicates. Raises an ArgumentError if a column is not found.</p>
+
+<h4 id="method-i-union-label-Attributes">Attributes<span><a href="#method-i-union-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>table2</code>
 <dd>
 <p><code>Table</code> to identify the secondary table in the union</p>
@@ -1388,12 +1482,16 @@ Raises an ArgumentError if a column is not found.</p>
 <p>OPTIONAL <code>String</code> to identify the column in the second table to
 union</p>
 </dd></dl>
+
+<h4 id="method-i-union-label-Examples">Examples<span><a href="#method-i-union-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.union(capitals, &quot;City&quot;, &quot;Capital&quot;)  # returns Array with all cities in both tables</pre>
           
           
 
           
           <div class="method-source-code" id="union-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 416</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 499</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">union</span>(<span class="ruby-identifier">table2</span>, <span class="ruby-identifier">colname</span>, <span class="ruby-identifier">col2name</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid table!&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Table</span>)
@@ -1430,8 +1528,10 @@ union</p>
           
           <p>Given a particular condition for a given column field/column, return a
 subtable that matches the condition. If no condition is given, a new
-<code>Table</code> is returned with all records. Returns <code>nil</code>
-if the condition is not met or the column is not found.</p>
+<code>Table</code> is returned with all records. Returns an empty table if
+the condition is not met or the column is not found.</p>
+
+<h4 id="method-i-where-label-Attributes">Attributes<span><a href="#method-i-where-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>colname</code>
 <dd>
 <p><code>String</code> to identify the column to tally</p>
@@ -1439,26 +1539,31 @@ if the condition is not met or the column is not found.</p>
 <dd>
 <p>OPTIONAL <code>String</code> containing a ruby condition to evaluate</p>
 </dd></dl>
+
+<h4 id="method-i-where-label-Examples">Examples<span><a href="#method-i-where-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>cities.where(&quot;State&quot;, &quot;==&#39;NY&#39;&quot;)  # returns a Table of cities in New York state 
+cities.where(&quot;State&quot;, &quot;=~ /New.*/&quot;)  # returns a Table of cities in states that start with &quot;New&quot;
+cities.where(&quot;Population&quot;, &quot;.to_i &gt; 1000000&quot;)  # returns a Table of cities with population over 1 million</pre>
           
           
 
           
           <div class="method-source-code" id="where-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 328</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 393</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">where</span>(<span class="ruby-identifier">colname</span>, <span class="ruby-identifier">condition</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid Column Name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">colname</span>)
 
   <span class="ruby-identifier">result</span> = []
   <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@headers</span>
-  <span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">condition</span>.<span class="ruby-identifier">nil?</span>
-      <span class="ruby-identifier">eval</span>(<span class="ruby-string">%q[&quot;#{row}&quot;]</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{condition}&quot;</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">row</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>].<span class="ruby-identifier">each_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">condition</span>
+      <span class="ruby-identifier">eval</span>(<span class="ruby-string">%q[&quot;#{@table[colname][index]}&quot;]</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{condition}&quot;</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">get_row</span>(<span class="ruby-identifier">index</span>) <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
     <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">row</span>
+      <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">get_row</span>(<span class="ruby-identifier">index</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">to_s</span>
   <span class="ruby-identifier">result</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">result</span>) <span class="ruby-operator">:</span> <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>()
 <span class="ruby-keyword">end</span></pre>
           </div><!-- where-source -->
@@ -1490,6 +1595,8 @@ if the condition is not met or the column is not found.</p>
           
           <p>Write a representation of the <code>Table</code> object to a file (tab
 delimited).</p>
+
+<h4 id="method-i-write_file-label-Attributes">Attributes<span><a href="#method-i-write_file-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 <dl class="rdoc-list note-list"><dt><code>filename</code>
 <dd>
 <p><code>String</code> to identify the name of the file to write</p>
@@ -1499,7 +1606,7 @@ delimited).</p>
 
           
           <div class="method-source-code" id="write_file-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 451</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 540</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">write_file</span>(<span class="ruby-identifier">filename</span>)
   <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-string">&quot;w&quot;</span>)
   <span class="ruby-identifier">file</span>.<span class="ruby-identifier">print</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_s</span>

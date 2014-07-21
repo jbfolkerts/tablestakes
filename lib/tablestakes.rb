@@ -31,7 +31,15 @@ class Table
 
   # Instantiate a +Table+ object using a tab-delimited file
   # 
+  # ==== Attributes
   # +input+:: OPTIONAL +Array+ of rows or +String+ to identify the name of the tab-delimited file to read
+  #
+  # ==== Examples
+  #     cities = Table.new() # empty table
+  #     cities = Table.new(["City", "State], ["New York", "NY"], ["Dallas", "TX"]) # create from Array of rows
+  #     cities = Table.new("cities.txt") # read from file
+  #     cities = Table.new(capitals)  # create from table
+  #
   def initialize(input=nil)
     @headers = []
     @table = {}
@@ -67,6 +75,7 @@ class Table
   # Return a copy of a column from the table, identified by column name.
   # Returns empty Array if column name not found.
   # 
+  # ==== Attributes
   # +colname+:: +String+ to identify the name of the column
   def column(colname)
     # return empty Array if column name not found
@@ -80,6 +89,7 @@ class Table
   # Return a copy of a row from the table as an +Array+, given an index
   # (i.e. row number). Returns empty Array if the index is out of bounds.
   # 
+  # ==== Attributes
   # +index+:: +FixNum+ indicating index of the row.
   def row(index)    
     Array(get_row(index))
@@ -95,16 +105,15 @@ class Table
   # or there are not the correct number of values.
   #
   # ==== Attributes
-  # +colname+:: +String+ to identify the name of the column
-  # +column_vals+:: +Array+ to hold the column values
+  # +args+:: Array of +String+ to identify the name of the column (see examples)
   #
   # ==== Examples
-  #     cities.add_column("Header", [e1, e2, e3])
-  #     add_column(array_including_header)
-  #     add_column("Header", "e1", "e2", ...)
+  #     cities.add_column("City", ["New York", "Dallas", "San Franscisco"])
+  #     cities.add_column(["City","New York", "Dallas", "San Franscisco"])
+  #     cities.add_column("City", "New York", "Dallas", "San Franscisco")
   def add_column(*args)
     if args.kind_of? Array
-      args = args.flatten
+      args.flatten!
       colname = args.shift
       column_vals = args
     else
@@ -143,10 +152,8 @@ class Table
   # +row+:: +Array+ to hold the row values
   #
   # ==== Examples
-  #     # create empty table with headers h1, h2, h3
-  #     my_table = Table.new.add_row("h1", "h2", "h3") 
-  #     # Add row with elements e1, e2, e3
-  #     my_table.add_row(["e1", "e2", "e3"])
+  #     cities = Table.new.add_row( ["City", "State"] ) # create new Table with headers
+  #     cities.add_row("New York", "NY") # add data row to Table
   #
   def add_row(*row)
     if row.kind_of? Array
@@ -171,7 +178,7 @@ class Table
   # +colname+:: +String+ to identify the name of the column
   #
   # ==== Examples
-  #     my_table.del_column("Header")
+  #     cities.del_column("State") # returns table without "State" column
   def del_column(colname)
     # check arguments
     raise ArgumentError, "Column name does not exist!" unless @table.has_key?(colname)
@@ -188,7 +195,8 @@ class Table
   # +rownum+:: +FixNum+ to hold the row number
   #
   # ==== Examples
-  #     my_table.del_row(3)  # deletes the third row
+  #     cities.del_row(3)  # deletes row with index 3 (4th row)
+  #     cities.del_row(-1) # deletes last row (per Ruby convention)
   def del_row(rownum)
     # check arguments
     if self.empty? || rownum >= @table[@headers.first].length
@@ -221,7 +229,8 @@ class Table
     result
   end
   
-  # Converts a +Table+ object to an array of arrays (each row)
+  # Converts a +Table+ object to an array of arrays (each row). The first
+  # entry are the table headers.
   # 
   # ==== Attributes
   # none
@@ -245,6 +254,13 @@ class Table
   # ==== Attributes
   # +colname+:: OPTIONAL +String+ to identify the column to count
   # +value+:: OPTIONAL +String+ value to count
+  #
+  # ==== Examples
+  #     cities.count  # returns number of rows in cities Table
+  #     cities.size   # same as cities.count
+  #     cities.length # same as cities.count
+  #     cities.count("State", "NY")  # returns the number of rows with State == "NY"
+  #
   def count(colname=nil, value=nil)
     if colname.nil? || value.nil?
       if @table.size > 0
@@ -269,26 +285,36 @@ class Table
   alias :size :count
   alias :length :count
   
-  # Counts the number of instances of a particular string, given a column name,
-  # and returns an integer >= 0. Returns +nil+ if the column is not found. If
-  # no parameters are given, returns the number of rows in the table.
+  # Returns counts of the most frequent values found in a given column in the form of a
+  # Table.  Raises ArgumentError if the column is not found.  If no limit is given
+  # to the number of values, only the top value will be returned.
   # 
   # ==== Attributes
   # +colname+:: +String+ to identify the column to count
   # +num+:: OPTIONAL +String+ number of values to return
+  #
+  # ==== Examples
+  #     cities.top("State")  # returns a Table with the most frequent state in the cities Table
+  #     cities.top("State", 10)  # returns a Table with the 10 most frequent states in the cities Table
+  #
   def top(colname, num=1)
     freq = tally(colname).to_a[1..-1].sort_by {|k,v| v }.reverse
     return Table.new(freq[0..num-1].unshift([colname,"Count"]))
   end
 
 
-  # Counts the number of instances of a particular string, given a column name,
-  # and returns an integer >= 0. Returns +nil+ if the column is not found. If
-  # no parameters are given, returns the number of rows in the table.
+  # Returns counts of the least frequent values found in a given column in the form of a
+  # Table.  Raises ArgumentError if the column is not found.  If no limit is given
+  # to the number of values, only the least frequent value will be returned.
   # 
   # ==== Attributes
   # +colname+:: +String+ to identify the column to count
   # +num+:: OPTIONAL +String+ number of values to return
+  #
+  # ==== Examples
+  #     cities.bottom("State")  # returns a Table with the least frequent state in the cities Table
+  #     cities.bottom("State", 10)  # returns a Table with the 10 least frequent states in the cities Table
+  #
   def bottom(colname, num=1)
     freq = tally(colname).to_a[1..-1].sort_by {|k,v| v }
     return Table.new(freq[0..num-1].unshift([colname,"Count"]))
@@ -297,10 +323,14 @@ class Table
 
 
   # Count instances in a particular field/column and return a +Table+ of the results.
-  # Returns +nil+ if the column is not found.
+  # Raises ArgumentError if the column is not found.
   # 
   # ==== Attributes
   # +colname+:: +String+ to identify the column to tally
+  #
+  # ==== Examples
+  #     cities.tally("State")  # returns each State in the cities Table with number of occurences
+  #
   def tally(colname)
     # check arguments
     raise ArgumentError, "Invalid column name"  unless @table.has_key?(colname)
@@ -313,12 +343,19 @@ class Table
   end
 
   # Select columns from the table, given one or more column names. Returns an instance
-  # of +Table+ with the results.  Returns nil if any column is not valid.
+  # of +Table+ with the results.  Raises ArgumentError if any column is not valid.
   # 
   # ==== Attributes
   # +columns+:: Variable +String+ arguments to identify the columns to select
+  #
+  # ==== Examples
+  #     cities.select("City", "State")  # returns a Table of "City" and "State" columns
+  #     cities.select(cities.headers)  # returns a new Table that is a duplicate of cities
+  #
   def select(*columns)
     # check arguments
+    raise ArgumentError, "Invalid column name(s)" unless columns
+    columns.kind_of?(Array) ? columns.flatten! : nil
     columns.each do |c|
       raise ArgumentError, "Invalid column name" unless @table.has_key?(c)
     end
@@ -342,11 +379,17 @@ class Table
   # Given a particular condition for a given column field/column, return a subtable
   # that matches the condition. If no condition is given, a new +Table+ is returned with
   # all records.
-  # Returns +nil+ if the condition is not met or the column is not found.
+  # Returns an empty table if the condition is not met or the column is not found.
   # 
   # ==== Attributes
   # +colname+:: +String+ to identify the column to tally
   # +condition+:: OPTIONAL +String+ containing a ruby condition to evaluate
+  #
+  # ==== Examples
+  #     cities.where("State", "=='NY'")  # returns a Table of cities in New York state 
+  #     cities.where("State", "=~ /New.*/")  # returns a Table of cities in states that start with "New"
+  #     cities.where("Population", ".to_i > 1000000")  # returns a Table of cities with population over 1 million
+  #
   def where(colname, condition=nil)
     # check arguments
     raise ArgumentError, "Invalid Column Name" unless @headers.include?(colname)
@@ -374,6 +417,11 @@ class Table
   # +table2+:: +Table+ to identify the secondary table in the join
   # +colname+:: +String+ to identify the column to join on
   # +col2name+:: OPTIONAL +String+ to identify the column in the second table to join on
+  #
+  # ==== Examples
+  #     cities.join(capitals, "City", "Capital")  # returns a Table of cities that are also state capitals
+  #     capitals.join(cities, "State")  # returns a Table of capital cities with populations info from the cities table
+  #
   def join(table2, colname, col2name=nil)
     # check arguments
     raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
@@ -420,6 +468,11 @@ class Table
   # +colname+:: +String+ to identify the column to join on
   # +re+:: +Regexp+ to match the value in the selected column
   # +replace+:: +String+ to specify the replacement text for the given +Regexp+
+  #
+  # ==== Examples
+  #     cities.sub("Population", /(.*?),(.*?)/, '\1\2')  # eliminate commas
+  #     capitals.sub("State", /NY/, "New York")  # replace acronym with full name
+  #
   def sub(colname, re, replace)
     # check arguments
     raise ArgumentError, "No regular expression to match against" unless re
@@ -432,13 +485,17 @@ class Table
     return self
   end
 
-  # Return the union of columns from different tables, eliminating duplicates.
+  # Return Array with the union of elements columns in the given tables, eliminating duplicates.
   # Raises an ArgumentError if a column is not found.
   #
   # ==== Attributes
   # +table2+:: +Table+ to identify the secondary table in the union
   # +colname+:: +String+ to identify the column to union
   # +col2name+:: OPTIONAL +String+ to identify the column in the second table to union
+  #
+  # ==== Examples
+  #     cities.union(capitals, "City", "Capital")  # returns Array with all cities in both tables
+  #
   def union(table2, colname, col2name=nil)
     # check arguments
     raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
@@ -451,13 +508,17 @@ class Table
     return self.column(colname) | table2.column(col2name)
   end
 
-  # Return the intersection of columns from different tables, eliminating duplicates.
+  # Return an Array with the intersection of columns from different tables, eliminating duplicates.
   # Return nil if a column is not found.
   #
   # ==== Attributes
   # +table2+:: +Table+ to identify the secondary table in the intersection
   # +colname+:: +String+ to identify the column to intersection
   # +col2name+:: OPTIONAL +String+ to identify the column in the second table to intersection
+  #
+  # ==== Examples
+  #     cities.intersect(capitals, "City", "Capital")  # returns Array with all capitals that are also in the cities table
+  #
   def intersect(table2, colname, col2name=nil)
     # check arguments
     raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
