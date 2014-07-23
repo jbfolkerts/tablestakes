@@ -123,6 +123,8 @@
     
     <li ><a href="#method-i-size">#size</a>
     
+    <li ><a href="#method-i-sort">#sort</a>
+    
     <li ><a href="#method-i-sub">#sub</a>
     
     <li ><a href="#method-i-sub-21">#sub!</a>
@@ -152,6 +154,8 @@
   <h3 class="section-header">Class and Module Index</h3>
 
   <ul class="link-list">
+  
+    <li><a href="./OrderedRow.html">OrderedRow</a>
   
     <li><a href="./Table.html">Table</a>
   
@@ -239,7 +243,7 @@ name of the tab-delimited file to read</p>
 <h4 id="method-c-new-label-Examples">Examples<span><a href="#method-c-new-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
 <pre>cities = Table.new() # empty table
-cities = Table.new([&quot;City&quot;, &quot;State], [&quot;New York&quot;, &quot;NY&quot;], [&quot;Dallas&quot;, &quot;TX&quot;]) # create from Array of rows
+cities = Table.new([ [&quot;City&quot;, &quot;State], [&quot;New York&quot;, &quot;NY&quot;], [&quot;Dallas&quot;, &quot;TX&quot;] ]) # create from Array of rows
 cities = Table.new(&quot;cities.txt&quot;) # read from file
 cities = Table.new(capitals)  # create from table</pre>
           
@@ -1161,6 +1165,74 @@ cities.select(cities.headers)  # returns a new Table that is a duplicate of citi
       </div><!-- size-method -->
 
     
+      <div id="method-i-sort" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sort</span><span
+            class="method-args">(column=nil, &block)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Sort the table based on given column. Uses precedence as defined in the 
+column. By default will sort by the value in the first column.</p>
+
+<h4 id="method-i-sort-label-Attributes">Attributes<span><a href="#method-i-sort-label-Attributes">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+<dl class="rdoc-list note-list"><dt><code>args</code>
+<dd>
+<p>OPTIONAL <code>String</code> to identify the column on which to sort</p>
+</dd></dl>
+
+<h4 id="method-i-sort-label-Examples">Examples<span><a href="#method-i-sort-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">cities</span>.<span class="ruby-identifier">sort</span>(<span class="ruby-string">&quot;State&quot;</span>)  <span class="ruby-comment"># Re-orders the cities table based on State name</span>
+<span class="ruby-identifier">cities</span>.<span class="ruby-identifier">sort</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span>,<span class="ruby-identifier">b</span><span class="ruby-operator">|</span> <span class="ruby-identifier">b</span><span class="ruby-operator">&lt;=&gt;</span><span class="ruby-identifier">a</span> }  <span class="ruby-comment"># Reverse the order of the cities table</span>
+<span class="ruby-identifier">cities</span>.<span class="ruby-identifier">sort</span>(<span class="ruby-string">&quot;State&quot;</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">a</span>,<span class="ruby-identifier">b</span><span class="ruby-operator">|</span> <span class="ruby-identifier">b</span><span class="ruby-operator">&lt;=&gt;</span><span class="ruby-identifier">a</span> }  <span class="ruby-comment"># Sort by State in reverse alpha order</span>
+</pre>
+          
+          
+
+          
+          <div class="method-source-code" id="sort-source">
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 547</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">sort</span>(<span class="ruby-identifier">column</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">col_index</span> = <span class="ruby-value">0</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">column</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">String</span>
+    <span class="ruby-identifier">col_index</span> = <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">column</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">column</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Fixnum</span>
+    <span class="ruby-identifier">col_index</span> = <span class="ruby-identifier">column</span> 
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># return empty Table if empty</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">empty?</span> 
+    <span class="ruby-keyword">return</span> <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>() 
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">table_rows</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_a</span>
+  <span class="ruby-identifier">headers</span> = <span class="ruby-identifier">table_rows</span>.<span class="ruby-identifier">shift</span>
+
+  <span class="ruby-identifier">neworder</span> = []
+  <span class="ruby-identifier">table_rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">neworder</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">OrderedRow</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">col_index</span>) }    
+
+  <span class="ruby-identifier">result</span> = [<span class="ruby-identifier">headers</span>]
+  <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">neworder</span>.<span class="ruby-identifier">sort!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">neworder</span>.<span class="ruby-identifier">sort!</span>
+  <span class="ruby-identifier">neworder</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">row</span> }
+
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">result</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- sort-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- sort-method -->
+
+    
       <div id="method-i-sub" class="method-detail ">
         
         <div class="method-heading">
@@ -1606,7 +1678,7 @@ delimited).</p>
 
           
           <div class="method-source-code" id="write_file-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 540</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 577</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">write_file</span>(<span class="ruby-identifier">filename</span>)
   <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-string">&quot;w&quot;</span>)
   <span class="ruby-identifier">file</span>.<span class="ruby-identifier">print</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_s</span>

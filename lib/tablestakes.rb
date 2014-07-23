@@ -36,7 +36,7 @@ class Table
   #
   # ==== Examples
   #     cities = Table.new() # empty table
-  #     cities = Table.new(["City", "State], ["New York", "NY"], ["Dallas", "TX"]) # create from Array of rows
+  #     cities = Table.new([ ["City", "State], ["New York", "NY"], ["Dallas", "TX"] ]) # create from Array of rows
   #     cities = Table.new("cities.txt") # read from file
   #     cities = Table.new(capitals)  # create from table
   #
@@ -532,7 +532,44 @@ class Table
   end
 
   alias :sub! :sub  
-  
+
+  # Sort the table based on given column. Uses precedence as defined in the 
+  # column. By default will sort by the value in the first column.
+  #
+  # ==== Attributes
+  # +args+:: OPTIONAL +String+ to identify the column on which to sort
+  #
+  # ==== Examples
+  #     cities.sort("State")  # Re-orders the cities table based on State name
+  #     cities.sort { |a,b| b<=>a }  # Reverse the order of the cities table
+  #     cities.sort("State") { |a,b| b<=>a }  # Sort by State in reverse alpha order
+  #
+  def sort(column=nil, &block)
+    col_index = 0
+    if column.kind_of? String
+      col_index = @headers.index(column)
+    elsif column.kind_of? Fixnum
+      col_index = column 
+    end
+    # return empty Table if empty
+    if self.empty? 
+      return Table.new() 
+    end
+
+    table_rows = self.to_a
+    headers = table_rows.shift
+
+    neworder = []
+    table_rows.each { |row| neworder << OrderedRow.new(row, col_index) }    
+
+    result = [headers]
+    block_given? ? neworder.sort!(&block) : neworder.sort!
+    neworder.each { |row| result << row.row }
+
+    return Table.new(result)
+  end
+
+
   # Write a representation of the +Table+ object to a file (tab delimited).
   # 
   # ==== Attributes
@@ -607,4 +644,45 @@ class Table
     end
     @indices = {}
   end
+
+end
+
+# This class functions as a temporary representation of a row. The OrderedRow
+# contains information about which column it should be sorted on, so that 
+# Comparable can be implemented.
+
+class OrderedRow
+  # Contains data elements of the row
+  @row = []
+  # Indicates which row element (column) on which to sort
+  @sort_index = 0
+
+  # Creates a new OrderedRow. Callers must specify the index of the row
+  # element which will be used for order comparisons.
+  # 
+  # ==== Attributes
+  # +my_array+:: An array representing a row from +Table+
+  # +index+:: A Fixnum value which represents the comparison value
+  #
+  def initialize(my_array, index)
+    @row = my_array
+    @sort_index = index
+  end
+
+  # Returns the row elements in an +Array+
+  #
+  # ==== Attributes
+  # none
+  def row
+    return @row
+  end
+
+  # Implements comparable
+  # 
+  # ==== Attributes
+  # +other+:: The row to be compared
+  def <=>(other)
+    self.row[@sort_index] <=> other.row[@sort_index]
+  end
+
 end

@@ -312,19 +312,22 @@ describe "Table" do
 
 
     it "returns an instance of Table" do
-      expect(test.sort.row(0)).to eq(["Jerry", "212 Vine", "123-456-7890", "1"])
+      expect(test.sort("Records").row(0)).to eq(["Jerry", "212 Vine", "123-456-7890", "1"])
     end
     it "can sort by first element (default)" do
       expect(test.sort.row(0)).to eq(["Jerry", "212 Vine", "123-456-7890", "1"])
     end
     it "can sort by given element" do
+      expect(test.sort(3).row(0)).to eq(["Jerry", "212 Vine", "123-456-7890", "1"])
+    end
+    it "can sort by given header name" do
       expect(test.sort("Records").row(0)).to eq(["Jerry", "212 Vine", "123-456-7890", "1"])
     end
     it "returns empty Table when given empty Table" do
       expect(Table.new().sort).to be_empty
     end
     it "accepts a block as input" do
-      expect(test.sort { |a| a.reverse }.row(0)).to eq(["John", "123 Vine", "098-765-4321", "3"])
+      expect(test.sort("Name") { |a,b| b <=> a }.row(0)[0]).to eq("Sharon")
     end
 
   end
