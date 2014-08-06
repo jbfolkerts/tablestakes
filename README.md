@@ -1,8 +1,19 @@
-=========
 Tablestakes
 ===========
 
-[![Gem Version](https://badge.fury.io/rb/tablestakes.svg)](http://badge.fury.io/rb/tablestakes)
+[![Gem Version][GV img]][Gem Version]
+[![Build Status][BS img]][Build Status]
+[![Dependency Status][DS img]][Dependency Status]
+[![Code Climate][CC img]][Code Climate]
+[![Coverage Status][CS img]][Coverage Status]
+
+[Gem Version]: https://rubygems.org/gems/tablestakes
+[Dependency Status]: https://gemnasium.com/jbfolkerts/tablestakes
+[Coverage Status]: https://coveralls.io/r/jbfolkerts/tablestakes
+
+[GV img]: https://badge.fury.io/rb/tablestakes.png
+[DS img]: https://gemnasium.com/jbfolkerts/tablestakes.png
+[CS img]: https://coveralls.io/repos/jbfolkerts/tablestakes/badge.png?branch=master
 
 Tablestakes is a gem for processing tabular data.  It is for people who would rather not meddle with
 a spreadsheet, or load their data into a SQL database.  You get the instant gratification of being
@@ -20,6 +31,7 @@ Contents
 - [Counting Data](#counting-data)
 - [Updating Data](#updating-data)
 - [Join, Union, and Intersect](#join-union-and-intersect)
+- [Sorting Data](#sorting-data)
 - [Interacting with your Data](#interacting-with-your-data)
 
 How to Install
@@ -185,6 +197,26 @@ capitals.union(cities, "Capitals", "Cities")       # returns an array of all cit
 capitals.intersect(cities, "Capitals", "Cities")   # returns an array of only the cities in both tables
 ```
 
+Sorting Data
+------------
+
+Sorting your data table can be done on any given column (if not specified, it defaults to the first
+column). Any blocks passed to the sort function are then used internally to sort the column.  Here 
+are some examples:
+
+```ruby
+cities.sort("State")                  # Re-orders the cities table based on State name
+cities.sort { |a,b| b<=>a }           # Reverse the order of the cities table
+cities.sort("State") { |a,b| b<=>a }  # Sort by State in reverse alpha order
+```
+
+Of course you don't necessarily want to sort every column by it's String value.  To sort using an
+on-the-fly type conversion, supply the sort function with an options Hash as in the following:
+
+```ruby
+cities.sort("2012 estimate", :Fixnum)     # Sorts cities by 2012 population
+```
+
 Interacting with your Data
 --------------------------
 
@@ -212,14 +244,3 @@ file.
     
 Some methods, such as `Table#row` and `Table#column` return Arrays, and of course these are
 readily modified using their own native methods.
-
-Future Enhancements
--------------------
-
-Some future enhancements that would make this gem better include:
-
-1.  Implement Ruby Enumerators
-
-2.  Include some concept of data type ... at least FixedNum and Date. 
-
-3.  `Table#sort` method -- probably requires enumerators and data types to be effective.

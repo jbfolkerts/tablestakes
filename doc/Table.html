@@ -125,6 +125,8 @@
     
     <li ><a href="#method-i-sort">#sort</a>
     
+    <li ><a href="#method-i-sort-21">#sort!</a>
+    
     <li ><a href="#method-i-sub">#sub</a>
     
     <li ><a href="#method-i-sub-21">#sub!</a>
@@ -259,14 +261,14 @@ cities = Table.new(capitals)  # create from table</pre>
   
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">input</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:fetch</span>)
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">input</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:fetch</span>)
-      <span class="ruby-comment">#create +Table+ from rows</span>
+      <span class="ruby-comment">#create Table from rows</span>
       <span class="ruby-identifier">add_rows</span>(<span class="ruby-identifier">input</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">input</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:upcase</span>)
     <span class="ruby-comment"># a string, then read_file</span>
     <span class="ruby-identifier">read_file</span>(<span class="ruby-identifier">input</span>)
   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">input</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:headers</span>)
-    <span class="ruby-identifier">init</span>(<span class="ruby-identifier">input</span>)
+    <span class="ruby-identifier">input</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">add_row</span>(<span class="ruby-identifier">row</span>) }
   <span class="ruby-keyword">end</span>
   <span class="ruby-comment"># else create empty +Table+</span>
 <span class="ruby-keyword">end</span></pre>
@@ -858,7 +860,7 @@ otherwise.</p>
         
         <div class="method-heading">
           <span class="method-name">intersect</span><span
-            class="method-args">(table2, colname, col2name=nil)</span>
+            class="method-args">(table2, colname, col2name=colname)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -891,14 +893,11 @@ intersection</p>
 
           
           <div class="method-source-code" id="intersect-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 522</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">intersect</span>(<span class="ruby-identifier">table2</span>, <span class="ruby-identifier">colname</span>, <span class="ruby-identifier">col2name</span>=<span class="ruby-keyword">nil</span>)
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 513</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">intersect</span>(<span class="ruby-identifier">table2</span>, <span class="ruby-identifier">colname</span>, <span class="ruby-identifier">col2name</span>=<span class="ruby-identifier">colname</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid table!&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Table</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">col2name</span>.<span class="ruby-identifier">nil?</span>   <span class="ruby-comment"># Assume colname applies for both tables</span>
-    <span class="ruby-identifier">col2name</span> = <span class="ruby-identifier">colname</span>
-  <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">col2name</span>)
 
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">column</span>(<span class="ruby-identifier">colname</span>) <span class="ruby-operator">&amp;</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">column</span>(<span class="ruby-identifier">col2name</span>)
@@ -917,7 +916,7 @@ intersection</p>
         
         <div class="method-heading">
           <span class="method-name">join</span><span
-            class="method-args">(table2, colname, col2name=nil)</span>
+            class="method-args">(table2, colname, col2name=colname)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -955,24 +954,18 @@ capitals.join(cities, &quot;State&quot;)  # returns a Table of capital cities wi
           
           <div class="method-source-code" id="join-source">
             <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 425</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">join</span>(<span class="ruby-identifier">table2</span>, <span class="ruby-identifier">colname</span>, <span class="ruby-identifier">col2name</span>=<span class="ruby-keyword">nil</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">join</span>(<span class="ruby-identifier">table2</span>, <span class="ruby-identifier">colname</span>, <span class="ruby-identifier">col2name</span>=<span class="ruby-identifier">colname</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid table!&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Table</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">col2name</span>.<span class="ruby-identifier">nil?</span>   <span class="ruby-comment"># Assume colname applies for both tables</span>
-    <span class="ruby-identifier">col2name</span> = <span class="ruby-identifier">colname</span>
-  <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">col2name</span>)
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">col2name</span>)
   <span class="ruby-identifier">t2_col_index</span> = <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">headers</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">col2name</span>)
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">t2_col_index</span> <span class="ruby-comment"># is not nil</span>
-
   
   <span class="ruby-comment"># ensure no duplication of header values</span>
-  <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">headers</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">h</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">h</span>)
-      <span class="ruby-identifier">update_header</span>(<span class="ruby-identifier">h</span>, <span class="ruby-string">&#39;_&#39;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">h</span> )
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">h</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">colname</span>
+  <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">headers</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">header</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">header</span>)
+      <span class="ruby-identifier">update_header</span>(<span class="ruby-identifier">header</span>, <span class="ruby-string">&#39;_&#39;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">header</span> )
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">header</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">colname</span>
         <span class="ruby-identifier">colname</span> = <span class="ruby-string">&#39;_&#39;</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">colname</span>
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
@@ -1187,6 +1180,13 @@ column. By default will sort by the value in the first column.</p>
 <p>OPTIONAL <code>String</code> to identify the column on which to sort</p>
 </dd></dl>
 
+<h4 id="method-i-sort-label-Options">Options<span><a href="#method-i-sort-label-Options">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre class="ruby"><span class="ruby-identifier">datatype</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-constant">Fixnum</span>
+<span class="ruby-identifier">datatype</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-constant">Float</span>
+<span class="ruby-identifier">datatype</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-constant">Date</span>
+</pre>
+
 <h4 id="method-i-sort-label-Examples">Examples<span><a href="#method-i-sort-label-Examples">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
 
 <pre class="ruby"><span class="ruby-identifier">cities</span>.<span class="ruby-identifier">sort</span>(<span class="ruby-string">&quot;State&quot;</span>)  <span class="ruby-comment"># Re-orders the cities table based on State name</span>
@@ -1198,7 +1198,7 @@ column. By default will sort by the value in the first column.</p>
 
           
           <div class="method-source-code" id="sort-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 547</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 540</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">sort</span>(<span class="ruby-identifier">column</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">col_index</span> = <span class="ruby-value">0</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">column</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">String</span>
@@ -1211,15 +1211,12 @@ column. By default will sort by the value in the first column.</p>
     <span class="ruby-keyword">return</span> <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>() 
   <span class="ruby-keyword">end</span>
 
-  <span class="ruby-identifier">table_rows</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_a</span>
-  <span class="ruby-identifier">headers</span> = <span class="ruby-identifier">table_rows</span>.<span class="ruby-identifier">shift</span>
-
   <span class="ruby-identifier">neworder</span> = []
-  <span class="ruby-identifier">table_rows</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">neworder</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">OrderedRow</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row</span>, <span class="ruby-identifier">col_index</span>) }    
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">neworder</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">OrderedRow</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">row</span>,<span class="ruby-identifier">col_index</span>) }
 
-  <span class="ruby-identifier">result</span> = [<span class="ruby-identifier">headers</span>]
+  <span class="ruby-identifier">result</span> = [<span class="ruby-identifier">neworder</span>.<span class="ruby-identifier">shift</span>.<span class="ruby-identifier">data</span>] <span class="ruby-comment"># take off headers</span>
   <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">neworder</span>.<span class="ruby-identifier">sort!</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">neworder</span>.<span class="ruby-identifier">sort!</span>
-  <span class="ruby-identifier">neworder</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">row</span> }
+  <span class="ruby-identifier">neworder</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">data</span> }
 
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">result</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1228,9 +1225,41 @@ column. By default will sort by the value in the first column.</p>
         </div>
 
         
+        <div class="aliases">
+          Also aliased as: <a href="Table.html#method-i-sort-21">sort!</a>
+        </div>
+        
 
         
       </div><!-- sort-method -->
+
+    
+      <div id="method-i-sort-21" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">sort!</span><span
+            class="method-args">(column=nil, &block)</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="Table.html#method-i-sort">sort</a>
+        </div>
+        
+      </div><!-- sort-21-method -->
 
     
       <div id="method-i-sub" class="method-detail ">
@@ -1273,7 +1302,7 @@ capitals.sub(&quot;State&quot;, /NY/, &quot;New York&quot;)  # replace acronym w
 
           
           <div class="method-source-code" id="sub-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 476</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 470</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">sub</span>(<span class="ruby-identifier">colname</span>, <span class="ruby-identifier">re</span>, <span class="ruby-identifier">replace</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;No regular expression to match against&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">re</span>
@@ -1530,7 +1559,7 @@ cities.top(&quot;State&quot;, 10)  # returns a Table with the 10 most frequent s
         
         <div class="method-heading">
           <span class="method-name">union</span><span
-            class="method-args">(table2, colname, col2name=nil)</span>
+            class="method-args">(table2, colname, col2name=colname)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -1563,14 +1592,11 @@ union</p>
 
           
           <div class="method-source-code" id="union-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 499</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">union</span>(<span class="ruby-identifier">table2</span>, <span class="ruby-identifier">colname</span>, <span class="ruby-identifier">col2name</span>=<span class="ruby-keyword">nil</span>)
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 493</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">union</span>(<span class="ruby-identifier">table2</span>, <span class="ruby-identifier">colname</span>, <span class="ruby-identifier">col2name</span>=<span class="ruby-identifier">colname</span>)
   <span class="ruby-comment"># check arguments</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid table!&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Table</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">colname</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">col2name</span>.<span class="ruby-identifier">nil?</span>   <span class="ruby-comment"># Assume colname applies for both tables</span>
-    <span class="ruby-identifier">col2name</span> = <span class="ruby-identifier">colname</span>
-  <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;Invalid column name&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">headers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">col2name</span>)
 
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">column</span>(<span class="ruby-identifier">colname</span>) <span class="ruby-operator">|</span> <span class="ruby-identifier">table2</span>.<span class="ruby-identifier">column</span>(<span class="ruby-identifier">col2name</span>)
@@ -1629,11 +1655,11 @@ cities.where(&quot;Population&quot;, &quot;.to_i &gt; 1000000&quot;)  # returns 
 
   <span class="ruby-identifier">result</span> = []
   <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@headers</span>
-  <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">colname</span>].<span class="ruby-identifier">each_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">row</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">condition</span>
-      <span class="ruby-identifier">eval</span>(<span class="ruby-string">%q[&quot;#{@table[colname][index]}&quot;]</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{condition}&quot;</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">get_row</span>(<span class="ruby-identifier">index</span>) <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+      <span class="ruby-identifier">eval</span>(<span class="ruby-string">%q[&quot;#{row[headers.index(colname)]}&quot;]</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{condition}&quot;</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">row</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
     <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">get_row</span>(<span class="ruby-identifier">index</span>)
+      <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">row</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">result</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">result</span>) <span class="ruby-operator">:</span> <span class="ruby-constant">Table</span>.<span class="ruby-identifier">new</span>()
@@ -1678,7 +1704,7 @@ delimited).</p>
 
           
           <div class="method-source-code" id="write_file-source">
-            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 577</span>
+            <pre><span class="ruby-comment"># File lib/tablestakes.rb, line 568</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">write_file</span>(<span class="ruby-identifier">filename</span>)
   <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">filename</span>, <span class="ruby-string">&quot;w&quot;</span>)
   <span class="ruby-identifier">file</span>.<span class="ruby-identifier">print</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_s</span>
