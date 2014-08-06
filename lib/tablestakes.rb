@@ -47,14 +47,14 @@ class Table
     
     if input.respond_to?(:fetch)
       if input[0].respond_to?(:fetch)
-        #create +Table+ from rows
+        #create Table from rows
         add_rows(input)
       end
     elsif input.respond_to?(:upcase)
       # a string, then read_file
       read_file(input)
     elsif input.respond_to?(:headers)
-      init(input)
+      input.each {|row| add_row(row) }
     end
     # else create empty +Table+
   end
@@ -396,11 +396,11 @@ class Table
 
     result = []
     result << @headers
-    @table[colname].each_index do |index|
+    self.each do |row|
       if condition
-        eval(%q["#{@table[colname][index]}"] << "#{condition}") ? result << get_row(index) : nil
+        eval(%q["#{row[headers.index(colname)]}"] << "#{condition}") ? result << row : nil
       else
-        result << get_row(index)
+        result << row
       end
     end
     result.length > 1 ? Table.new(result) : Table.new()
@@ -422,28 +422,14 @@ class Table
   #     cities.join(capitals, "City", "Capital")  # returns a Table of cities that are also state capitals
   #     capitals.join(cities, "State")  # returns a Table of capital cities with populations info from the cities table
   #
-  def join(table2, colname, col2name=nil)
+  def join(table2, colname, col2name=colname)
     # check arguments
     raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
     raise ArgumentError, "Invalid column name" unless @table.has_key?(colname)
-    if col2name.nil?   # Assume colname applies for both tables
-      col2name = colname
-    else
-      raise ArgumentError, "Invalid column name" unless table2.headers.include?(col2name)
-    end
+    raise ArgumentError, "Invalid column name" unless table2.headers.include?(col2name)
     t2_col_index = table2.headers.index(col2name)
-    return nil unless t2_col_index # is not nil
-
     
-    # ensure no duplication of header values
-    table2.headers.each do |h|
-      if @headers.include?(h)
-        update_header(h, '_' << h )
-        if h == colname
-          colname = '_' << colname
-        end
-      end
-    end
+    dedupe_headers(table2, colname)
 
     result = [ Array(@headers) + Array(table2.headers) ]
     @table[colname].each_index do |index|
@@ -496,13 +482,10 @@ class Table
   # ==== Examples
   #     cities.union(capitals, "City", "Capital")  # returns Array with all cities in both tables
   #
-  def union(table2, colname, col2name=nil)
+  def union(table2, colname, col2name=colname)
     # check arguments
     raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
     raise ArgumentError, "Invalid column name" unless @table.has_key?(colname)
-    if col2name.nil?   # Assume colname applies for both tables
-      col2name = colname
-    end
     raise ArgumentError, "Invalid column name" unless table2.headers.include?(col2name)
 
     return self.column(colname) | table2.column(col2name)
@@ -519,13 +502,10 @@ class Table
   # ==== Examples
   #     cities.intersect(capitals, "City", "Capital")  # returns Array with all capitals that are also in the cities table
   #
-  def intersect(table2, colname, col2name=nil)
+  def intersect(table2, colname, col2name=colname)
     # check arguments
     raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
     raise ArgumentError, "Invalid column name" unless @table.has_key?(colname)
-    if col2name.nil?   # Assume colname applies for both tables
-      col2name = colname
-    end
     raise ArgumentError, "Invalid column name" unless table2.headers.include?(col2name)
 
     return self.column(colname) & table2.column(col2name)
@@ -538,6 +518,11 @@ class Table
   #
   # ==== Attributes
   # +args+:: OPTIONAL +String+ to identify the column on which to sort
+  #
+  # ==== Options
+  #     datatype => :Fixnum
+  #     datatype => :Float
+  #     datatype => :Date
   #
   # ==== Examples
   #     cities.sort("State")  # Re-orders the cities table based on State name
@@ -556,19 +541,17 @@ class Table
       return Table.new() 
     end
 
-    table_rows = self.to_a
-    headers = table_rows.shift
-
     neworder = []
-    table_rows.each { |row| neworder << OrderedRow.new(row, col_index) }    
+    self.each { |row| neworder << OrderedRow.new(row,col_index) }
 
-    result = [headers]
+    result = [neworder.shift.data] # take off headers
     block_given? ? neworder.sort!(&block) : neworder.sort!
-    neworder.each { |row| result << row.row }
+    neworder.each { |row| result << row.data }
 
     return Table.new(result)
   end
 
+  alias :sort! :sort
 
   # Write a representation of the +Table+ object to a file (tab delimited).
   # 
@@ -583,19 +566,11 @@ class Table
 
   def read_file(filename)
     file = File.open(filename, "r")
-    @headers = file.gets.chomp.split("\t")
-    @headers.each {|col| @table.store(col, []) }
-    file.each_line do |line|    
-      fields = line.chomp.split("\t")
-      if fields.length < @headers.length
-        (@headers.length - fields.length).times { fields << "" } 
-      elsif fields.length > @headers.length
-        $stderr.write "INVALID NUMBER OF FIELDS: #{fields.join(';')}\n"
-      else    
-        @headers.each { |col|  @table[col] << fields.shift }
-      end
-    nil
+    result = []
+    file.each_line do |line|
+      result << line.chomp.split("\t")
     end
+    add_rows(result)
   end
   
   def get_row(index)
@@ -623,29 +598,26 @@ class Table
     @table[colname] = Array.new(column_vals)
     return self
   end
-
-  def copy
-    result = []
-    result << @headers
-    self.each { |row| result << row }
-    result.length > 1 ? Table.new(result) : Table.new()
-  end
   
   def update_header(item, new_item)
     i = @headers.index(item)    
     @headers[i] = new_item unless i.nil?
     @table.fetch(item,nil).nil? ? nil : @table[new_item] = @table[item] 
   end
-  
-  def init(table)
-    @headers = table.headers.map {|x| x }
-    @headers.each do |key|
-      @table[key] = table.table[key].map {|x| x }
+
+  def dedupe_headers(table2, colname)
+    # ensure no duplication of header values
+    table2.headers.each do |header|
+      if @headers.include?(header)
+        update_header(header, '_' << header )
+        if header == colname
+          colname = '_' << colname
+        end
+      end
     end
-    @indices = {}
   end
 
-end
+end #Table
 
 # This class functions as a temporary representation of a row. The OrderedRow
 # contains information about which column it should be sorted on, so that 
@@ -653,7 +625,7 @@ end
 
 class OrderedRow
   # Contains data elements of the row
-  @row = []
+  @data = []
   # Indicates which row element (column) on which to sort
   @sort_index = 0
 
@@ -665,7 +637,7 @@ class OrderedRow
   # +index+:: A Fixnum value which represents the comparison value
   #
   def initialize(my_array, index)
-    @row = my_array
+    @data = my_array
     @sort_index = index
   end
 
@@ -673,8 +645,8 @@ class OrderedRow
   #
   # ==== Attributes
   # none
-  def row
-    return @row
+  def data
+    return @data
   end
 
   # Implements comparable
@@ -682,7 +654,7 @@ class OrderedRow
   # ==== Attributes
   # +other+:: The row to be compared
   def <=>(other)
-    self.row[@sort_index] <=> other.row[@sort_index]
+    self.data[@sort_index] <=> other.data[@sort_index]
   end
 
 end
