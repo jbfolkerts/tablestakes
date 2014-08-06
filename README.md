@@ -8,11 +8,24 @@ Tablestakes
 [![Coverage Status][CS img]][Coverage Status]
 
 [Gem Version]: https://rubygems.org/gems/tablestakes
+<<<<<<< HEAD
 [Dependency Status]: https://gemnasium.com/jbfolkerts/tablestakes
 [Coverage Status]: https://coveralls.io/r/jbfolkerts/tablestakes
 
 [GV img]: https://badge.fury.io/rb/tablestakes.png
 [DS img]: https://gemnasium.com/jbfolkerts/tablestakes.png
+=======
+[Build Status]: https://travis-ci.org/jbfolkerts/tablestakes
+[travis pull requests]: https://travis-ci.org/jbfolkerts/tablestakes/pull_requests
+[Dependency Status]: https://gemnasium.com/jbfolkerts/tablestakes
+[Code Climate]: https://codeclimate.com/github/jbfolkerts/tablestakes
+[Coverage Status]: https://coveralls.io/r/jbfolkerts/tablestakes
+
+[GV img]: https://badge.fury.io/rb/tablestakes.png
+[BS img]: https://travis-ci.org/jbfolkerts/tablestakes.png
+[DS img]: https://gemnasium.com/jbfolkerts/tablestakes.png
+[CC img]: https://codeclimate.com/github/jbfolkerts/tablestakes.png
+>>>>>>> 12f008f26e005a9519dc7cc6664c218fca72a01c
 [CS img]: https://coveralls.io/repos/jbfolkerts/tablestakes/badge.png?branch=master
 
 Tablestakes is a gem for processing tabular data.  It is for people who would rather not meddle with
