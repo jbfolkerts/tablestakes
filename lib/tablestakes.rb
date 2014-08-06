@@ -570,7 +570,18 @@ class Table
     file.each_line do |line|
       result << line.chomp.split("\t")
     end
-    add_rows(result)
+    result.each do |row|
+      begin
+        add_row(row)
+      rescue ArgumentError
+        if row.length < @headers.length 
+          (@headers.length - row.length).times { row << "" }
+          add_row(row)
+        else
+          $stderr.puts "ArgumentError: #{row.length} fields --> #{row.join(";")}"
+        end
+      end
+    end
   end
   
   def get_row(index)
