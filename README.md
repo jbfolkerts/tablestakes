@@ -7,6 +7,9 @@ Tablestakes
 [Gem Version]: https://rubygems.org/gems/tablestakes
 [Dependency Status]: https://gemnasium.com/jbfolkerts/tablestakes
 
+[GV img]: https://badge.fury.io/rb/boolean_class.png
+[DS img]: https://gemnasium.com/jbfolkerts/boolean_class.png
+
 Tablestakes is a gem for processing tabular data.  It is for people who would rather not meddle with
 a spreadsheet, or load their data into a SQL database.  You get the instant gratification of being
 able to read a tab-delimited file, with header values, and then do field counts, field modifications, 
