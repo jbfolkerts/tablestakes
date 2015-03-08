@@ -2,6 +2,7 @@
 #
 #
 require 'spec_helper'
+require 'rspec/its'
 require_relative '../lib/tablestakes'
 
 
@@ -205,7 +206,7 @@ describe "Table" do
       expect((t.select("Name","Address","Records")).headers).to eq(["Name","Address","Records"])
     end
     it "does not select columns that are not given as arguments" do
-      expect((t.select("Name","Address","Records")).headers.include?("Phone")).to be_false
+      expect((t.select("Name","Address","Records")).headers.include?("Phone")).to eq(false)
     end
     it "raise ArgumentError when the given arguments don't match a column" do
       expect { t.select("Silly") }.to raise_error(ArgumentError)
