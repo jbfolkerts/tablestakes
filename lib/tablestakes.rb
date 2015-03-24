@@ -172,6 +172,8 @@ class Table
     return self
   end
 
+  alias :<< :add_row
+
   # Delete a column from the Table. Raises ArgumentError if the column name does not exist. 
   #
   # ==== Attributes
@@ -447,29 +449,52 @@ class Table
   
 
   # Given a field/column, and a regular expression to match against, and a replacement string,
-  # update the table such that it substitutes the column data with the replacement string.
-  # Returns +nil+ if the column is not found.
+  # create a new table which performs a substitute operation on column data.  In the case that the
+  # given replacement is a +String+, a direct substitute is performed. In the case that it is a +Hash+
+  # and the matched text is one of its keys, the corresponding +Hash+ value will be substituted.
+  #
+  # Optionally takes a block containing an operation to perform on all matching data elements 
+  # in the given column. Raises ArgumentError if the column is not found.
   # 
   # ==== Attributes
   # +colname+:: +String+ to identify the column to join on
   # +re+:: +Regexp+ to match the value in the selected column
-  # +replace+:: +String+ to specify the replacement text for the given +Regexp+
+  # +replace+:: OPTIONAL +String+ or +Hash+ to specify the replacement text for the given +Regexp+
+  # +&block+:: OPTIONAL block to execute against matching values
   #
   # ==== Examples
   #     cities.sub("Population", /(.*?),(.*?)/, '\1\2')  # eliminate commas
   #     capitals.sub("State", /NY/, "New York")  # replace acronym with full name
+  #     capitals.sub("State") { |state| state.downcase } # Lowercase for all values
   #
-  def sub(colname, re, replace)
+  def sub(colname, re=nil, replace=nil, &block)
     # check arguments
     raise ArgumentError, "No regular expression to match against" unless re
-    raise ArgumentError, "No replacement string specified" unless replace
     raise ArgumentError, "Invalid column name" unless @table.has_key?(colname)
-    
-    @table[colname].each do |item|
-      item.sub!(re, replace)
+    replace_str = ""
+    if replace.respond_to?(:fetch)
+      replace_str = replace.fetch(re)
+    elsif replace.respond_to?(:to_str)
+      replace_str = replace.to_str
+    else
+      raise ArgumentError, "Replacement must be String or Hash"
     end
-    return self
+
+    result = Table.new([@headers])
+    col_index = @headers.index(colname)
+
+    self.each do |row|
+      if block_given?
+        row[col_index] = block.call row[col_index]
+      else
+        row[col_index] = row[col_index].sub(re, replace_str)
+      end  
+      result.add_row(row)
+    end
+    return result
   end
+
+  # alias :sub! :sub  
 
   # Return Array with the union of elements columns in the given tables, eliminating duplicates.
   # Raises an ArgumentError if a column is not found.
@@ -510,8 +535,6 @@ class Table
 
     return self.column(colname) & table2.column(col2name)
   end
-
-  alias :sub! :sub  
 
   # Sort the table based on given column. Uses precedence as defined in the 
   # column. By default will sort by the value in the first column.

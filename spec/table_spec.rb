@@ -244,10 +244,19 @@ describe "Table" do
       expect(cities.sub("State", /Jersey/, "York")).to be_a(Table)
     end
     it "substitutes the values in a given field" do
-      expect((cities.sub("State", /Jersey/, "York")).count("State", "New York")).to eq(9)
+      expect(cities.sub("State", /Jersey/, "York").column("State")).to include("New York")
     end
     it "raises ArgumentError when the given arguments don't match a column" do
       expect {cities.sub("Silly", /NJ/, "NY") }.to raise_error(ArgumentError)
+    end
+    it "raises ArgumentError when not given a Match string" do
+      expect {cities.sub("State") }.to raise_error(ArgumentError)
+    end
+    it "raises ArgumentError when replacement is not a String or Hash" do
+      expect {cities.sub("State", /New/, 9)}.to raise_error(ArgumentError)
+    end
+    it "does not modify the given table" do
+      expect(cities.sub("State", /New/, "Old") && cities.column("State")).to include("New York")
     end
   end
   
