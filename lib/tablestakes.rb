@@ -145,6 +145,34 @@ class Table
     return self
   end
 
+  # Append one Table object to another. Raises ArgumentError if the header values and order do not 
+  # align with the destination Table. Return self if appending an empty table. Return given table if 
+  # appending to an empty table.
+  #
+  # ==== Attributes
+  # +a_table+:: +Table+ to be added
+  #
+  # ==== Examples
+  #     cities.append(more_cities)
+  def append(a_table)
+    if !a_table.kind_of? Table 
+      raise ArgumentError, "Argument to append is not a Table"
+    end
+    if self.empty? 
+      return a_table
+    elsif a_table.empty? 
+      return self
+    end
+    if a_table.headers != @headers 
+      raise ArgumentError, "Argument to append does not have matching headers"
+    end
+
+    a_table.each do |r|
+        add_row(r.clone)
+    end
+    return self
+  end
+
   # Add a row to the Table, appending it to the end. Raises ArgumentError if 
   # there are not the correct number of values.
   #

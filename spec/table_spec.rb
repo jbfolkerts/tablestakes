@@ -81,6 +81,27 @@ describe "Table" do
     end
   end
 
+  describe ".append" do
+    let(:test1) { Table.new('test.tab') }
+    let(:test2) { Table.new('test2.tab') }
+    let(:empty) { Table.new() }
+    let(:cities) { Table.new('cities.txt') }
+
+    it "returns a Table" do
+      expect(test1.append(test2)).to be_a(Table)
+    end
+    it "appends itself to an empty table" do
+      expect(empty.append(test2).count).to eq(3)
+    end
+    it "returns itself when appending an empty table" do
+      expect(test1.append(empty).count).to eq(3)
+    end
+    it "raises an ArgumentError when given a table with the wrong headers" do
+      expect { test1.append(cities) }.to raise_error(ArgumentError)
+    end
+  end
+
+
   describe ".add_row(s)" do
     let(:test) { FactoryGirl.build(:table) }
     let(:empty) { Table.new() }
