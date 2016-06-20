@@ -239,6 +239,16 @@ class Table
   end
 
 
+  # Rename a header value for this +Table+ object.
+  # 
+  # ==== Attributes
+  # +orig_name+:: +String+ current header name
+  # +new_name+:: +String+ indicating new header name
+  def rename_header(orig_name, new_name)
+    update_header(orig_name, new_name)
+    return self
+  end
+
   # Converts a +Table+ object to a tab-delimited string.
   # 
   # ==== Attributes
