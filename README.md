@@ -165,8 +165,9 @@ the `Table#sub` method provides a way to eliminate common garbage from
 your data such as stray characters.
 
 ```ruby
-cities.sub("2012 land area", /.*sq mi/, '')     # deletes 'sq mi' from the 2012 land area field
+cities.sub("2012 land area", /(.*) sq mi/, '\1')     # deletes ' sq mi' from the end of the 2012 land area field
 ``` 
+
 
 `Table#sub` takes a regular expression and a substitute string, which 
 gives some flexibility in how data is updated.  Note that this is 
