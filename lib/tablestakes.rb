@@ -467,7 +467,6 @@ class Table
     raise ArgumentError, "Invalid table!" unless table2.is_a?(Table)
     raise ArgumentError, "Invalid column name" unless @table.has_key?(colname)
     raise ArgumentError, "Invalid column name" unless table2.headers.include?(col2name)
-    t2_col_index = table2.headers.index(col2name)
     
     dedupe_headers(table2, colname)
 
