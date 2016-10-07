@@ -66,7 +66,11 @@ class Table
     @table[@headers.first].each_index do |index|
       nextrow = []
       @headers.each do |col|
-        nextrow << @table[col][index].clone
+        begin
+          nextrow << @table[col][index].clone 
+        rescue
+          nextrow << @table[col][index]
+        end
       end
       yield nextrow
     end
