@@ -4,8 +4,8 @@ $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
     s.name      = 'tablestakes'
-    s.version   = '0.9.4'
-    s.date      = '2016-06-21'
+    s.version   = '0.9.5'
+    s.date      = '2016-10-18'
     s.summary   = 'Implementation of in-memory Tables'
     s.description = 'A simple implementation of Tables, for use in summing, joining, slicing and dicing data tables'
     s.authors   = ['J.B. Folkerts']
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
     s.add_development_dependency "rspec-its", "~> 1.2"
     s.add_development_dependency "rspec-core", "~> 3.2"
     s.add_development_dependency "rspec-expectations", "~> 3.2"
-    s.add_development_dependency "factory_girl", "~> 4.4"
+    s.add_development_dependency "factory_girl", "~> 4.7"
     s.add_development_dependency "simplecov", "~> 0.9"
     s.add_development_dependency "coveralls", "~> 0.8"
     s.files     = Dir.glob("{lib,doc}/**/*") + ['README.md']
