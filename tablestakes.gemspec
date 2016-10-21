@@ -4,8 +4,8 @@ $:.unshift lib unless $:.include?(lib)
 
 Gem::Specification.new do |s|
     s.name      = 'tablestakes'
-    s.version   = '0.9.5'
-    s.date      = '2016-10-18'
+    s.version   = '0.10.0'
+    s.date      = '2016-10-20'
     s.summary   = 'Implementation of in-memory Tables'
     s.description = 'A simple implementation of Tables, for use in summing, joining, slicing and dicing data tables'
     s.authors   = ['J.B. Folkerts']

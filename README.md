@@ -206,13 +206,13 @@ cities.sort { |a,b| b<=>a }           # Reverse the order of the cities table
 cities.sort("State") { |a,b| b<=>a }  # Sort by State in reverse alpha order
 ```
 
-Of course you don't necessarily want to sort every column by it's String value.  To sort using an
+<!-- Of course you don't necessarily want to sort every column by it's String value.  To sort using an
 on-the-fly type conversion, supply the sort function with an options Hash as in the following:
 
 ```ruby
 cities.sort("2012 estimate", :Fixnum)     # Sorts cities by 2012 population
 ```
-
+ -->
 Interacting with your Data
 --------------------------
 

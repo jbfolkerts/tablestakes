@@ -11,6 +11,7 @@ describe "Table" do
   describe ".new" do
     let(:t) { Table.new('test.tab') }
     let(:empty) { Table.new() }
+    let(:copy) { Table.new(Table.new('test.tab')) }
     
     it "reads a file and create a table" do
       expect(t).to be_a(Table)
@@ -18,12 +19,39 @@ describe "Table" do
     it "creates a table if no file was given" do
       expect(empty).to be_a(Table)
     end
+    it "creates a table from another table" do
+      expect(copy).to be_a(Table)
+      expect(copy.headers).to eq(t.headers)
+      expect(copy.count).to eq(t.count)
+    end
     it "errors when the file is not found" do
       expect{Table.new('sillyfile.txt')}.to raise_error(Errno::ENOENT)
     end
 
   end
+
+  describe ".column" do
+    let(:test) { FactoryGirl.build(:table) }
+
+    it "returns a column when given a valid header" do
+      expect(test.column('Name')).to be_a(Array)
+    end
+    it "returns an empty Array when given an invalid header" do
+      expect(test.column('NotName')).to eq(Array.new)
+    end
+  end
   
+  describe ".row" do
+    let(:test) { FactoryGirl.build(:table) }
+
+    it "returns a row when given a valid index" do
+      expect(test.row(2)).to be_a(Array)
+    end
+    it "returns an empty Array when given an invalid index" do
+      expect(test.row(4)).to eq(Array.new)
+    end
+  end
+
   describe ".empty?" do
     let(:test) { Table.new('test.tab') }
     let(:empty) { Table.new() }
@@ -33,6 +61,28 @@ describe "Table" do
     end
     it "recognizes a populated table" do
       expect(test).not_to be_empty()
+    end
+  end
+
+  describe ".each" do
+    let (:test) { FactoryGirl.build(:table) }
+    let (:test_fixnum) { 
+      Table.new('test.tab') << ["Phil", "567 Vine", "567-432-1234", 3 ]
+    }
+
+    it "returns an Enumerator if not given a block" do
+      expect(test.each).to be_a(Enumerator)
+    end
+    it "returns a clone of a row" do
+      h = test.each.first
+      expect(h).not_to equal(test.row 0)
+      expect(h).to eq(test.row 0)
+    end
+    it "returns a row that can't be cloned" do
+      a = test_fixnum.each
+      a.next
+      a.next
+      expect(a.next).to eq(test_fixnum.row(2))
     end
   end
 
@@ -55,7 +105,7 @@ describe "Table" do
       expect { test.add_column("Name", newcol) }.to raise_error(ArgumentError)
     end
     it "raises an ArgumentError when given a column with the wrong length" do
-      expect { test.add_column("Name", newcol << "D") }.to raise_error(ArgumentError)
+      expect { test.add_column("NewName", newcol << "D") }.to raise_error(ArgumentError)
     end
     it "adds a column when given an Array" do
       expect(test.add_column(headercol).headers).to include("TestCol")      
@@ -95,6 +145,9 @@ describe "Table" do
     end
     it "returns itself when appending an empty table" do
       expect(test1.append(empty).count).to eq(3)
+    end
+    it "raises an ArgumentError when not given a table" do
+      expect { test1.append('') }.to raise_error(ArgumentError)
     end
     it "raises an ArgumentError when given a table with the wrong headers" do
       expect { test1.append(cities) }.to raise_error(ArgumentError)
@@ -147,6 +200,38 @@ describe "Table" do
     end
     it "raises an ArgumentError when called on an empty table" do
       expect { empty.del_row(0) }.to raise_error(ArgumentError)
+    end
+  end
+
+  describe ".rename_header" do
+    let (:test) { FactoryGirl.build(:table) }
+
+    it "raises an ArgumentError when given a column name with invalid type" do
+      expect { test.rename_header(:Name, "FirstName") }.to raise_error(ArgumentError) 
+    end
+    it "raises an ArgumentError when given a new name with invalid type" do
+      expect { test.rename_header("Name", :FirstName) }.to raise_error(ArgumentError)
+    end
+    it "raises an ArgumentError when given an invalid column name" do
+      expect { test.rename_header("NName", "FirstName") }.to raise_error(ArgumentError)
+    end
+    it "returns a table with an updated header" do
+      expect(test.rename_header("Name", "FirstName").headers).to include("FirstName")
+    end
+
+  end
+
+  describe ".to_s" do
+    let (:test) { FactoryGirl.build(:table) }
+
+    it "returns a String" do
+      expect(test.to_s).to be_a(String)
+    end
+    it "returns a String with the same number of rows" do
+      expect(test.to_s.split("\n").count).to eq(test.count + 1)
+    end
+    it "returns a String with the same number of columns" do
+      expect(test.to_s.split("\n")[0].split("\t").count).to eq(test.headers.count)
     end
   end
 
@@ -260,18 +345,32 @@ describe "Table" do
   
   describe ".sub" do
     let (:cities) { Table.new('cities.txt') }
+    let (:capitals) { Table.new('capitals.txt') }
     
     it "returns an instance of Table" do
       expect(cities.sub("State", /Jersey/, "York")).to be_a(Table)
     end
-    it "substitutes the values in a given field" do
-      expect(cities.sub("State", /Jersey/, "York").column("State")).to include("New York")
+    it "substitutes the values in a given field when matching Regexp" do
+      expect(cities.sub("State", /Jersey/, "York").column("State")).not_to include("New Jersey")
+    end
+    it "substitutes the values in a given field when matching String" do
+      expect(cities.sub("State", "Jersey", "York").column("State")).not_to include("New Jersey")
+    end
+    it "substitutes the values in a given field when provided with a block" do
+      expect(cities.sub("State") {|state| state.upcase}.column("State")).to include("NEW JERSEY")
+    end
+    it "substitutes the values in a given field when provided with a replacement Hash" do
+      expect(capitals.sub("State", /North|South|East|West/, {"North"=>"South", 
+                "South"=>"North", "West" => "East", "East"=>"West" }).column("State")).to include("East Virginia")
     end
     it "raises ArgumentError when the given arguments don't match a column" do
       expect {cities.sub("Silly", /NJ/, "NY") }.to raise_error(ArgumentError)
     end
     it "raises ArgumentError when not given a Match string" do
       expect {cities.sub("State") }.to raise_error(ArgumentError)
+    end
+    it "raises ArgumentError when Match expression is not a String or Regexp" do
+      expect {cities.sub("State",:New, "Old") }.to raise_error(ArgumentError)
     end
     it "raises ArgumentError when replacement is not a String or Hash" do
       expect {cities.sub("State", /New/, 9)}.to raise_error(ArgumentError)
