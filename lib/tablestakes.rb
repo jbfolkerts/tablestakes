@@ -16,7 +16,6 @@
 # serving as the header names. 
 
 class Table
-  include Enumerable
 
   # The headers attribute contains the table headers used to reference
   # columns in the +Table+.  All headers are represented as +String+ types.
@@ -54,6 +53,7 @@ class Table
       # a string, then read_file
       read_file(input)
     elsif input.respond_to?(:headers)
+      @headers = input.headers.dup
       input.each {|row| add_row(row) }
     end
     # else create empty +Table+
@@ -63,17 +63,23 @@ class Table
   # for its calling block.
   #
   def each
-    @table[@headers.first].each_index do |index|
-      nextrow = []
-      @headers.each do |col|
-        begin
-          nextrow << @table[col][index].clone 
-        rescue
-          nextrow << @table[col][index]
+
+    if block_given?
+      @table[@headers.first].each_index do |index|
+        nextrow = []
+        @headers.each do |col|
+          begin
+            nextrow << @table[col][index].clone 
+          rescue
+            nextrow << @table[col][index]
+          end
         end
+        yield nextrow
       end
-      yield nextrow
+    else
+      self.to_enum(:each)
     end
+
   end
     
   # Return a copy of a column from the table, identified by column name.
@@ -82,12 +88,7 @@ class Table
   # ==== Attributes
   # +colname+:: +String+ to identify the name of the column
   def column(colname)
-    # return empty Array if column name not found
-    unless @table.has_key?(colname) 
-      Array.new()
-    else
-      Array(@table[colname])
-    end
+    Array(get_col(colname))
   end
   
   # Return a copy of a row from the table as an +Array+, given an index
@@ -120,8 +121,6 @@ class Table
       args.flatten!
       colname = args.shift
       column_vals = args
-    else
-      raise ArgumentError, "Invalid Arguments to add_column"
     end
     # check arguments
     raise ArgumentError, "Duplicate Column Name!" if @table.has_key?(colname)
@@ -190,8 +189,6 @@ class Table
   def add_row(*row)
     if row.kind_of? Array
       row = row.flatten
-    else
-      raise ArgumentError, "Invalid Arguments to add_row"
     end
     if @headers.empty?
         @headers = row
@@ -249,6 +246,10 @@ class Table
   # +orig_name+:: +String+ current header name
   # +new_name+:: +String+ indicating new header name
   def rename_header(orig_name, new_name)
+    raise ArgumentError, "Original Column name type invalid" unless orig_name.kind_of? String
+    raise ArgumentError, "New Column name type invalid" unless new_name.kind_of? String
+    raise ArgumentError, "Column Name does not exist!" unless @headers.include? orig_name
+
     update_header(orig_name, new_name)
     return self
   end
@@ -498,27 +499,28 @@ class Table
   # in the given column. Raises ArgumentError if the column is not found.
   # 
   # ==== Attributes
-  # +colname+:: +String+ to identify the column to join on
-  # +re+:: +Regexp+ to match the value in the selected column
-  # +replace+:: OPTIONAL +String+ or +Hash+ to specify the replacement text for the given +Regexp+
+  # +colname+:: +String+ to identify the column to substitute on
+  # +match+:: OPTIONAL +String+ or +Regexp+ to match the value in the selected column
+  # +replace+:: OPTIONAL +String+ or +Hash+ to specify the replacement text for the given match value
   # +&block+:: OPTIONAL block to execute against matching values
   #
   # ==== Examples
   #     cities.sub("Population", /(.*?),(.*?)/, '\1\2')  # eliminate commas
   #     capitals.sub("State", /NY/, "New York")  # replace acronym with full name
+  #     capitals.sub("State", /North|South/, {"North" => "South", "South" => "North"}) # Northern states for Southern and vice-versa
   #     capitals.sub("State") { |state| state.downcase } # Lowercase for all values
   #
-  def sub(colname, re=nil, replace=nil, &block)
+  def sub(colname, match=nil, replace=nil, &block)
     # check arguments
-    raise ArgumentError, "No regular expression to match against" unless re
+    raise ArgumentError, "No regular expression to match against" unless match || block_given?
     raise ArgumentError, "Invalid column name" unless @table.has_key?(colname)
-    replace_str = ""
-    if replace.respond_to?(:fetch)
-      replace_str = replace.fetch(re)
-    elsif replace.respond_to?(:to_str)
-      replace_str = replace.to_str
-    else
-      raise ArgumentError, "Replacement must be String or Hash"
+
+    if ! block_given?
+      if ! (String.try_convert(match) || Regexp.try_convert(match))
+    	   raise ArgumentError, "Match expression must be String or Regexp"
+      elsif ! (replace.respond_to?(:fetch) || replace.respond_to?(:to_str))
+         raise ArgumentError, "Replacement must be String or Hash"
+      end
     end
 
     result = Table.new([@headers])
@@ -528,7 +530,7 @@ class Table
       if block_given?
         row[col_index] = block.call row[col_index]
       else
-        row[col_index] = row[col_index].sub(re, replace_str)
+        row[col_index] = row[col_index].sub(match, replace)
       end  
       result.add_row(row)
     end
@@ -650,7 +652,8 @@ class Table
   
   def get_row(index)
     result = []
-    if index >= @table[@headers.first].length
+    if index >= @table[@headers.first].length || 
+          index < -(@table[@headers.first].length)
       return result
     end 
     @headers.each { |col| result << @table[col][index].to_s }
@@ -665,7 +668,12 @@ class Table
   end  
 
   def get_col(colname)
-    Array.new(@table[colname])
+    # return empty Array if column name not found
+    unless @table.has_key?(colname) 
+      Array.new()
+    else
+      Array(@table[colname])
+    end
   end
   
   def append_col(colname, column_vals)
